@@ -105,6 +105,7 @@ group_item_table: Dict[str, List[str]] = {
     ItemName.Groups.KeyItems: [item.name for item in key_item_table],
     ItemName.Groups.Fillers: [item.name for item in filler_item_table],
     ItemName.Groups.Traps: [item.name for item in trap_item_table],
+    "Casino Keys": [ItemName.KeyItem.CasinoKeys],
 }
 
 
