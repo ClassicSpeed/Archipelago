@@ -44,6 +44,9 @@ class SonicAdventureDXWorld(World):
     options_dataclass = SonicAdventureDXOptions
     options: SonicAdventureDXOptions
 
+    tracker_world = {"map_page_folder": "tracker", "map_page_maps": "maps/maps.json",
+                     "map_page_locations": "locations/locations.json"}
+
     def generate_early(self):
         self.starter_setup = generate_early_sadx(self, self.options)
         # Universal tracker stuff, shouldn't do anything in standard gen
@@ -153,7 +156,7 @@ class SonicAdventureDXWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return {
-            "ModVersion": 86,
+            "ModVersion": 87,
             "Goal": self.options.goal.value,
             "LogicLevel": self.options.logic_level.value,
             "EmblemsPercentage": self.options.emblems_percentage.value,
