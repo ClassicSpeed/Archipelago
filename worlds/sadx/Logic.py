@@ -1234,10 +1234,12 @@ field_emblem_location_table: List[EmblemLocation] = [
                    [Character.Sonic, Character.Tails, Character.Knuckles, Character.Amy, Character.Big,
                     Character.Gamma], "Hidden Bed Emblem"),
     EmblemLocation(33, Area.EggCarrierFrontDeck, [Character.Sonic],
-                   [Character.Sonic, Character.Big, Character.Knuckles],
-                   [Character.Sonic, Character.Big, Character.Knuckles],
-                   [Character.Sonic, Character.Big, Character.Knuckles],
-                   [Character.Sonic, Character.Big, Character.Knuckles], "Main Platform Emblem"),
+                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy],
+                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy, Character.Tails],
+                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy,
+                    CharacterUpgrade(Character.Tails, ItemName.Tails.RhythmBadge)],
+                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy,
+                    CharacterUpgrade(Character.Tails, ItemName.Tails.RhythmBadge)], "Main Platform Emblem"),
 ]
 
 mission_location_table: List[MissionLocation] = [
