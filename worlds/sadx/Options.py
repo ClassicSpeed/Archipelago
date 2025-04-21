@@ -93,12 +93,14 @@ class LogicLevel(Choice):
     Hard Logic (1): Less forgiving logic, some checks require performing spindash jumps or dying to get the check.
     Expert DC Logic (2): The most unforgiving logic, some checks require performing out-of-bounds jumps (DC conversion).
     Expert DX Logic (3): The most unforgiving logic, some checks require performing out-of-bounds jumps (vanilla DX).
+    Expert+ DX Logic (4): Same as Expert DX but with extra speed runner level tricks (vanilla DX).
     """
     display_name = "Logic Level"
     option_normal_logic = 0
     option_hard_logic = 1
     option_expert_dc_logic = 2
     option_expert_dx_logic = 3
+    option_expert_plus_dx_logic = 4
     default = 0
 
 
