@@ -699,9 +699,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [ItemName.KeyItem.HotelBackKey], [ItemName.KeyItem.HotelBackKey], [ItemName.KeyItem.HotelBackKey],
         [ItemName.KeyItem.HotelBackKey], [ItemName.KeyItem.HotelBackKey]),
     (Character.Amy, Area.StationSquareMain, Area.TwinkleParkLobby): (
-        [ItemName.KeyItem.TwinkleParkTicket], [ItemName.KeyItem.TwinkleParkTicket],
-        [ItemName.KeyItem.TwinkleParkTicket],
-        [], []),
+        [ItemName.KeyItem.TwinkleParkTicket], [ItemName.KeyItem.TwinkleParkTicket], [], [], []),
     (Character.Amy, Area.TwinkleParkLobby, Area.StationSquareMain): (
         [ItemName.KeyItem.TwinkleParkTicket], [ItemName.KeyItem.TwinkleParkTicket], [], [], []),
     (Character.Amy, Area.MysticRuinsMain, Area.AngelIsland): (
@@ -757,8 +755,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [ItemName.KeyItem.Monorail, ItemName.KeyItem.Egglift], [ItemName.KeyItem.Monorail, ItemName.KeyItem.Egglift],
         [ItemName.KeyItem.Monorail, ItemName.KeyItem.Egglift]),
     (Character.Big, Area.StationSquareMain, Area.Station): (
-        [ItemName.KeyItem.StationFrontKey], [ItemName.KeyItem.StationFrontKey], [ItemName.KeyItem.StationFrontKey], [],
-        []),
+        [ItemName.KeyItem.StationFrontKey], [ItemName.KeyItem.StationFrontKey], [], [], []),
     (Character.Big, Area.Station, Area.StationSquareMain): (
         [ItemName.KeyItem.StationFrontKey], [ItemName.KeyItem.StationFrontKey], [ItemName.KeyItem.StationFrontKey],
         [ItemName.KeyItem.StationFrontKey], [ItemName.KeyItem.StationFrontKey]),
@@ -859,9 +856,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [ItemName.KeyItem.HotelBackKey], [ItemName.KeyItem.HotelBackKey], [ItemName.KeyItem.HotelBackKey],
         [ItemName.KeyItem.HotelBackKey], [ItemName.KeyItem.HotelBackKey]),
     (Character.Gamma, Area.StationSquareMain, Area.TwinkleParkLobby): (
-        [ItemName.KeyItem.TwinkleParkTicket], [ItemName.KeyItem.TwinkleParkTicket],
-        [ItemName.KeyItem.TwinkleParkTicket],
-        [], []),
+        [ItemName.KeyItem.TwinkleParkTicket], [ItemName.KeyItem.TwinkleParkTicket], [], [], []),
     (Character.Gamma, Area.TwinkleParkLobby, Area.StationSquareMain): (
         [ItemName.KeyItem.TwinkleParkTicket], [ItemName.KeyItem.TwinkleParkTicket], [], [], []),
     (Character.Gamma, Area.MysticRuinsMain, Area.AngelIsland): (
@@ -1192,11 +1187,10 @@ field_emblem_location_table: List[EmblemLocation] = [
                    [Character.Sonic, Character.Tails, Character.Knuckles,
                     CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)],
                    [Character.Sonic, Character.Tails, Character.Knuckles,
+                    CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)],
+                   [Character.Sonic, Character.Tails, Character.Knuckles,
                     CharacterUpgrade(Character.Gamma,
-                                     ItemName.Gamma.JetBooster)], [Character.Sonic, Character.Tails, Character.Knuckles,
-                                                                   CharacterUpgrade(Character.Gamma,
-                                                                                    ItemName.Gamma.JetBooster)],
-                   "Shrine Emblem"),
+                                     ItemName.Gamma.JetBooster)], "Shrine Emblem"),
     EmblemLocation(22, Area.Jungle, [Character.Sonic, Character.Tails, Character.Knuckles, Character.Amy, Character.Big,
                                      Character.Gamma],
                    [Character.Sonic, Character.Tails, Character.Knuckles, Character.Amy, Character.Big,
@@ -1236,10 +1230,9 @@ field_emblem_location_table: List[EmblemLocation] = [
     EmblemLocation(33, Area.EggCarrierFrontDeck, [Character.Sonic],
                    [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy],
                    [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy, Character.Tails],
-                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy,
-                    CharacterUpgrade(Character.Tails, ItemName.Tails.RhythmBadge)],
-                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy,
-                    CharacterUpgrade(Character.Tails, ItemName.Tails.RhythmBadge)], "Main Platform Emblem"),
+                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy, Character.Tails],
+                   [Character.Sonic, Character.Big, Character.Knuckles, Character.Amy, Character.Tails],
+                   "Main Platform Emblem"),
 ]
 
 mission_location_table: List[MissionLocation] = [
