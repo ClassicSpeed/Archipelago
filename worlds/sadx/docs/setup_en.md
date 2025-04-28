@@ -46,12 +46,14 @@
 3. Restart the Archipelago Launcher and open the Universal Tracker then connect with your server IP/port and slot name.
     - You don't need the yaml in your players folder for the tracker to work.
 
-## Supported and recommended mods
+## Supported and recommended mods/tools
 
 - The DC conversion mod is fully supported.
     - This includes every mod from the SA Mod Manager installer except for the "Steam Achievements Mod".
 - Kell's Super Sonic mod. If playing with Chaos Emeralds, you can only transform after collecting all 7.
 - Cream the Rabbit mod, every Tails check will work for her.
+- If you want to import or export Chao, you can use [this tool](https://chao-island.com/downloads/pc-tools/chao-exporter-importer/).
+    - Remember that by default, the chao save will be redirected to the `/mods/SADX_Archipelago/SAVEDATA` folder.
 
 ## Troubleshooting
 
