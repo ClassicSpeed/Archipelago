@@ -1139,7 +1139,8 @@ upgrade_location_table: List[UpgradeLocation] = [
 
 field_emblem_location_table: List[EmblemLocation] = [
     EmblemLocation(10, Area.Station,
-                   [Character.Sonic, Character.Knuckles, Character.Tails, Character.Amy, Character.Big],
+                   [Character.Sonic, Character.Knuckles, Character.Tails, Character.Amy, Character.Big,
+                    CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)],
                    [Character.Sonic, Character.Tails, Character.Knuckles, Character.Amy, Character.Big,
                     Character.Gamma],
                    [Character.Sonic, Character.Tails, Character.Knuckles, Character.Amy, Character.Big,
@@ -1235,7 +1236,9 @@ field_emblem_location_table: List[EmblemLocation] = [
 mission_location_table: List[MissionLocation] = [
     MissionLocation(801, Area.StationSquareMain, Area.StationSquareMain, Character.Sonic, 1, [], [], [], [], []),
     MissionLocation(802, Area.MysticRuinsMain, Area.MysticRuinsMain, Character.Sonic, 2, [], [], [], [], []),
-    MissionLocation(803, Area.Hotel, Area.Hotel, Character.Sonic, 3, [ItemName.Sonic.LightShoes], [], [], [], []),
+    MissionLocation(803, Area.Hotel, Area.Hotel, Character.Sonic, 3, [ItemName.Sonic.LightShoes],
+                    [ItemName.Sonic.LightShoes], [ItemName.Sonic.LightShoes], [ItemName.Sonic.LightShoes],
+                    [ItemName.Sonic.LightShoes]),
     MissionLocation(804, Area.MysticRuinsMain, Area.MysticRuinsMain, Character.Tails, 4, [], [], [], [], []),
     MissionLocation(805, Area.Casino, Area.Casino, Character.Knuckles, 5, [], [], [], [], []),
     MissionLocation(806, Area.MysticRuinsMain, Area.MysticRuinsMain, Character.Amy, 6, [], [], [], [], []),
