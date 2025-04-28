@@ -125,7 +125,7 @@ class SonicAdventureDXWorld(World):
                     "ChaoRacesLevelsToAccessPercentage"]
                 self.options.mission_mode_checks.value = passthrough["MissionModeChecks"]
                 self.options.auto_start_missions.value = passthrough["AutoStartMissions"]
-                self.options.mission_blacklist.value = list(passthrough["BlackListMissions"].keys())
+                self.options.mission_blacklist.value = list(passthrough["MissionBlackList"].keys())
 
                 self.options.twinkle_circuit_check.value = passthrough["TwinkleCircuitCheck"]
                 self.options.twinkle_circuit_multiple_check.value = passthrough["MultipleTwinkleCircuitChecks"]
