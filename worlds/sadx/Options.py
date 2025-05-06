@@ -2,9 +2,14 @@ from dataclasses import dataclass
 
 from schema import Schema, And, Optional
 
-from Options import OptionGroup, Choice, Range, DefaultOnToggle, Toggle, DeathLink, OptionSet, OptionDict
+from Options import OptionGroup, Choice, Range, DefaultOnToggle, Toggle, DeathLink, OptionSet, OptionDict, \
+    ProgressionBalancing
 from Options import PerGameCommonOptions
 from .Enums import level_areas, pascal_to_space
+
+
+class SADXProgressionBalancing(ProgressionBalancing):
+    default = 80
 
 
 class GoalRequiresLevels(DefaultOnToggle):
@@ -682,6 +687,7 @@ class TrapsAndFillerOnPerfectChaosFight(Toggle):
 
 @dataclass
 class SonicAdventureDXOptions(PerGameCommonOptions):
+    progression_balancing: SADXProgressionBalancing
     goal_requires_levels: GoalRequiresLevels
     levels_percentage: LevelPercentage
     goal_requires_chaos_emeralds: GoalRequiresChaosEmeralds
