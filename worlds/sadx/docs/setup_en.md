@@ -23,7 +23,7 @@
 
 1. Download the sadx.apworld from the release page and double click it to install it and restart the Archipelago
    launcher.
-2. On the AP Launcher click on `Generate Player Config`.
+2. On the AP Launcher click on `Generate Template Options`.
 3. Copy the `Sonic Adventure DX.yaml` file from the `Players/Templates` folder and edit it to your liking.
 4. Don't forget to remove the {number} from the `name` field, it should just be your nick and nothing else.
 
