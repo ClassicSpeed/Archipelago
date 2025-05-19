@@ -257,7 +257,7 @@ class SonicAdventureDXWorld(World):
                 mission.missionNumber: mission.missionNumber
                 for mission in mission_location_table
                 if str(mission.missionNumber) in self.options.mission_blacklist.value
-                or str(mission.character.name) in self.options.mission_blacklist.value
+                   or str(mission.character.name) in self.options.mission_blacklist.value
             },
 
             "EnemySanity": self.options.enemy_sanity.value,
@@ -298,6 +298,12 @@ class SonicAdventureDXWorld(World):
             "SandHillCheckHard": self.options.sand_hill_check_hard.value,
             "SkyChaseChecks": self.options.sky_chase_checks.value,
             "SkyChaseChecksHard": self.options.sky_chase_checks_hard.value,
+
+            "MusicSource": self.options.music_source.value,
+            "MusicShuffle": self.options.music_shuffle.value,
+            "MusicShuffleConsistency": self.options.music_shuffle_consistency.value,
+            "LifeCapsulesChangeSongs": self.options.life_capsules_change_songs.value,
+            "MusicShuffleSeed": self.multiworld.seed % (2 ** 31),
 
             "BossChecks": self.options.boss_checks.value,
             "UnifyChaos4": self.options.unify_chaos4.value,

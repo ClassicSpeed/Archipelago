@@ -322,6 +322,74 @@ class BigActionStageMissions(BaseActionStageMissionChoice):
     display_name = "Big's Action Stage Missions"
 
 
+class MusicSource(Choice):
+    """
+    Selects the source of the game's music.
+
+    You can mix and match music from SADX, SA2B, and custom tracks.
+    Custom songs are mapped to the Sonic Heroes soundtrack by default,
+    but you're free to replace them with any songs you prefer.
+
+    Choose between: SADX (0), SADX + Custom (1), SA2B (2), SA2B + Custom (3), SADX + SA2B (4), and SADX + SA2B + Custom (5).
+
+    NOTE: You must own SA2B and/or Sonic Heroes on PC to use their music.
+    """
+    display_name = "MusicSource"
+    option_sadx = 0
+    option_sadx_custom = 1
+    option_sa2b = 2
+    option_sa2b_custom = 3
+    option_sadx_sa2b = 4
+    option_sadx_sa2b_custom = 5
+    default = 0
+
+
+class MusicShuffle(Choice):
+    """
+    Controls how music is randomized in the game.
+
+    Disabled (0 - default): Use original tracks without randomization.
+    Curated (1): Randomize music using a hand-picked list that fits the original tone.
+    By Type (2): Randomize songs within the same category (e.g., levels, bosses).
+    Full (3): Randomize across the entire pool of available tracks.
+    Singularity (4): Replace every song with the same single track.
+
+    Options 1 and 2 are recommended for the most coherent experience.
+    """
+    display_name = "Music Shuffle"
+    option_disabled = 0
+    option_curated = 1
+    option_by_type = 2
+    option_full = 3
+    option_singularity = 4
+    default = 0
+
+
+class MusicShuffleConsistency(Choice):
+    """
+    Defines how frequently music changes during gameplay.
+
+    Static (0 - default): Music remains the same for the seed/slot.
+    On Restart (1): Music is reshuffled every time the game is restarted.
+    Per Play (2): Music changes every time it starts playing.
+
+    Note: Shuffling is handled on the client side, using the seed and song.json file.
+    """
+    display_name = "Music Shuffle Consistency"
+    option_static = 0
+    option_on_restart = 1
+    option_per_play = 2
+    default = 0
+
+
+class LifeCapsulesChangeSongs(Toggle):
+    """
+    If enabled, collecting a Life Capsule will trigger a music change, based on your current Music Shuffle settings.
+    Only available if Music Shuffle is consistency is set to Per Play (2).
+    """
+    display_name = "Life Capsules Change Songs"
+
+
 class RandomizedSonicUpgrades(DefaultOnToggle):
     """Determines whether Sonic's upgrades are randomized and sent to the item pool."""
     display_name = "Randomize Sonic's Upgrades"
@@ -731,6 +799,11 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     big_action_stage_missions: BigActionStageMissions
     gamma_action_stage_missions: GammaActionStageMissions
 
+    music_source: MusicSource
+    music_shuffle: MusicShuffle
+    music_shuffle_consistency: MusicShuffleConsistency
+    life_capsules_change_songs: LifeCapsulesChangeSongs
+
     randomized_sonic_upgrades: RandomizedSonicUpgrades
     randomized_tails_upgrades: RandomizedTailsUpgrades
     randomized_knuckles_upgrades: RandomizedKnucklesUpgrades
@@ -841,6 +914,12 @@ sadx_option_groups = [
         AmyActionStageMissions,
         BigActionStageMissions,
         GammaActionStageMissions
+    ]),
+    OptionGroup("Music Options", [
+        MusicSource,
+        MusicShuffle,
+        MusicShuffleConsistency,
+        LifeCapsulesChangeSongs,
     ]),
     OptionGroup("Upgrade Options", [
         RandomizedSonicUpgrades,
