@@ -333,6 +333,13 @@ class SonicAdventureDXWorld(World):
 
             "JunkFillPercentage": self.options.junk_fill_percentage.value,
 
+            "IceTrapWeight": self.options.ice_trap_weight.value,
+            "SpringTrapWeight": self.options.spring_trap_weight.value,
+            "PoliceTrapWeight": self.options.police_trap_weight.value,
+            "BuyonTrapWeight": self.options.buyon_trap_weight.value,
+            "ReverseTrapWeight": self.options.reverse_trap_weight.value,
+            "GravityTrapWeight": self.options.gravity_trap_weight.value,
+
             "ReverseControlTrapDuration": self.options.reverse_trap_duration.value,
             "TrapsOnAdventureFields": self.options.traps_and_filler_on_adventure_fields.value,
             "TrapsOnBossFights": self.options.traps_and_filler_on_boss_fights.value,
