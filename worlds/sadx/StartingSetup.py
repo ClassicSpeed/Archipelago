@@ -27,13 +27,12 @@ class StarterSetup:
     area: Area = None
     charactersWithArea: List[CharacterArea] = field(default_factory=list)
     level_mapping: dict[Area, Area] = field(default_factory=dict)
-
+    additional_starting_characters_list: List[Character] = field(default_factory=list)
     def get_starting_area(self, character: Character) -> Area:
         for char_area in self.charactersWithArea:
             if char_area.character == character:
                 return char_area.area
         return self.area
-
 
 def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> StarterSetup:
     validate_settings(options)
@@ -96,6 +95,10 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             used_areas.add(area)
             starter_setup.charactersWithArea.append(CharacterArea(character, area))
 
+    for character_slot in range(0, options.additional_starting_characters.value):
+        if character_slot < len(possible_characters) - 1:
+            starter_setup.additional_starting_characters_list.append(possible_characters[character_slot+1])
+        
     return starter_setup
 
 

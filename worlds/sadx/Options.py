@@ -159,6 +159,19 @@ class GuaranteedStartingChecks(Range):
     range_end = 10
     default = 2
 
+class AdditionalStartingCharacters(Range):
+    """Adds extra characters to start inventory randomly based on set value."""
+    display_name = "Additional Starting Character(s)"
+    range_start = 1
+    range_end = 5
+    default = 0
+
+class StartingOverworldKeyItems(Range):
+    """Grants a number of items that allow extra overworld access at random."""
+    display_name = "Starting Overworld Key Items"
+    range_start = 1
+    range_end = 15
+    default = 0
 
 class EntranceRandomizer(Toggle):
     """
@@ -775,6 +788,8 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     starting_location: StartingLocationOption
     random_starting_location_per_character: RandomStartingLocationPerCharacter
     guaranteed_starting_checks: GuaranteedStartingChecks
+    additional_starting_characters: AdditionalStartingCharacters
+    starting_overworld_key_items: StartingOverworldKeyItems
     entrance_randomizer: EntranceRandomizer
     level_entrance_plando: LevelEntrancePlando
 
@@ -891,6 +906,8 @@ sadx_option_groups = [
         StartingLocationOption,
         RandomStartingLocationPerCharacter,
         GuaranteedStartingChecks,
+        AdditionalStartingCharacters,
+        StartingOverworldKeyItems,
         EntranceRandomizer,
         LevelEntrancePlando,
         SendDeathLinkChance,

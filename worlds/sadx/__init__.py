@@ -118,7 +118,8 @@ class SonicAdventureDXWorld(World):
                 self.options.random_starting_location_per_character.value = passthrough[
                     "RandomStartingLocationPerCharacter"]
                 self.options.guaranteed_starting_checks.value = passthrough["GuaranteedStartingChecks"]
-
+                self.options.additional_starting_characters = passthrough["AdditionalStartingCharacters"]
+                self.options.starting_overworld_key_items = passthrough["StartingOverworldKeyItems"]
                 self.options.chao_egg_checks.value = passthrough["SecretChaoEggs"]
                 self.options.chao_races_checks.value = passthrough["ChaoRacesChecks"]
                 self.options.chao_races_levels_to_access_percentage.value = passthrough[
