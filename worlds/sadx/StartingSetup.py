@@ -13,6 +13,7 @@ from .Locations import level_location_table, upgrade_location_table, sub_level_l
     field_emblem_location_table, boss_location_table, capsule_location_table, mission_location_table
 from .Logic import area_connections, chao_egg_location_table, enemy_location_table, fish_location_table
 from .Options import SonicAdventureDXOptions
+from .Items import key_item_table
 
 
 @dataclass
@@ -28,6 +29,7 @@ class StarterSetup:
     charactersWithArea: List[CharacterArea] = field(default_factory=list)
     level_mapping: dict[Area, Area] = field(default_factory=dict)
     additional_starting_characters_list: List[Character] = field(default_factory=list)
+    starting_key_items: List[str] = field(default_factory=list)
     def get_starting_area(self, character: Character) -> Area:
         for char_area in self.charactersWithArea:
             if char_area.character == character:
@@ -98,7 +100,12 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
     for character_slot in range(0, options.additional_starting_characters.value):
         if character_slot < len(possible_characters) - 1:
             starter_setup.additional_starting_characters_list.append(possible_characters[character_slot+1])
-        
+    
+    if options.starting_overworld_key_items.value > len(key_item_table):
+        starter_setup.starting_key_items = world.random.sample(key_item_table, k=len(key_item_table))
+    else:
+        starter_setup.starting_key_items = world.random.sample(key_item_table, k=options.starting_overworld_key_items.value)
+
     return starter_setup
 
 

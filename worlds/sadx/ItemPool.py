@@ -7,7 +7,7 @@ from worlds.AutoWorld import World
 from .CharacterUtils import get_playable_character_item, is_character_playable, are_character_upgrades_randomized, \
     get_character_upgrades_item
 from .Enums import Character
-from .Items import filler_item_table, key_item_table
+from .Items import filler_item_table
 from .Names import ItemName, LocationName
 from .Options import SonicAdventureDXOptions
 from .StartingSetup import StarterSetup
@@ -23,9 +23,7 @@ class ItemDistribution:
 
 def create_sadx_items(world: World, starter_setup: StarterSetup, options: SonicAdventureDXOptions):
     item_names = get_item_names(options, starter_setup)
-
-    starting_key_items = world.random.choices(key_item_table, k=options.starting_overworld_key_items.value)
-
+    
     # Remove the items that are already in the starting inventory
     for item in world.options.start_inventory:
         for _ in range(world.options.start_inventory[item]):
@@ -75,8 +73,8 @@ def create_sadx_items(world: World, starter_setup: StarterSetup, options: SonicA
     # Setups for random starting items
     for character in starter_setup.additional_starting_characters_list:
         world.multiworld.push_precollected(world.create_item(get_playable_character_item(character)))
-
-    for item in starting_key_items:
+        
+    for item in starter_setup.starting_key_items:
         world.multiworld.push_precollected(world.create_item(item.name))
 
     world.multiworld.itempool += itempool
@@ -140,7 +138,13 @@ def get_item_names(options: SonicAdventureDXOptions, starter_setup: StarterSetup
         ]
 
     item_names.remove(get_playable_character_item(starter_setup.character))
+    
+    for character in starter_setup.additional_starting_characters_list:
+        item_names.remove(get_playable_character_item(character))
 
+    for item in starter_setup.starting_key_items:
+        item_names.remove(item.name)
+    
     return item_names
 
 
