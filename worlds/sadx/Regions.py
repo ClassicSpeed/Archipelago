@@ -74,10 +74,12 @@ def create_sadx_regions(world: World, starter_setup: StarterSetup, options: Soni
         else:
             key_items = normal_logic_items
 
-        if Area.EmeraldCoast.value <= area_to.value <= Area.HotShelter.value:
-            entrance_name = get_entrance_name(character, area_to)
-        else:
-            entrance_name = None
+        # TODO
+        entrance_name = None
+        # if Area.EmeraldCoast.value <= area_to.value <= Area.HotShelter.value:
+        #     entrance_name = get_entrance_name(character, area_to)
+        # else:
+        #     entrance_name = None
 
         if region_from and region_to:
             if key_items:
@@ -116,7 +118,7 @@ def add_locations_to_region(region: Region, area: Area, character: Character, pl
 
 def get_location_ids_for_area(area: Area, character: Character, options: SonicAdventureDXOptions):
     location_ids = []
-    if area == Area.TwinkleParkLobby and options.twinkle_circuit_check and options.twinkle_circuit_multiple_check:
+    if area == Area.TPLobby and options.twinkle_circuit_check and options.twinkle_circuit_multiple_check:
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.TwinkleCircuit:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
