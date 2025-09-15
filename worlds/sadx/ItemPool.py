@@ -116,10 +116,10 @@ def get_item_distribution(world: World, starting_item_count: int, options: Sonic
 def get_item_names(options: SonicAdventureDXOptions, starter_setup: StarterSetup) -> List[str]:
     item_names = sum((get_item_for_options_per_character(character, options) for character in Character), [])
     item_names += [
-        ItemName.KeyItem.Train, ItemName.KeyItem.Boat, ItemName.KeyItem.Raft, ItemName.KeyItem.StationFrontKey,
-        ItemName.KeyItem.StationBackKey, ItemName.KeyItem.HotelFrontKey, ItemName.KeyItem.HotelBackKey,
-        ItemName.KeyItem.TwinkleParkTicket,
-        ItemName.KeyItem.EmployeeCard, ItemName.KeyItem.Dynamite, ItemName.KeyItem.JungleCart,
+        ItemName.KeyItem.Train, ItemName.KeyItem.Boat, ItemName.KeyItem.Raft, ItemName.KeyItem.StationKey,
+        ItemName.KeyItem.ShutterKey, ItemName.KeyItem.HotelKey, ItemName.KeyItem.CasinoKey, ItemName.KeyItem.PoolKey,
+        ItemName.KeyItem.TPTicket, ItemName.KeyItem.PolicePass, ItemName.KeyItem.EmployeeCard,
+        ItemName.KeyItem.Dynamite, ItemName.KeyItem.JungleCart, ItemName.KeyItem.TimeMachine,
         ItemName.KeyItem.IceStone, ItemName.KeyItem.WindStone, ItemName.KeyItem.Egglift, ItemName.KeyItem.Monorail
     ]
 
