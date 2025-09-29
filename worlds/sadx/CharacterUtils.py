@@ -3,6 +3,7 @@ from typing import List
 from .Enums import Character, LevelMission
 from .Logic import LevelLocation
 from .Options import SonicAdventureDXOptions
+from ..AutoWorld import World
 
 
 def get_playable_character_item(character: Character) -> str:
@@ -95,7 +96,8 @@ def is_level_playable(level: LevelLocation, options: SonicAdventureDXOptions) ->
         Character.Gamma: options.gamma_action_stage_missions
     }.get(level.character)
 
-    return (character_missions == 4 and level.levelMission in {LevelMission.C, LevelMission.B, LevelMission.A, LevelMission.S}) or \
+    return (character_missions == 4 and level.levelMission in {LevelMission.C, LevelMission.B, LevelMission.A,
+                                                               LevelMission.S}) or \
         (character_missions == 3 and level.levelMission in {LevelMission.C, LevelMission.B, LevelMission.A}) or \
         (character_missions == 2 and level.levelMission in {LevelMission.C, LevelMission.B}) or \
         (character_missions == 1 and level.levelMission == LevelMission.C)

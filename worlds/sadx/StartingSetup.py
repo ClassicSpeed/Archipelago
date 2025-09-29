@@ -8,7 +8,7 @@ from Options import OptionError
 from worlds.AutoWorld import World
 from .CharacterUtils import get_playable_characters, are_character_upgrades_randomized, is_level_playable, \
     is_character_playable
-from .Enums import Character, Area, SubLevel, pascal_to_space, level_areas, LevelMission
+from .Enums import Character, Area, SubLevel, pascal_to_space, LevelMission
 from .Locations import level_location_table, upgrade_location_table, sub_level_location_table, \
     field_emblem_location_table, boss_location_table, capsule_location_table, mission_location_table
 from .Logic import area_connections, chao_egg_location_table, enemy_location_table, fish_location_table
@@ -38,7 +38,6 @@ class StarterSetup:
 def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> StarterSetup:
     validate_settings(options)
 
-    starter_setup = StarterSetup()
     possible_characters = get_playable_characters(options)
 
     world.random.shuffle(possible_characters)
@@ -47,54 +46,7 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
         possible_characters.remove(Character(options.starting_character.value))
         possible_characters.insert(0, Character(options.starting_character.value))
 
-    if options.entrance_randomizer:
-        fixed_areas = {Area[re.sub(r' ', '', area)]: Area[re.sub(r' ', '', dest)]
-                       for area, dest in options.level_entrance_plando.items()}
-        remaining_areas = [area for area in level_areas if area not in fixed_areas.values()]
-        randomized_remaining_areas = world.random.sample(remaining_areas, len(remaining_areas))
-        starter_setup.level_mapping = {**fixed_areas, **dict(
-            zip([area for area in level_areas if area not in fixed_areas], randomized_remaining_areas))}
-
-    for character in possible_characters:
-        possible_starter_areas = get_possible_starting_areas(world, character, starter_setup.level_mapping)
-
-        if any(count >= options.guaranteed_starting_checks for count in possible_starter_areas.values()):
-            possible_starter_areas = {area: count for area, count in possible_starter_areas.items() if
-                                      count >= options.guaranteed_starting_checks}
-        else:
-            max_count = max(possible_starter_areas.values())
-            possible_starter_areas = {area: count for area, count in possible_starter_areas.items() if
-                                      count == max_count}
-
-        if possible_starter_areas.keys():
-            if options.starting_location.value > 0 and Area(options.starting_location.value - 1) in list(
-                    possible_starter_areas.keys()):
-                starter_setup.area = Area(options.starting_location.value - 1)
-            else:
-                starter_setup.area = world.random.choice(list(possible_starter_areas.keys()))
-            starter_setup.character = character
-            break
-
-    if not starter_setup.area:
-        raise OptionError(
-            "SADX Error: Couldn't define a valid starting location (Probably a problem of low settings, guaranteed level and/or fixed starting location).")
-
-    if options.random_starting_location_per_character:
-        used_areas = {starter_setup.area}
-        starter_setup.charactersWithArea.append(CharacterArea(starter_setup.character, starter_setup.area))
-        possible_areas_dict = {char: get_possible_starting_areas(world, char, starter_setup.level_mapping) for
-                               char in
-                               possible_characters}
-        filtered_areas_dict = {char: list(areas_dict.keys()) for char, areas_dict in possible_areas_dict.items()}
-        characters_sorted_by_areas = sorted(possible_characters, key=lambda char: len(filtered_areas_dict[char]))
-
-        for character in characters_sorted_by_areas:
-            if character == starter_setup.character:
-                continue
-            unused_areas = [area for area in filtered_areas_dict[character] if area not in used_areas]
-            area = world.random.choice(unused_areas if unused_areas else filtered_areas_dict[character])
-            used_areas.add(area)
-            starter_setup.charactersWithArea.append(CharacterArea(character, area))
+    starter_setup = calculate_starter_locations(options, possible_characters, world)
 
     return starter_setup
 
@@ -308,3 +260,48 @@ def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: Star
         for original, randomized in starter_setup.level_mapping.items():
             text += f"- {pascal_to_space(original.name)} -> {pascal_to_space(randomized.name)}\n"
     spoiler_handle.writelines(text)
+
+
+def calculate_starter_locations(options: SonicAdventureDXOptions,
+                                possible_characters: List[Character],
+                                world: World) -> StarterSetup:
+    starter_setup = StarterSetup()
+    for character in possible_characters:
+        possible_starter_areas = get_possible_starting_areas(world, character, starter_setup.level_mapping)
+
+        if any(count >= options.guaranteed_starting_checks for count in possible_starter_areas.values()):
+            possible_starter_areas = {area: count for area, count in possible_starter_areas.items() if
+                                      count >= options.guaranteed_starting_checks}
+        else:
+            max_count = max(possible_starter_areas.values())
+            possible_starter_areas = {area: count for area, count in possible_starter_areas.items() if
+                                      count == max_count}
+
+        if possible_starter_areas.keys():
+            if options.starting_location.value > 0 and Area(options.starting_location.value - 1) in list(
+                    possible_starter_areas.keys()):
+                starter_setup.area = Area(options.starting_location.value - 1)
+            else:
+                starter_setup.area = world.random.choice(list(possible_starter_areas.keys()))
+            starter_setup.character = character
+            break
+    if not starter_setup.area:
+        raise OptionError(
+            "SADX Error: Couldn't define a valid starting location (Probably a problem of low settings, guaranteed level and/or fixed starting location).")
+    if options.random_starting_location_per_character:
+        used_areas = {starter_setup.area}
+        starter_setup.charactersWithArea.append(CharacterArea(starter_setup.character, starter_setup.area))
+        possible_areas_dict = {char: get_possible_starting_areas(world, char, starter_setup.level_mapping) for
+                               char in
+                               possible_characters}
+        filtered_areas_dict = {char: list(areas_dict.keys()) for char, areas_dict in possible_areas_dict.items()}
+        characters_sorted_by_areas = sorted(possible_characters, key=lambda char: len(filtered_areas_dict[char]))
+
+        for character in characters_sorted_by_areas:
+            if character == starter_setup.character:
+                continue
+            unused_areas = [area for area in filtered_areas_dict[character] if area not in used_areas]
+            area = world.random.choice(unused_areas if unused_areas else filtered_areas_dict[character])
+            used_areas.add(area)
+            starter_setup.charactersWithArea.append(CharacterArea(character, area))
+    return starter_setup

@@ -184,6 +184,20 @@ class LevelEntrancePlando(OptionDict):
          for area in level_areas})
 
 
+class GatingMode(Choice):
+    """
+    Determines how the rando will close off parts of the adventure field.
+    None (0): No gating, all areas are always accessible.
+    KeyItems (1): Areas are gated based on key items like the Train or Station Key
+    Emblems (2): Areas are gated based on the number of emblems collected.
+    """
+    display_name = "Gating Mode"
+    option_no_gating = 0
+    option_key_items_gating = 1
+    option_emblems_gating = 2
+    default = 2
+
+
 class SendDeathLinkChance(Range):
     """When dying, the chance of sending a death link to another player."""
     display_name = "Send Death Link Chance"
@@ -777,6 +791,7 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     guaranteed_starting_checks: GuaranteedStartingChecks
     entrance_randomizer: EntranceRandomizer
     level_entrance_plando: LevelEntrancePlando
+    gating_mode: GatingMode
 
     death_link: DeathLink
     send_death_link_chance: SendDeathLinkChance

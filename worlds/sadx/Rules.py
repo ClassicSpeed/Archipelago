@@ -7,9 +7,10 @@ from .Locations import get_location_by_name, level_location_table, upgrade_locat
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
     CapsuleLocation, BossFightLocation, MissionLocation, chao_egg_location_table, ChaoEggLocation, \
-    chao_race_location_table, enemy_location_table, EnemyLocation, fish_location_table, FishLocation
+    chao_race_location_table, enemy_location_table, EnemyLocation, fish_location_table, FishLocation, area_connections
 from .Names import ItemName
 from .Regions import get_region_name
+from ..AutoWorld import World
 
 
 class LocationDistribution:
@@ -169,7 +170,66 @@ def calculate_rules(self, location: LocationInfo):
             add_fish_rules(self, location["name"], fish)
 
 
-def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
+def create_sadx_rules(self, needed_emblems: int, world: World) -> LocationDistribution:
+    # Connect regions based on area connections rules
+    for (character, area_from, area_to), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
+                                          expert_dx_logic_items,
+                                          expert_plus_dx_logic_items) in area_connections.items():
+
+        if self.options.entrance_randomizer:
+            actual_area = self.starter_setup.level_mapping.get(area_to, area_to)
+        else:
+            actual_area = area_to
+
+        region_from = self.created_regions.get((character, area_from))
+        region_to = self.created_regions.get((character, actual_area))
+
+        if self.options.logic_level.value == 4:
+            key_items = expert_plus_dx_logic_items
+        elif self.options.logic_level.value == 3:
+            key_items = expert_dx_logic_items
+        elif self.options.logic_level.value == 2:
+            key_items = expert_dc_logic_items
+        elif self.options.logic_level.value == 1:
+            key_items = hard_logic_items
+        else:
+            key_items = normal_logic_items
+
+        # TODO
+        entrance_name = None
+        # if Area.EmeraldCoast.value <= area_to.value <= Area.HotShelter.value:
+        #     entrance_name = get_entrance_name(character, area_to)
+        # else:
+        #     entrance_name = None
+
+        emblem_requirements = {}
+        emblem_requirement = world.random.randint(0,
+                                                  5)  # Replace with your logic to calculate the emblem requirement
+        emblem_requirements[(area_from, area_to)] = emblem_requirement
+        emblem_requirements[(area_to, area_from)] = emblem_requirement
+
+        if region_from and region_to:
+            if not key_items or self.options.gating_mode == 0:
+                region_from.connect(region_to, entrance_name)
+            else:
+                if self.options.gating_mode == 1:
+                    if all(isinstance(item, str) for item in key_items):
+                        region_from.connect(region_to, entrance_name,
+                                            lambda state, items=key_items: all(
+                                                state.has(item, world.player) for item in items))
+                    else:
+                        region_from.connect(region_to, entrance_name,
+                                            lambda state, items=key_items: any(
+                                                all(state.has(item, world.player) for item in requirement_group)
+                                                for
+                                                requirement_group in items))
+                # TODO: Add emblem requirement
+                else:
+                    emblem_requirement = emblem_requirements.get((area_from, area_to), 0)
+                    region_from.connect(region_to, entrance_name,
+                                        lambda state, emblems=emblem_requirement:
+                                        state.has("Emblem", world.player, emblems))
+
     levels_for_perfect_chaos = 0
     missions_for_perfect_chaos = 0
     bosses_for_perfect_chaos = 0
@@ -240,6 +300,7 @@ def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
 
     self.multiworld.completion_condition[self.player] = lambda state: state.has(ItemName.Progression.ChaosPeace,
                                                                                 self.player)
+
     return LocationDistribution(
         levels_for_perfect_chaos=levels_for_perfect_chaos,
         missions_for_perfect_chaos=missions_for_perfect_chaos,

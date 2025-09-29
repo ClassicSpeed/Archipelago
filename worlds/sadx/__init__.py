@@ -1,10 +1,10 @@
 import typing
 from typing import Dict, Any
 
-from BaseClasses import Tutorial
+from BaseClasses import Tutorial, Region
 from worlds.AutoWorld import WebWorld, World
 from .CharacterUtils import get_playable_characters
-from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space
+from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas
 from .ItemPool import create_sadx_items, get_item_names, ItemDistribution
 from .Items import SonicAdventureDXItem, group_item_table, item_name_to_info, filler_item_table
 from .Locations import all_location_table, group_location_table
@@ -13,7 +13,7 @@ from .Names import ItemName, LocationName
 from .Options import sadx_option_groups, SonicAdventureDXOptions
 from .Regions import create_sadx_regions, get_location_ids_for_area
 from .Rules import create_sadx_rules, LocationDistribution
-from .StartingSetup import StarterSetup, generate_early_sadx, write_sadx_spoiler, CharacterArea, level_areas
+from .StartingSetup import StarterSetup, generate_early_sadx, write_sadx_spoiler, CharacterArea
 
 sadx_version = 112
 
@@ -35,6 +35,7 @@ class SonicAdventureDXWorld(World):
     game = "Sonic Adventure DX"
     web = SonicAdventureDXWeb()
     starter_setup: StarterSetup = StarterSetup()
+    created_regions: Dict[typing.Tuple[Character, Area], Region] = {}
     item_distribution: ItemDistribution = ItemDistribution()
     location_distribution: LocationDistribution = LocationDistribution()
     item_name_to_id = {item.name: item.itemId + SADX_BASE_ID for item in item_name_to_info.values()}
@@ -177,7 +178,7 @@ class SonicAdventureDXWorld(World):
         return SonicAdventureDXItem(name, self.player)
 
     def create_regions(self) -> None:
-        create_sadx_regions(self, self.starter_setup, self.options)
+        self.created_regions = create_sadx_regions(self, self.starter_setup, self.options)
 
     def create_items(self):
         self.item_distribution = create_sadx_items(self, self.starter_setup, self.options)
@@ -186,7 +187,7 @@ class SonicAdventureDXWorld(World):
         return self.random.choice(filler_item_table).name
 
     def set_rules(self):
-        self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive)
+        self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive, self)
 
     def write_spoiler(self, spoiler_handle: typing.TextIO):
         write_sadx_spoiler(self, spoiler_handle, self.starter_setup, self.options)
