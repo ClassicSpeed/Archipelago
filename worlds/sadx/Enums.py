@@ -185,6 +185,11 @@ class Area(Enum):
     SkyChase2 = auto()
     Chaos6ZeroBeta = auto()
 
+    def __lt__(self, other):
+        if isinstance(other, Area):
+            return self.value < other.value
+        return NotImplemented
+
 
 level_areas = [
     Area.EmeraldCoast,

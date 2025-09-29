@@ -187,7 +187,7 @@ class SonicAdventureDXWorld(World):
         return self.random.choice(filler_item_table).name
 
     def set_rules(self):
-        self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive, self)
+        self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive)
 
     def write_spoiler(self, spoiler_handle: typing.TextIO):
         write_sadx_spoiler(self, spoiler_handle, self.starter_setup, self.options)
