@@ -10,7 +10,6 @@ from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocat
     chao_race_location_table, enemy_location_table, EnemyLocation, fish_location_table, FishLocation, area_connections
 from .Names import ItemName
 from .Regions import get_region_name
-from ..AutoWorld import World
 
 
 class LocationDistribution:
@@ -170,65 +169,8 @@ def calculate_rules(self, location: LocationInfo):
             add_fish_rules(self, location["name"], fish)
 
 
-def create_sadx_rules(self, needed_emblems: int, world: World) -> LocationDistribution:
-    # Connect regions based on area connections rules
-    for (character, area_from, area_to), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
-                                          expert_dx_logic_items,
-                                          expert_plus_dx_logic_items) in area_connections.items():
-
-        if self.options.entrance_randomizer:
-            actual_area = self.starter_setup.level_mapping.get(area_to, area_to)
-        else:
-            actual_area = area_to
-
-        region_from = self.created_regions.get((character, area_from))
-        region_to = self.created_regions.get((character, actual_area))
-
-        if self.options.logic_level.value == 4:
-            key_items = expert_plus_dx_logic_items
-        elif self.options.logic_level.value == 3:
-            key_items = expert_dx_logic_items
-        elif self.options.logic_level.value == 2:
-            key_items = expert_dc_logic_items
-        elif self.options.logic_level.value == 1:
-            key_items = hard_logic_items
-        else:
-            key_items = normal_logic_items
-
-        # TODO
-        entrance_name = None
-        # if Area.EmeraldCoast.value <= area_to.value <= Area.HotShelter.value:
-        #     entrance_name = get_entrance_name(character, area_to)
-        # else:
-        #     entrance_name = None
-
-        emblem_requirements = {}
-        emblem_requirement = world.random.randint(0,
-                                                  5)  # Replace with your logic to calculate the emblem requirement
-        emblem_requirements[(area_from, area_to)] = emblem_requirement
-        emblem_requirements[(area_to, area_from)] = emblem_requirement
-
-        if region_from and region_to:
-            if not key_items or self.options.gating_mode == 0:
-                region_from.connect(region_to, entrance_name)
-            else:
-                if self.options.gating_mode == 1:
-                    if all(isinstance(item, str) for item in key_items):
-                        region_from.connect(region_to, entrance_name,
-                                            lambda state, items=key_items: all(
-                                                state.has(item, world.player) for item in items))
-                    else:
-                        region_from.connect(region_to, entrance_name,
-                                            lambda state, items=key_items: any(
-                                                all(state.has(item, world.player) for item in requirement_group)
-                                                for
-                                                requirement_group in items))
-                # TODO: Add emblem requirement
-                else:
-                    emblem_requirement = emblem_requirements.get((area_from, area_to), 0)
-                    region_from.connect(region_to, entrance_name,
-                                        lambda state, emblems=emblem_requirement:
-                                        state.has("Emblem", world.player, emblems))
+def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
+    connect_regions(self, needed_emblems)
 
     levels_for_perfect_chaos = 0
     missions_for_perfect_chaos = 0
@@ -306,3 +248,84 @@ def create_sadx_rules(self, needed_emblems: int, world: World) -> LocationDistri
         missions_for_perfect_chaos=missions_for_perfect_chaos,
         bosses_for_perfect_chaos=bosses_for_perfect_chaos,
     )
+
+
+def connect_regions(self, needed_emblems: int):
+    # # define table of region to region prices
+    # if self.options.gating_mode == 2:
+    # Initialize the key-value map
+    area_map = {}
+
+    # Set to track processed connections
+    processed_connections = set()
+
+    # Iterate through area_connections
+    for (character, area_from, area_to), _ in area_connections.items():
+        # Create a sorted tuple of areas to ensure uniqueness
+        connection_key = tuple(sorted((area_from, area_to)))
+
+        # Add to the map if not already processed
+        if connection_key not in processed_connections:
+            if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
+                area_map[connection_key] = 0
+            else:
+                # TODO: Use an algorithm to determine how close the area is to any starter position
+                # So the closer the area is to a starter position, the cheaper it is
+                area_map[connection_key] = self.random.randint(0, int(needed_emblems/10))
+
+            processed_connections.add(connection_key)
+
+    # Print the resulting map
+    print(area_map)
+
+    for (character, area_from, area_to), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
+                                          expert_dx_logic_items,
+                                          expert_plus_dx_logic_items) in area_connections.items():
+
+        if self.options.entrance_randomizer:
+            actual_area = self.starter_setup.level_mapping.get(area_to, area_to)
+        else:
+            actual_area = area_to
+
+        region_from = self.created_regions.get((character, area_from))
+        region_to = self.created_regions.get((character, actual_area))
+
+        if self.options.logic_level.value == 4:
+            key_items = expert_plus_dx_logic_items
+        elif self.options.logic_level.value == 3:
+            key_items = expert_dx_logic_items
+        elif self.options.logic_level.value == 2:
+            key_items = expert_dc_logic_items
+        elif self.options.logic_level.value == 1:
+            key_items = hard_logic_items
+        else:
+            key_items = normal_logic_items
+
+        # TODO
+        entrance_name = None
+        # if Area.EmeraldCoast.value <= area_to.value <= Area.HotShelter.value:
+        #     entrance_name = get_entrance_name(character, area_to)
+        # else:
+        #     entrance_name = None
+
+        if region_from and region_to:
+            if not key_items or self.options.gating_mode == 0:
+                region_from.connect(region_to, entrance_name)
+            else:
+                if self.options.gating_mode == 1:
+                    if all(isinstance(item, str) for item in key_items):
+                        region_from.connect(region_to, entrance_name,
+                                            lambda state, items=key_items: all(
+                                                state.has(item, self.player) for item in items))
+                    else:
+                        region_from.connect(region_to, entrance_name,
+                                            lambda state, items=key_items: any(
+                                                all(state.has(item, self.player) for item in requirement_group)
+                                                for
+                                                requirement_group in items))
+                # TODO: Add emblem requirement
+                else:
+                    emblem_requirement = area_map[tuple(sorted((area_from, area_to)))]
+                    region_from.connect(region_to, entrance_name,
+                                        lambda state, emblems=emblem_requirement:
+                                        state.has("Emblem", self.player, emblems))
