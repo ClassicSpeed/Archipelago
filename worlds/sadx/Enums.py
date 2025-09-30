@@ -191,6 +191,170 @@ class Area(Enum):
         return NotImplemented
 
 
+class AreaConnection(Enum):
+    # City Hall
+    CityHall_to_SSMain = (Area.CityHall, Area.SSMain)
+    CityHall_to_Sewers = (Area.CityHall, Area.Sewers)
+    CityHall_to_SpeedHighway = (Area.CityHall, Area.SpeedHighway)
+    CityHall_to_Chaos0 = (Area.CityHall, Area.Chaos0)
+
+    # Station + Casino
+    Station_to_SSMain = (Area.Station, Area.SSMain)
+    Station_to_MrMain = (Area.Station, Area.MRMain)
+    Station_to_Casinopolis = (Area.Station, Area.Casinopolis)
+    Station_to_Hotel = (Area.Station, Area.Hotel)
+    Station_to_EggWalker = (Area.Station, Area.EggWalker)
+
+    # Sewers
+    Sewers_to_CityHall = (Area.Sewers, Area.CityHall)
+    Sewers_to_SSMain = (Area.Sewers, Area.SSMain)
+
+    # SSMain
+    SSMain_to_Hotel = (Area.SSMain, Area.Hotel)
+    SSMain_to_Station = (Area.SSMain, Area.Station)
+    SSMain_to_CityHall = (Area.SSMain, Area.CityHall)
+    SSMain_to_TwinkleParkLobby = (Area.SSMain, Area.TPLobby)
+    SSMain_to_EcOutside = (Area.SSMain, Area.ECOutside)
+    SSMain_to_Bridge = (Area.SSMain, Area.ECBridge)
+    SSMain_to_Sewers = (Area.SSMain, Area.Sewers)
+    SSMain_to_SpeedHighway = (Area.SSMain, Area.SpeedHighway)
+
+    # Hotel
+    Hotel_to_SSMain = (Area.Hotel, Area.SSMain)
+    Hotel_to_Station = (Area.Hotel, Area.Station)
+    Hotel_to_EmeraldCoast = (Area.Hotel, Area.EmeraldCoast)
+    Hotel_to_SsChaoGarden = (Area.Hotel, Area.SSChaoGarden)
+    Hotel_to_Chaos2 = (Area.Hotel, Area.Chaos2)
+
+    # Twinkle Park Lobby
+    TwinkleParkLobby_to_SSMain = (Area.TPLobby, Area.SSMain)
+    TwinkleParkLobby_to_TwinklePark = (Area.TPLobby, Area.TwinklePark)
+    TwinkleParkLobby_to_TwinkleCircuit = (Area.TPLobby, Area.TwinkleCircuit)
+
+    # MRMain
+    MrMain_to_SSMain = (Area.MRMain, Area.SSMain)
+    MrMain_to_EcOutside = (Area.MRMain, Area.ECOutside)
+    MrMain_to_Bridge = (Area.MRMain, Area.ECBridge)
+    MrMain_to_AngelIsland = (Area.MRMain, Area.AngelIsland)
+    MrMain_to_WindyValley = (Area.MRMain, Area.WindyValley)
+    MrMain_to_Jungle = (Area.MRMain, Area.Jungle)
+    MrMain_to_Chaos4 = (Area.MRMain, Area.Chaos4)
+    MrMain_to_EggHornet = (Area.MRMain, Area.EggHornet)
+    MrMain_to_MrChaoGarden = (Area.MRMain, Area.MRChaoGarden)
+    MrMain_to_SkyChase1 = (Area.MRMain, Area.SkyChase1)
+
+    # Angel Island
+    AngelIsland_to_MrMain = (Area.AngelIsland, Area.MRMain)
+    AngelIsland_to_IceCap = (Area.AngelIsland, Area.IceCap)
+    AngelIsland_to_RedMountain = (Area.AngelIsland, Area.RedMountain)
+    AngelIsland_to_PastAltar = (Area.AngelIsland, Area.PastAltar)
+
+    # Past Altar
+    PastAltar_to_AngelIsland = (Area.PastAltar, Area.AngelIsland)
+    PastAltar_to_PastMain = (Area.PastAltar, Area.PastMain)
+
+    # Past Main
+    PastMain_to_PastAltar = (Area.PastMain, Area.PastAltar)
+    PastMain_to_Jungle = (Area.PastMain, Area.Jungle)
+
+    # Jungle
+    Jungle_to_MrMain = (Area.Jungle, Area.MRMain)
+    Jungle_to_LostWorld = (Area.Jungle, Area.LostWorld)
+    Jungle_to_LostWorldAlternative = (Area.Jungle, Area.LostWorld)
+    Jungle_to_FinalEggTower = (Area.Jungle, Area.FinalEggTower)
+    Jungle_to_SandHill = (Area.Jungle, Area.SandHill)
+    Jungle_to_PastMain = (Area.Jungle, Area.PastMain)
+
+    # Final Egg Tower
+    FinalEggTower_to_Jungle = (Area.FinalEggTower, Area.Jungle)
+    FinalEggTower_to_FinalEgg = (Area.FinalEggTower, Area.FinalEgg)
+    FinalEggTower_to_FinalEggAlternative = (Area.FinalEggTower, Area.FinalEgg)
+    FinalEggTower_to_BetaEggViper = (Area.FinalEggTower, Area.BetaEggViper)
+    FinalEggTower_to_EcInside = (Area.FinalEggTower, Area.ECInside)
+    # Egg Carrier Outside (Untransformed)
+    EcOutside_to_SSMain = (Area.ECOutside, Area.SSMain)
+    EcOutside_to_MrMain = (Area.ECOutside, Area.MRMain)
+    EcOutside_to_SkyChase2 = (Area.ECOutside, Area.SkyChase2)
+    EcOutside_to_Chaos6ZeroBeta = (Area.ECOutside, Area.Chaos6ZeroBeta)
+    EcOutside_to_EcInsideMonorail = (Area.ECOutside, Area.ECInside)
+    EcOutside_to_EcInsideEggLift = (Area.ECOutside, Area.ECInside)
+    EcOutside_to_CaptainRoom = (Area.ECOutside, Area.CaptainRoom)
+    EcOutside_to_Pool = (Area.ECOutside, Area.ECPool)
+
+    # Bridge (Transformed)
+    Bridge_to_SSMain = (Area.ECBridge, Area.SSMain)
+    Bridge_to_MrMain = (Area.ECBridge, Area.MRMain)
+    Bridge_to_SkyDeck = (Area.ECBridge, Area.SkyDeck)
+    Bridge_to_SkyChase2 = (Area.ECBridge, Area.SkyChase2)
+    Bridge_to_Chaos6ZeroBeta = (Area.ECBridge, Area.Chaos6ZeroBeta)
+    Bridge_to_EcInsideMonorail = (Area.ECBridge, Area.ECInside)
+
+    # Deck (Transformed)
+    Deck_to_Pool = (Area.ECDeck, Area.ECPool)
+    Deck_to_CaptainRoom = (Area.ECDeck, Area.CaptainRoom)
+    Deck_to_PrivateRoom = (Area.ECDeck, Area.PrivateRoom)
+    Deck_to_PrivateRoomAlternative = (Area.ECDeck, Area.PrivateRoom)
+    Deck_to_EcInsideEggLift = (Area.ECDeck, Area.ECInside)
+
+    # Captain Room
+    CaptainRoom_to_EcOutside = (Area.CaptainRoom, Area.ECOutside)
+    CaptainRoom_to_Deck = (Area.CaptainRoom, Area.ECDeck)
+    CaptainRoom_to_PrivateRoom = (Area.CaptainRoom, Area.PrivateRoom)
+
+    # Private Room
+    PrivateRoom_to_CaptainRoom = (Area.PrivateRoom, Area.CaptainRoom)
+    PrivateRoom_to_Deck = (Area.PrivateRoom, Area.ECDeck)
+    PrivateRoom_to_DeckAlternative = (Area.PrivateRoom, Area.ECDeck)
+
+    # Pool
+    Pool_to_EcOutside = (Area.ECPool, Area.ECOutside)
+    Pool_to_Deck = (Area.ECPool, Area.ECDeck)
+    Pool_to_SkyDeck = (Area.ECPool, Area.SkyDeck)
+
+    # Arsenal
+    Arsenal_to_EcInside = (Area.Arsenal, Area.ECInside)
+
+    # Egg Carrier Inside
+    EcInside_to_EcOutsideEggLift = (Area.ECInside, Area.ECOutside)
+    EcInside_to_EcOutsideMonorail = (Area.ECInside, Area.ECOutside)
+    EcInside_to_DeckEggLift = (Area.ECInside, Area.ECDeck)
+    EcInside_to_BridgeMonorail = (Area.ECInside, Area.ECBridge)
+    EcInside_to_HotShelter = (Area.ECInside, Area.HotShelter)
+    EcInside_to_HedgehogHammer = (Area.ECInside, Area.HedgehogHammer)
+    EcInside_to_FinalEggTower = (Area.ECInside, Area.FinalEggTower)
+    EcInside_to_WarpHall = (Area.ECInside, Area.WarpHall)
+    EcInside_to_Arsenal = (Area.ECInside, Area.Arsenal)
+    EcInside_to_WaterTank = (Area.ECInside, Area.WaterTank)
+
+    # Hedgehog Hammer
+    HedgehogHammer_to_EcInside = (Area.HedgehogHammer, Area.ECInside)
+    HedgehogHammer_to_PrisonHall = (Area.HedgehogHammer, Area.PrisonHall)
+
+    # Prison Hall
+    PrisonHall_to_HedgehogHammer = (Area.PrisonHall, Area.HedgehogHammer)
+
+    # Water Tank
+    WaterTank_to_EcInside = (Area.WaterTank, Area.ECInside)
+
+    # Warp Hall
+    WarpHall_to_EcInside = (Area.WarpHall, Area.ECInside)
+    WarpHall_to_EcChaoGarden = (Area.WarpHall, Area.ECChaoGarden)
+
+    def __init__(self, area1, area2):
+        self.area1 = area1
+        self.area2 = area2
+
+    @classmethod
+    def from_areas(cls, area1, area2):
+        for connection in cls:
+            if {connection.area1, connection.area2} == {area1, area2}:
+                return connection
+        return None
+
+    def get_index(self):
+        return list(self.__class__.__members__).index(self.name)
+
+
 level_areas = [
     Area.EmeraldCoast,
     Area.WindyValley,

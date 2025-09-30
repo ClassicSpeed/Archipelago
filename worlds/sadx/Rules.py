@@ -2,7 +2,7 @@ import math
 
 from worlds.generic.Rules import add_rule
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character
+from .Enums import LevelMission, Character, AreaConnection
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -13,10 +13,12 @@ from .Regions import get_region_name
 
 
 class LocationDistribution:
-    def __init__(self, levels_for_perfect_chaos=0, missions_for_perfect_chaos=0, bosses_for_perfect_chaos=0):
+    def __init__(self, levels_for_perfect_chaos=0, missions_for_perfect_chaos=0, bosses_for_perfect_chaos=0,
+                 entrance_emblem_value_map=None):
         self.levels_for_perfect_chaos = levels_for_perfect_chaos
         self.missions_for_perfect_chaos = missions_for_perfect_chaos
         self.bosses_for_perfect_chaos = bosses_for_perfect_chaos
+        self.entrance_emblem_value_map = entrance_emblem_value_map
 
 
 def add_level_rules(self, location_name: str, level: LevelLocation):
@@ -170,7 +172,7 @@ def calculate_rules(self, location: LocationInfo):
 
 
 def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
-    connect_regions(self, needed_emblems)
+    area_map = connect_regions(self, needed_emblems)
 
     levels_for_perfect_chaos = 0
     missions_for_perfect_chaos = 0
@@ -242,41 +244,47 @@ def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
 
     self.multiworld.completion_condition[self.player] = lambda state: state.has(ItemName.Progression.ChaosPeace,
                                                                                 self.player)
-
+    indexed_area_map = {
+        key.get_index(): value
+        for key, value in area_map.items()
+    }
+    # Print the resulting map
+    print(indexed_area_map)
     return LocationDistribution(
         levels_for_perfect_chaos=levels_for_perfect_chaos,
         missions_for_perfect_chaos=missions_for_perfect_chaos,
         bosses_for_perfect_chaos=bosses_for_perfect_chaos,
+        entrance_emblem_value_map=indexed_area_map
     )
 
 
 def connect_regions(self, needed_emblems: int):
-    # # define table of region to region prices
-    # if self.options.gating_mode == 2:
     # Initialize the key-value map
     area_map = {}
+    # # define table of region to region prices
+    if self.options.gating_mode == 2:
 
-    # Set to track processed connections
-    processed_connections = set()
+        # Set to track processed connections
+        processed_connections = set()
 
-    # Iterate through area_connections
-    for (character, area_from, area_to), _ in area_connections.items():
-        # Create a sorted tuple of areas to ensure uniqueness
-        connection_key = tuple(sorted((area_from, area_to)))
+        # Iterate through area_connections
+        for (character, area_from, area_to), _ in area_connections.items():
+            # Create a sorted tuple of areas to ensure uniqueness
+            connection_key = AreaConnection.from_areas(area_from, area_to)
 
-        # Add to the map if not already processed
-        if connection_key not in processed_connections:
-            if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
-                area_map[connection_key] = 0
-            else:
-                # TODO: Use an algorithm to determine how close the area is to any starter position
-                # So the closer the area is to a starter position, the cheaper it is
-                area_map[connection_key] = self.random.randint(0, int(needed_emblems/10))
+            # Add to the map if not already processed
+            if connection_key not in processed_connections:
+                if connection_key is None:  # TODO: Fix
+                    continue
+                if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
+                    area_map[connection_key] = 0
+                else:
+                    # TODO: Use an algorithm to determine how close the area is to any starter position
+                    # So the closer the area is to a starter position, the cheaper it is
+                    area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
 
-            processed_connections.add(connection_key)
+                processed_connections.add(connection_key)
 
-    # Print the resulting map
-    print(area_map)
 
     for (character, area_from, area_to), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                           expert_dx_logic_items,
@@ -325,7 +333,8 @@ def connect_regions(self, needed_emblems: int):
                                                 requirement_group in items))
                 # TODO: Add emblem requirement
                 else:
-                    emblem_requirement = area_map[tuple(sorted((area_from, area_to)))]
+                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
                     region_from.connect(region_to, entrance_name,
                                         lambda state, emblems=emblem_requirement:
                                         state.has("Emblem", self.player, emblems))
+    return area_map
