@@ -15,7 +15,7 @@ from .Regions import create_sadx_regions, get_location_ids_for_area
 from .Rules import create_sadx_rules, LocationDistribution
 from .StartingSetup import StarterSetup, generate_early_sadx, write_sadx_spoiler, CharacterArea
 
-sadx_version = 112
+sadx_version = 120
 
 
 class SonicAdventureDXWeb(WebWorld):
@@ -187,6 +187,7 @@ class SonicAdventureDXWorld(World):
         return self.random.choice(filler_item_table).name
 
     def set_rules(self):
+        # TODO: Override for UT
         self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive)
 
     def write_spoiler(self, spoiler_handle: typing.TextIO):
@@ -231,6 +232,7 @@ class SonicAdventureDXWorld(World):
             "LevelForPerfectChaos": self.location_distribution.levels_for_perfect_chaos,
             "MissionForPerfectChaos": self.location_distribution.missions_for_perfect_chaos,
             "BossesForPerfectChaos": self.location_distribution.bosses_for_perfect_chaos,
+            "EntranceEmblemValueMap": self.location_distribution.entrance_emblem_value_map,
             "StartingCharacter": self.starter_setup.character.value,
             "StartingArea": self.starter_setup.area.value,
             "SonicStartingArea": self.starter_setup.get_starting_area(Character.Sonic).value,
