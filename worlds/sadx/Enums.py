@@ -198,36 +198,48 @@ class AreaConnection(Enum):
     CityHall_to_SpeedHighway = (Area.CityHall, Area.SpeedHighway)
     CityHall_to_Chaos0 = (Area.CityHall, Area.Chaos0)
 
-    # Station + Casino
+    # Station
     Station_to_SSMain = (Area.Station, Area.SSMain)
     Station_to_MrMain = (Area.Station, Area.MRMain)
-    Station_to_Casinopolis = (Area.Station, Area.Casinopolis)
-    Station_to_Hotel = (Area.Station, Area.Hotel)
-    Station_to_EggWalker = (Area.Station, Area.EggWalker)
+    Station_to_Casino = (Area.Station, Area.Casino)
+
+    # Casino
+    Casino_to_Station = (Area.Casino, Area.Station)
+    Station_to_Casinopolis = (Area.Casino, Area.Casinopolis)
+    Station_to_Hotel = (Area.Casino, Area.Hotel)
+    Station_to_EggWalker = (Area.Casino, Area.EggWalker)
 
     # Sewers
     Sewers_to_CityHall = (Area.Sewers, Area.CityHall)
-    Sewers_to_SSMain = (Area.Sewers, Area.SSMain)
+    Sewers_to_TPTunnel = (Area.Sewers, Area.TPTunnel)
 
     # SSMain
     SSMain_to_Hotel = (Area.SSMain, Area.Hotel)
     SSMain_to_Station = (Area.SSMain, Area.Station)
     SSMain_to_CityHall = (Area.SSMain, Area.CityHall)
-    SSMain_to_TwinkleParkLobby = (Area.SSMain, Area.TPLobby)
+    SSMain_to_TwinkleParkTunnel = (Area.SSMain, Area.TPTunnel)
     SSMain_to_EcOutside = (Area.SSMain, Area.ECOutside)
     SSMain_to_Bridge = (Area.SSMain, Area.ECBridge)
-    SSMain_to_Sewers = (Area.SSMain, Area.Sewers)
     SSMain_to_SpeedHighway = (Area.SSMain, Area.SpeedHighway)
 
     # Hotel
     Hotel_to_SSMain = (Area.Hotel, Area.SSMain)
-    Hotel_to_Station = (Area.Hotel, Area.Station)
-    Hotel_to_EmeraldCoast = (Area.Hotel, Area.EmeraldCoast)
+    Hotel_to_Casino = (Area.Hotel, Area.Casino)
     Hotel_to_SsChaoGarden = (Area.Hotel, Area.SSChaoGarden)
     Hotel_to_Chaos2 = (Area.Hotel, Area.Chaos2)
+    Hotel_to_HotelPool = (Area.Hotel, Area.HotelPool)
+
+    # Hotel Pool
+    HotelPool_to_Hotel = (Area.HotelPool, Area.Hotel)
+    HotelPool_to_EmeraldCoast = (Area.HotelPool, Area.EmeraldCoast)
+
+    # Twinkle Park Tunnel
+    TwinkleParkTunnel_to_SSMain = (Area.TPTunnel, Area.SSMain)
+    TwinkleParkTunnel_to_TwinkleParkLobby = (Area.TPTunnel, Area.TPLobby)
+    TwinkleParkTunnel_to_Sewers = (Area.TPTunnel, Area.Sewers)
 
     # Twinkle Park Lobby
-    TwinkleParkLobby_to_SSMain = (Area.TPLobby, Area.SSMain)
+    TwinkleParkLobby_to_TwinkleParkTunnel = (Area.TPLobby, Area.TPTunnel)
     TwinkleParkLobby_to_TwinklePark = (Area.TPLobby, Area.TwinklePark)
     TwinkleParkLobby_to_TwinkleCircuit = (Area.TPLobby, Area.TwinkleCircuit)
 
@@ -245,9 +257,13 @@ class AreaConnection(Enum):
 
     # Angel Island
     AngelIsland_to_MrMain = (Area.AngelIsland, Area.MRMain)
-    AngelIsland_to_IceCap = (Area.AngelIsland, Area.IceCap)
+    AngelIsland_to_IceCap = (Area.AngelIsland, Area.IceCave)
     AngelIsland_to_RedMountain = (Area.AngelIsland, Area.RedMountain)
     AngelIsland_to_PastAltar = (Area.AngelIsland, Area.PastAltar)
+
+    # Ice Cave
+    IceCap_to_AngelIsland = (Area.IceCave, Area.AngelIsland)
+    IceCap_to_IceCap = (Area.IceCave, Area.IceCap)
 
     # Past Altar
     PastAltar_to_AngelIsland = (Area.PastAltar, Area.AngelIsland)
