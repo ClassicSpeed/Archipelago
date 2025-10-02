@@ -274,8 +274,6 @@ def connect_regions(self, needed_emblems: int):
 
             # Add to the map if not already processed
             if connection_key not in processed_connections:
-                if connection_key is None:  # TODO: Fix
-                    continue
                 if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                     area_map[connection_key] = 0
                 else:
@@ -284,7 +282,6 @@ def connect_regions(self, needed_emblems: int):
                     area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
 
                 processed_connections.add(connection_key)
-
 
     for (character, area_from, area_to), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                           expert_dx_logic_items,
@@ -309,32 +306,24 @@ def connect_regions(self, needed_emblems: int):
         else:
             key_items = normal_logic_items
 
-        # TODO
-        entrance_name = None
-        # if Area.EmeraldCoast.value <= area_to.value <= Area.HotShelter.value:
-        #     entrance_name = get_entrance_name(character, area_to)
-        # else:
-        #     entrance_name = None
-
         if region_from and region_to:
             if not key_items or self.options.gating_mode == 0:
-                region_from.connect(region_to, entrance_name)
+                region_from.connect(region_to)
             else:
                 if self.options.gating_mode == 1:
                     if all(isinstance(item, str) for item in key_items):
-                        region_from.connect(region_to, entrance_name,
+                        region_from.connect(region_to,
                                             lambda state, items=key_items: all(
                                                 state.has(item, self.player) for item in items))
                     else:
-                        region_from.connect(region_to, entrance_name,
+                        region_from.connect(region_to,
                                             lambda state, items=key_items: any(
                                                 all(state.has(item, self.player) for item in requirement_group)
                                                 for
                                                 requirement_group in items))
-                # TODO: Add emblem requirement
                 else:
                     emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
-                    region_from.connect(region_to, entrance_name,
+                    region_from.connect(region_to,
                                         lambda state, emblems=emblem_requirement:
                                         state.has("Emblem", self.player, emblems))
     return area_map

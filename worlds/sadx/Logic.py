@@ -314,7 +314,6 @@ P_BIG = Character.Big
 P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
-
 area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
@@ -331,7 +330,9 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
     (Character.Sonic, Area.Station, Area.MRMain): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Sonic, Area.Station, Area.Casino): ([ShutterKey], [ShutterKey], [], [], []),
     (Character.Sonic, Area.Casino, Area.Station): ([ShutterKey], [ShutterKey], [ShutterKey], [], []),
-    (Character.Sonic, Area.Casino, Area.Casinopolis): ([LightShoes], [LightShoes], [], [], []),
+    (Character.Sonic, Area.Casino, Area.Casinopolis): (
+        [EMBLEM_BLOCKED, LightShoes], [EMBLEM_BLOCKED, LightShoes], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
+        [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Casino, Area.Hotel): ([CasinoKey], [CasinoKey], [], [], []),
     (Character.Sonic, Area.Casino, Area.EggWalker): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
@@ -384,12 +385,9 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.MRMain, Area.AngelIsland): ([Dynamite], [Dynamite], [], [], []),
     (Character.Sonic, Area.AngelIsland, Area.MRMain): ([Dynamite], [Dynamite], [], [], []),
-    (Character.Sonic, Area.AngelIsland, Area.IceCave): (
-        [[IceStone, ShutterKey, Train, Dynamite], [IceStone, StationKey, HotelKey, CasinoKey, Train, Dynamite]],
-        [[IceStone, ShutterKey, Train, Dynamite], [IceStone, StationKey, HotelKey, CasinoKey, Train, Dynamite]], [], [],
-        []),
+    (Character.Sonic, Area.AngelIsland, Area.IceCave): ([IceStone], [IceStone], [], [], []),
     (Character.Sonic, Area.AngelIsland, Area.RedMountain): (
-        [LightShoes, AncientLight], [LightShoes, AncientLight], [], [], []),
+        [EMBLEM_BLOCKED, LightShoes, AncientLight], [EMBLEM_BLOCKED, LightShoes, AncientLight], [], [], []),
     (Character.Sonic, Area.AngelIsland, Area.PastAltar): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Sonic, Area.IceCave, Area.AngelIsland): (
@@ -485,7 +483,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
     (Character.Sonic, Area.ECInside, Area.HotShelter): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Sonic, Area.ECInside, Area.HedgehogHammer): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Sonic, Area.ECInside, Area.FinalEggTower): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECInside, Area.WarpHall): (
@@ -579,25 +577,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.MRMain, Area.AngelIsland): ([Dynamite], [Dynamite], [], [], []),
     (Character.Tails, Area.AngelIsland, Area.MRMain): ([Dynamite], [Dynamite], [], [], []),
-    (Character.Tails, Area.AngelIsland, Area.IceCave): ([[IceStone,
-                                                          ShutterKey,
-                                                          Train,
-                                                          Dynamite],
-                                                         [IceStone,
-                                                          StationKey,
-                                                          HotelKey,
-                                                          CasinoKey,
-                                                          Train,
-                                                          Dynamite]], [[IceStone,
-                                                                        ShutterKey,
-                                                                        Train,
-                                                                        Dynamite],
-                                                                       [IceStone,
-                                                                        StationKey,
-                                                                        HotelKey,
-                                                                        CasinoKey,
-                                                                        Train,
-                                                                        Dynamite]], [], [], []),
+    (Character.Tails, Area.AngelIsland, Area.IceCave): ([IceStone], [IceStone], [], [], []),
     (Character.Tails, Area.AngelIsland, Area.RedMountain): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.AngelIsland, Area.PastAltar): (
@@ -696,7 +676,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
     (Character.Tails, Area.ECInside, Area.HotShelter): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.ECInside, Area.HedgehogHammer): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.ECInside, Area.FinalEggTower): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECInside, Area.WarpHall): (
@@ -799,7 +779,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
     (Character.Knuckles, Area.AngelIsland, Area.IceCave): ([IceStone], [IceStone], [], [IceStone], [[IceStone],
                                                                                                     [ShovelClaw]]),
     (Character.Knuckles, Area.AngelIsland, Area.RedMountain): (
-        [ShovelClaw, Dynamite], [ShovelClaw, Dynamite], [ShovelClaw, Dynamite], [], []),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], []),
     (Character.Knuckles, Area.AngelIsland, Area.PastAltar): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Knuckles, Area.IceCave, Area.AngelIsland): (
@@ -820,7 +800,8 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [JungleCart], [JungleCart], [JungleCart], [JungleCart], [JungleCart]),
     (Character.Knuckles, Area.Jungle, Area.LostWorld): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Knuckles, Area.Jungle, Area.LostWorld): (
-        [ShovelClaw], [ShovelClaw], [ShovelClaw], [ShovelClaw], [ShovelClaw]),
+        [EMBLEM_BLOCKED, ShovelClaw], [EMBLEM_BLOCKED, ShovelClaw], [EMBLEM_BLOCKED, ShovelClaw],
+        [EMBLEM_BLOCKED, ShovelClaw], [EMBLEM_BLOCKED, ShovelClaw]),
     (Character.Knuckles, Area.Jungle, Area.SandHill): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.Jungle, Area.FinalEggTower): (
@@ -896,7 +877,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
     (Character.Knuckles, Area.ECInside, Area.HotShelter): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.ECInside, Area.HedgehogHammer): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.ECInside, Area.FinalEggTower): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.WarpHall): (
@@ -1173,53 +1154,7 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Big, Area.MRMain, Area.AngelIsland): ([Dynamite], [Dynamite], [Dynamite], [Dynamite], [Dynamite]),
     (Character.Big, Area.AngelIsland, Area.MRMain): ([Dynamite], [Dynamite], [Dynamite], [Dynamite], [Dynamite]),
-    (Character.Big, Area.AngelIsland, Area.IceCave): ([[IceStone,
-                                                        StationKey,
-                                                        Train,
-                                                        Dynamite],
-                                                       [IceStone,
-                                                        HotelKey,
-                                                        CasinoKey,
-                                                        ShutterKey,
-                                                        Train,
-                                                        Dynamite]], [[IceStone,
-                                                                      StationKey,
-                                                                      Train,
-                                                                      Dynamite],
-                                                                     [IceStone,
-                                                                      HotelKey,
-                                                                      CasinoKey,
-                                                                      ShutterKey,
-                                                                      Train,
-                                                                      Dynamite]], [[IceStone,
-                                                                                    StationKey,
-                                                                                    Train,
-                                                                                    Dynamite],
-                                                                                   [IceStone,
-                                                                                    HotelKey,
-                                                                                    CasinoKey,
-                                                                                    ShutterKey,
-                                                                                    Train,
-                                                                                    Dynamite]], [[IceStone,
-                                                                                                  StationKey,
-                                                                                                  Train,
-                                                                                                  Dynamite],
-                                                                                                 [IceStone,
-                                                                                                  HotelKey,
-                                                                                                  CasinoKey,
-                                                                                                  ShutterKey,
-                                                                                                  Train,
-                                                                                                  Dynamite]],
-                                                      [[IceStone,
-                                                        StationKey,
-                                                        Train,
-                                                        Dynamite],
-                                                       [IceStone,
-                                                        HotelKey,
-                                                        CasinoKey,
-                                                        ShutterKey,
-                                                        Train,
-                                                        Dynamite]]),
+    (Character.Big, Area.AngelIsland, Area.IceCave): ([IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Big, Area.AngelIsland, Area.RedMountain): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Big, Area.AngelIsland, Area.PastAltar): (
