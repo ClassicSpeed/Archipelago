@@ -262,7 +262,7 @@ def connect_regions(self, needed_emblems: int):
     # Initialize the key-value map
     area_map = {}
     # # define table of region to region prices
-    if self.options.gating_mode == 2:
+    if self.options.gating_mode == 0:
 
         # Set to track processed connections
         processed_connections = set()
@@ -307,7 +307,7 @@ def connect_regions(self, needed_emblems: int):
             key_items = normal_logic_items
 
         if region_from and region_to:
-            if not key_items or self.options.gating_mode == 0:
+            if not key_items or self.options.gating_mode == 2:
                 region_from.connect(region_to)
             else:
                 if self.options.gating_mode == 1:
@@ -322,6 +322,7 @@ def connect_regions(self, needed_emblems: int):
                                                 for
                                                 requirement_group in items))
                 else:
+                    # TODO: remove from logic items with empty lists
                     emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
                     region_from.connect(region_to,
                                         lambda state, emblems=emblem_requirement:

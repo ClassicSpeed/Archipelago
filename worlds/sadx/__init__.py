@@ -86,6 +86,7 @@ class SonicAdventureDXWorld(World):
                 self.options.goal_requires_chao_races.value = passthrough["GoalRequiresChaoRaces"]
                 self.options.logic_level.value = passthrough["LogicLevel"]
                 self.options.entrance_randomizer.value = passthrough["EntranceRandomizer"]
+                self.options.gating_mode.value = passthrough["GatingMode"]
 
                 self.options.playable_sonic.value = passthrough["PlayableSonic"]
                 self.options.playable_tails.value = passthrough["PlayableTails"]
@@ -228,6 +229,7 @@ class SonicAdventureDXWorld(World):
             "BossPercentage": self.options.boss_percentage.value,
             "GoalRequiresChaoRaces": self.options.goal_requires_chao_races.value,
             "LogicLevel": self.options.logic_level.value,
+            "GatingMode": self.options.gating_mode.value,
             "EmblemsForPerfectChaos": self.item_distribution.emblem_count_progressive,
             "LevelForPerfectChaos": self.location_distribution.levels_for_perfect_chaos,
             "MissionForPerfectChaos": self.location_distribution.missions_for_perfect_chaos,
