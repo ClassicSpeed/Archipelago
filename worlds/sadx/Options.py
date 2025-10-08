@@ -187,15 +187,15 @@ class LevelEntrancePlando(OptionDict):
 class GatingMode(Choice):
     """
     Determines how the rando will close off parts of the adventure field.
-    None (0): No gating, all areas are always accessible.
+    Emblems (0): Areas are gated based on the number of emblems collected.
     KeyItems (1): Areas are gated based on key items like the Train or Station Key
-    Emblems (2): Areas are gated based on the number of emblems collected.
+    None (2): No gating, all areas are always accessible.
     """
     display_name = "Gating Mode"
-    option_no_gating = 0
+    option_emblems_gating = 0
     option_key_items_gating = 1
-    option_emblems_gating = 2
-    default = 2
+    option_no_gating = 2
+    default = 0
 
 
 class SendDeathLinkChance(Range):
