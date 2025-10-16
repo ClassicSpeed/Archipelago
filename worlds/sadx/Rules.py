@@ -258,9 +258,32 @@ def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
     )
 
 
+# Define a function to calculate the "distance" between areas
+def calculate_area_distance(area_from, area_to, starting_areas):
+    # Example heuristic: Check if the area is in the starting areas or nearby
+    if area_from in starting_areas or area_to in starting_areas:
+        return 0  # Closest distance
+    # Add logic to calculate distance based on your area graph or connections
+    # For simplicity, assume a default distance of 1 for now
+    return 1
+
+
+# Assign weights (0 to 5) based on distance
+def assign_area_weights(area_connections, starting_areas):
+    area_weights = {}
+    for (character, area_from, area_to), _ in area_connections.items():
+        distance = calculate_area_distance(area_from, area_to, starting_areas)
+        # Map distance to a weight (0 to 5)
+        weight = min(max(5 - distance, 0), 5)
+        area_weights[AreaConnection.from_areas(area_from, area_to)] = weight
+    return area_weights
+
+
 def connect_regions(self, needed_emblems: int):
     # Initialize the key-value map
     area_map = {}
+    starting_areas = [self.starter_setup.area]
+    area_weights = assign_area_weights(area_connections, starting_areas)
     # # define table of region to region prices
     if self.options.gating_mode == 0:
 
@@ -279,7 +302,9 @@ def connect_regions(self, needed_emblems: int):
                 else:
                     # TODO: Use an algorithm to determine how close the area is to any starter position
                     # So the closer the area is to a starter position, the cheaper it is
-                    area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
+                    # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
+                    weight = area_weights.get(connection_key, 5)  # Default to max weight if not found
+                    area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 15))
 
                 processed_connections.add(connection_key)
 
