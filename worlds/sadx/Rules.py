@@ -2,7 +2,7 @@ import math
 
 from worlds.generic.Rules import add_rule
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character, AreaConnection
+from .Enums import LevelMission, Character, AreaConnection, Area
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -284,7 +284,7 @@ def connect_regions(self, needed_emblems: int):
     area_map = {}
     starting_areas = [self.starter_setup.area]
     area_weights = assign_area_weights(area_connections, starting_areas)
-    # # define table of region to region prices
+
     if self.options.gating_mode == 0:
 
         # Set to track processed connections
@@ -304,7 +304,7 @@ def connect_regions(self, needed_emblems: int):
                     # So the closer the area is to a starter position, the cheaper it is
                     # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
                     weight = area_weights.get(connection_key, 5)  # Default to max weight if not found
-                    area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 15))
+                    area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 5))
 
                 processed_connections.add(connection_key)
 
@@ -331,25 +331,40 @@ def connect_regions(self, needed_emblems: int):
         else:
             key_items = normal_logic_items
 
+        # TODO: Fix connection for Lost World and Final Egg (connects the same areas with different connections)
         if region_from and region_to:
+            # No requirements
             if not key_items or self.options.gating_mode == 2:
                 region_from.connect(region_to)
-            else:
-                if self.options.gating_mode == 1:
-                    if all(isinstance(item, str) for item in key_items):
+            elif self.options.gating_mode == 1:
+                if "EMBLEM_BLOCKED" in key_items:
+                    key_items.remove("EMBLEM_BLOCKED")
+                if "ONLY_RANDO" in key_items:
+                    continue
+
+                if all(isinstance(item, str) for item in key_items):
+                    if "ECSwitchAccess" in key_items:
+                        region_from.connect(region_to,
+                                            lambda state, items=key_items: all(
+                                                state.has(item, self.player) for item in
+                                                items) and state.can_reach_region(
+                                                get_region_name(character,
+                                                                Area.CaptainRoom),
+                                                self.player))
+                    else:
                         region_from.connect(region_to,
                                             lambda state, items=key_items: all(
                                                 state.has(item, self.player) for item in items))
-                    else:
-                        region_from.connect(region_to,
-                                            lambda state, items=key_items: any(
-                                                all(state.has(item, self.player) for item in requirement_group)
-                                                for
-                                                requirement_group in items))
                 else:
-                    # TODO: remove from logic items with empty lists
-                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
                     region_from.connect(region_to,
-                                        lambda state, emblems=emblem_requirement:
-                                        state.has("Emblem", self.player, emblems))
+                                        lambda state, items=key_items: any(
+                                            all(state.has(item, self.player) for item in requirement_group)
+                                            for
+                                            requirement_group in items))
+            else:
+                # TODO: remove from logic items with empty lists
+                emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
+                region_from.connect(region_to,
+                                    lambda state, emblems=emblem_requirement:
+                                    state.has("Emblem", self.player, emblems))
     return area_map
