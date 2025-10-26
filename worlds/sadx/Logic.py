@@ -293,10 +293,9 @@ Train = ItemName.KeyItem.Train
 Boat = ItemName.KeyItem.Boat
 Raft = ItemName.KeyItem.Raft
 
-EMBLEM_BLOCKED = ItemName.KeyItem.HotelKey  # TODO
-ONLY_RANDO = ItemName.KeyItem.HotelKey  # TODO
-ECSwitchAccess = ItemName.KeyItem.HotelKey  # TODO
-AllLures = ItemName.Big.Lure1  # TODO
+EMBLEM_BLOCKED = "EMBLEM_BLOCKED"  # TODO
+ONLY_RANDO = "ONLY_RANDO"  # TODO
+ECSwitchAccess = "ECSwitchAccess"  # TODO
 
 LightShoes = ItemName.Sonic.LightShoes
 AncientLight = ItemName.Sonic.AncientLight
@@ -304,6 +303,10 @@ ShovelClaw = ItemName.Knuckles.ShovelClaw
 LifeBelt = ItemName.Big.LifeBelt
 JetBooster = ItemName.Gamma.JetBooster
 JetAnklet = ItemName.Tails.JetAnklet
+Lure1 = ItemName.Big.Lure1
+Lure2 = ItemName.Big.Lure2
+Lure3 = ItemName.Big.Lure3
+Lure4 = ItemName.Big.Lure4
 
 P_SONIC = Character.Sonic
 P_TAILS = Character.Tails
@@ -314,6 +317,7 @@ P_BIG = Character.Big
 P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
+
 area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
@@ -1485,11 +1489,13 @@ area_connections: Dict[Tuple[Character, Area, Area], Tuple[List[str], List[str],
 
 level_location_table: List[LevelLocation] = [
     LevelLocation(6002, Area.TwinklePark, Character.Big, LevelMission.C, [], [], [], [], []),
-    LevelLocation(6001, Area.TwinklePark, Character.Big, LevelMission.B, [AllLures], [], [], [], []),
-    LevelLocation(6000, Area.TwinklePark, Character.Big, LevelMission.A, [AllLures], [AllLures], [AllLures], [AllLures],
-                  [AllLures]),
-    LevelLocation(6003, Area.TwinklePark, Character.Big, LevelMission.S, [AllLures], [AllLures], [AllLures], [AllLures],
-                  [AllLures]),
+    LevelLocation(6001, Area.TwinklePark, Character.Big, LevelMission.B, [Lure1, Lure2, Lure3, Lure4], [], [], [], []),
+    LevelLocation(6000, Area.TwinklePark, Character.Big, LevelMission.A, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4]),
+    LevelLocation(6003, Area.TwinklePark, Character.Big, LevelMission.S, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4]),
     LevelLocation(3002, Area.SpeedHighway, Character.Knuckles, LevelMission.C, [], [], [], [], []),
     LevelLocation(3001, Area.SpeedHighway, Character.Knuckles, LevelMission.B, [], [], [], [], []),
     LevelLocation(3000, Area.SpeedHighway, Character.Knuckles, LevelMission.A, [], [], [], [], []),
@@ -1499,11 +1505,13 @@ level_location_table: List[LevelLocation] = [
     LevelLocation(1000, Area.EmeraldCoast, Character.Sonic, LevelMission.A, [], [], [], [], []),
     LevelLocation(1003, Area.EmeraldCoast, Character.Sonic, LevelMission.S, [], [], [], [], []),
     LevelLocation(6202, Area.EmeraldCoast, Character.Big, LevelMission.C, [], [], [], [], []),
-    LevelLocation(6201, Area.EmeraldCoast, Character.Big, LevelMission.B, [AllLures], [], [], [], []),
-    LevelLocation(6200, Area.EmeraldCoast, Character.Big, LevelMission.A, [AllLures], [AllLures], [AllLures],
-                  [AllLures], [AllLures]),
-    LevelLocation(6203, Area.EmeraldCoast, Character.Big, LevelMission.S, [AllLures], [AllLures], [AllLures],
-                  [AllLures], [AllLures]),
+    LevelLocation(6201, Area.EmeraldCoast, Character.Big, LevelMission.B, [Lure1, Lure2, Lure3, Lure4], [], [], [], []),
+    LevelLocation(6200, Area.EmeraldCoast, Character.Big, LevelMission.A, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4]),
+    LevelLocation(6203, Area.EmeraldCoast, Character.Big, LevelMission.S, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4]),
     LevelLocation(5102, Area.EmeraldCoast, Character.Gamma, LevelMission.C, [], [], [], [], []),
     LevelLocation(5101, Area.EmeraldCoast, Character.Gamma, LevelMission.B, [], [], [], [], []),
     LevelLocation(5100, Area.EmeraldCoast, Character.Gamma, LevelMission.A, [], [], [], [], []),
@@ -1557,11 +1565,13 @@ level_location_table: List[LevelLocation] = [
     LevelLocation(2200, Area.IceCap, Character.Tails, LevelMission.A, [], [], [], [], []),
     LevelLocation(2203, Area.IceCap, Character.Tails, LevelMission.S, [], [], [], [], []),
     LevelLocation(6102, Area.IceCap, Character.Big, LevelMission.C, [], [], [], [], []),
-    LevelLocation(6101, Area.IceCap, Character.Big, LevelMission.B, [AllLures], [], [], [], []),
-    LevelLocation(6100, Area.IceCap, Character.Big, LevelMission.A, [AllLures], [AllLures], [AllLures], [AllLures],
-                  [AllLures]),
-    LevelLocation(6103, Area.IceCap, Character.Big, LevelMission.S, [AllLures], [AllLures], [AllLures], [AllLures],
-                  [AllLures]),
+    LevelLocation(6101, Area.IceCap, Character.Big, LevelMission.B, [Lure1, Lure2, Lure3, Lure4], [], [], [], []),
+    LevelLocation(6100, Area.IceCap, Character.Big, LevelMission.A, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4]),
+    LevelLocation(6103, Area.IceCap, Character.Big, LevelMission.S, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4]),
     LevelLocation(1602, Area.RedMountain, Character.Sonic, LevelMission.C, [], [], [], [], []),
     LevelLocation(1601, Area.RedMountain, Character.Sonic, LevelMission.B, [], [], [], [], []),
     LevelLocation(1600, Area.RedMountain, Character.Sonic, LevelMission.A, [], [], [], [], []),
@@ -1611,9 +1621,11 @@ level_location_table: List[LevelLocation] = [
     LevelLocation(4100, Area.HotShelter, Character.Amy, LevelMission.A, [], [], [], [], []),
     LevelLocation(4103, Area.HotShelter, Character.Amy, LevelMission.S, [], [], [], [], []),
     LevelLocation(6302, Area.HotShelter, Character.Big, LevelMission.C, [], [], [], [], []),
-    LevelLocation(6301, Area.HotShelter, Character.Big, LevelMission.B, [AllLures], [], [], [], []),
-    LevelLocation(6300, Area.HotShelter, Character.Big, LevelMission.A, [AllLures], [AllLures], [], [], []),
-    LevelLocation(6303, Area.HotShelter, Character.Big, LevelMission.S, [AllLures], [AllLures], [], [], []),
+    LevelLocation(6301, Area.HotShelter, Character.Big, LevelMission.B, [Lure1, Lure2, Lure3, Lure4], [], [], [], []),
+    LevelLocation(6300, Area.HotShelter, Character.Big, LevelMission.A, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [], [], []),
+    LevelLocation(6303, Area.HotShelter, Character.Big, LevelMission.S, [Lure1, Lure2, Lure3, Lure4],
+                  [Lure1, Lure2, Lure3, Lure4], [], [], []),
     LevelLocation(5402, Area.HotShelter, Character.Gamma, LevelMission.C, [JetBooster], [JetBooster], [], [], []),
     LevelLocation(5401, Area.HotShelter, Character.Gamma, LevelMission.B, [JetBooster], [JetBooster], [], [], []),
     LevelLocation(5400, Area.HotShelter, Character.Gamma, LevelMission.A, [JetBooster], [JetBooster], [], [], []),
@@ -3231,7 +3243,8 @@ capsule_location_table: List[CapsuleLocation] = [
 fish_location_table: List[FishLocation] = [
     FishLocation(950, Area.TwinklePark, Fish.LargemouthBass, [], [], [], [], []),
     FishLocation(951, Area.TwinklePark, Fish.Piranha, [], [], [], [], []),
-    FishLocation(952, Area.TwinklePark, Fish.MechaFish, [AllLures], [AllLures], [AllLures], [AllLures], [AllLures]),
+    FishLocation(952, Area.TwinklePark, Fish.MechaFish, [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                 [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4]),
     FishLocation(953, Area.EmeraldCoast, Fish.Hammerhead, [], [], [], [], []),
     FishLocation(954, Area.EmeraldCoast, Fish.StripedBeakfish, [], [], [], [], []),
     FishLocation(955, Area.EmeraldCoast, Fish.MechaFish, [], [], [], [], []),
@@ -3239,7 +3252,8 @@ fish_location_table: List[FishLocation] = [
     FishLocation(957, Area.EmeraldCoast, Fish.SeaBass, [], [], [], [], []),
     FishLocation(958, Area.EmeraldCoast, Fish.RedSeaBream, [], [], [], [], []),
     FishLocation(959, Area.EmeraldCoast, Fish.MorayEel, [], [], [], [], []),
-    FishLocation(960, Area.EmeraldCoast, Fish.BlueMarlin, [AllLures], [AllLures], [AllLures], [AllLures], [AllLures]),
+    FishLocation(960, Area.EmeraldCoast, Fish.BlueMarlin, [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                 [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4]),
     FishLocation(961, Area.IceCap, Fish.Hammerhead, [], [], [], [], []),
     FishLocation(962, Area.IceCap, Fish.MechaFish, [], [], [], [], []),
     FishLocation(963, Area.IceCap, Fish.LargemouthBass, [], [], [], [], []),
@@ -3250,7 +3264,8 @@ fish_location_table: List[FishLocation] = [
     FishLocation(968, Area.HotShelter, Fish.Hammerhead, [], [], [], [], []),
     FishLocation(969, Area.HotShelter, Fish.Oarfish, [LifeBelt], [], [], [], []),
     FishLocation(970, Area.HotShelter, Fish.Shark, [], [], [], [], []),
-    FishLocation(971, Area.HotShelter, Fish.Coelacanth, [AllLures], [AllLures], [AllLures], [AllLures], [AllLures]),
+    FishLocation(971, Area.HotShelter, Fish.Coelacanth, [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4],
+                 [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4], [Lure1, Lure2, Lure3, Lure4]),
     FishLocation(972, Area.HotShelter, Fish.MorayEel, [LifeBelt], [], [], [], []),
 ]
 
