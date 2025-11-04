@@ -333,12 +333,19 @@ def connect_regions(self, needed_emblems: int):
 
         # TODO: Fix connection for Lost World and Final Egg (connects the same areas with different connections)
         if region_from and region_to:
-            # No requirements
-            if not key_items or self.options.gating_mode == 2:
+            # No requirements TODO: Remove only emblem/key items
+            if self.options.gating_mode == 2:
+                if "ONLY_RANDO" in key_items:
+                    continue
+
                 region_from.connect(region_to)
+            # Key Items
             elif self.options.gating_mode == 1:
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
+                    if not key_items:
+                        region_from.connect(region_to)
+                        continue
                 if "ONLY_RANDO" in key_items:
                     continue
 
@@ -361,10 +368,38 @@ def connect_regions(self, needed_emblems: int):
                                             all(state.has(item, self.player) for item in requirement_group)
                                             for
                                             requirement_group in items))
-            else:
-                # TODO: remove from logic items with empty lists
-                emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
-                region_from.connect(region_to,
-                                    lambda state, emblems=emblem_requirement:
-                                    state.has("Emblem", self.player, emblems))
+            # Emblem gating
+            elif self.options.gating_mode == 0:
+                # TODO: Use this on randomization
+                if "ONLY_RANDO" in key_items:
+                    continue
+
+                if not key_items:
+                    region_from.connect(region_to)
+
+                # Replace any key items with EMBLEM_BLOCKED
+                if any(item in vars(ItemName.KeyItem).values() for item in key_items):
+                    key_items = ["EMBLEM_BLOCKED" if item in vars(ItemName.KeyItem).values() else item for item in
+                                 key_items]
+
+                if "EMBLEM_BLOCKED" in key_items:
+                    key_items.remove("EMBLEM_BLOCKED")
+                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
+                    if not key_items:
+                        region_from.connect(region_to,
+                                            lambda state, emblems=emblem_requirement:
+                                            state.has("Emblem", self.player, emblems))
+                    else:
+                        region_from.connect(region_to,
+                                            lambda state, items=key_items, emblems=emblem_requirement: all(
+                                                state.has(item, self.player) for item in items) and
+                                                                                                       state.has(
+                                                                                                           "Emblem",
+                                                                                                           self.player,
+                                                                                                           emblems))
+                else:
+                    region_from.connect(region_to,
+                                        lambda state, items=key_items: all(
+                                            state.has(item, self.player) for item in items))
+
     return area_map
