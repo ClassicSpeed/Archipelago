@@ -189,12 +189,10 @@ class GatingMode(Choice):
     Determines how the rando will close off parts of the adventure field.
     Emblems (0): Areas are gated based on the number of emblems collected.
     KeyItems (1): Areas are gated based on key items like the Train or Station Key
-    None (2): No gating, all areas are always accessible.
     """
     display_name = "Gating Mode"
     option_emblems_gating = 0
     option_key_items_gating = 1
-    option_no_gating = 2
     default = 0
 
 
