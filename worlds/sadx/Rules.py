@@ -333,14 +333,7 @@ def connect_regions(self, needed_emblems: int):
 
         # TODO: Fix connection for Lost World and Final Egg (connects the same areas with different connections)
         if region_from and region_to:
-            # No requirements TODO: Remove only emblem/key items
-            if self.options.gating_mode == 2:
-                if "ONLY_RANDO" in key_items:
-                    continue
-
-                region_from.connect(region_to)
-            # Key Items
-            elif self.options.gating_mode == 1:
+            if self.options.gating_mode == 1:
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
                     if not key_items:
@@ -375,7 +368,8 @@ def connect_regions(self, needed_emblems: int):
                     continue
 
                 if not key_items:
-                    region_from.connect(region_to)
+                    region_from.connect(region_to, name=entranceName)
+                    continue
 
                 # Replace any key items with EMBLEM_BLOCKED
                 if any(item in vars(ItemName.KeyItem).values() for item in key_items):
