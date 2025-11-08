@@ -271,7 +271,7 @@ def calculate_area_distance(area_from, area_to, starting_areas):
 # Assign weights (0 to 5) based on distance
 def assign_area_weights(area_connections, starting_areas):
     area_weights = {}
-    for (character, area_from, area_to), _ in area_connections.items():
+    for (character, area_from, area_to, is_alternative), _ in area_connections.items():
         distance = calculate_area_distance(area_from, area_to, starting_areas)
         # Map distance to a weight (0 to 5)
         weight = min(max(5 - distance, 0), 5)
@@ -291,7 +291,7 @@ def connect_regions(self, needed_emblems: int):
         processed_connections = set()
 
         # Iterate through area_connections
-        for (character, area_from, area_to), _ in area_connections.items():
+        for (character, area_from, area_to, is_alternative), _ in area_connections.items():
             # Create a sorted tuple of areas to ensure uniqueness
             connection_key = AreaConnection.from_areas(area_from, area_to)
 
@@ -308,9 +308,9 @@ def connect_regions(self, needed_emblems: int):
 
                 processed_connections.add(connection_key)
 
-    for (character, area_from, area_to), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
-                                          expert_dx_logic_items,
-                                          expert_plus_dx_logic_items) in area_connections.items():
+    for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
+                                                          expert_dx_logic_items,
+                                                          expert_plus_dx_logic_items) in area_connections.items():
 
         if self.options.entrance_randomizer:
             actual_area = self.starter_setup.level_mapping.get(area_to, area_to)
@@ -333,12 +333,14 @@ def connect_regions(self, needed_emblems: int):
 
         # TODO: Fix connection for Lost World and Final Egg (connects the same areas with different connections)
         if region_from and region_to:
+            # Key item gating
             if self.options.gating_mode == 1:
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
                     if not key_items:
                         region_from.connect(region_to)
                         continue
+                # TODO: Use this on randomization
                 if "ONLY_RANDO" in key_items:
                     continue
 
@@ -368,7 +370,7 @@ def connect_regions(self, needed_emblems: int):
                     continue
 
                 if not key_items:
-                    region_from.connect(region_to, name=entranceName)
+                    region_from.connect(region_to)
                     continue
 
                 # Replace any key items with EMBLEM_BLOCKED
