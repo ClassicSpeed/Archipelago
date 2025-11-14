@@ -171,8 +171,8 @@ def calculate_rules(self, location: LocationInfo):
             add_fish_rules(self, location["name"], fish)
 
 
-def create_sadx_rules(self, needed_emblems: int) -> LocationDistribution:
-    area_map = connect_regions(self, needed_emblems)
+def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistribution:
+    area_map = connect_regions(self, needed_emblems, area_map)
 
     levels_for_perfect_chaos = 0
     missions_for_perfect_chaos = 0
@@ -279,9 +279,10 @@ def assign_area_weights(area_connections, starting_areas):
     return area_weights
 
 
-def connect_regions(self, needed_emblems: int):
+def connect_regions(self, needed_emblems: int, area_map=None):
     # Initialize the key-value map
-    area_map = {}
+    if area_map is None:
+        area_map = {}
     starting_areas = [self.starter_setup.area]
     area_weights = assign_area_weights(area_connections, starting_areas)
 
@@ -290,23 +291,24 @@ def connect_regions(self, needed_emblems: int):
         # Set to track processed connections
         processed_connections = set()
 
-        # Iterate through area_connections
-        for (character, area_from, area_to, is_alternative), _ in area_connections.items():
-            # Create a sorted tuple of areas to ensure uniqueness
-            connection_key = AreaConnection.from_areas(area_from, area_to)
+        if area_map == {}:
+            # Iterate through area_connections
+            for (character, area_from, area_to, is_alternative), _ in area_connections.items():
+                # Create a sorted tuple of areas to ensure uniqueness
+                connection_key = AreaConnection.from_areas(area_from, area_to)
 
-            # Add to the map if not already processed
-            if connection_key not in processed_connections:
-                if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
-                    area_map[connection_key] = 0
-                else:
-                    # TODO: Use an algorithm to determine how close the area is to any starter position
-                    # So the closer the area is to a starter position, the cheaper it is
-                    # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
-                    weight = area_weights.get(connection_key, 5)  # Default to max weight if not found
-                    area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 5))
+                # Add to the map if not already processed
+                if connection_key not in processed_connections:
+                    if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
+                        area_map[connection_key] = 0
+                    else:
+                        # TODO: Use an algorithm to determine how close the area is to any starter position
+                        # So the closer the area is to a starter position, the cheaper it is
+                        # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
+                        weight = area_weights.get(connection_key, 5)  # Default to max weight if not found
+                        area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 5))
 
-                processed_connections.add(connection_key)
+                    processed_connections.add(connection_key)
 
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
@@ -331,7 +333,6 @@ def connect_regions(self, needed_emblems: int):
         else:
             key_items = normal_logic_items
 
-        # TODO: Fix connection for Lost World and Final Egg (connects the same areas with different connections)
         if region_from and region_to:
             # Key item gating
             if self.options.gating_mode == 1:

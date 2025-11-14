@@ -4,7 +4,7 @@ from typing import Dict, Any
 from BaseClasses import Tutorial, Region
 from worlds.AutoWorld import WebWorld, World
 from .CharacterUtils import get_playable_characters
-from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas
+from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas, AreaConnection
 from .ItemPool import create_sadx_items, get_item_names, ItemDistribution
 from .Items import SonicAdventureDXItem, group_item_table, item_name_to_info, filler_item_table
 from .Locations import all_location_table, group_location_table
@@ -35,6 +35,7 @@ class SonicAdventureDXWorld(World):
     game = "Sonic Adventure DX"
     web = SonicAdventureDXWeb()
     starter_setup: StarterSetup = StarterSetup()
+    area_map = None
     created_regions: Dict[typing.Tuple[Character, Area], Region] = {}
     item_distribution: ItemDistribution = ItemDistribution()
     location_distribution: LocationDistribution = LocationDistribution()
@@ -71,6 +72,9 @@ class SonicAdventureDXWorld(World):
                 ]
                 self.starter_setup.level_mapping = {Area(int(original)): Area(int(randomized))
                                                     for original, randomized in passthrough["LevelEntranceMap"].items()}
+
+                self.area_map = {AreaConnection.from_index(int(entranceIndex)): int(value)
+                                 for entranceIndex, value in passthrough["EntranceEmblemValueMap"].items()}
 
                 # Options synchronization, needed for weighted values
                 self.options.goal_requires_levels.value = passthrough["GoalRequiresLevels"]
@@ -188,8 +192,8 @@ class SonicAdventureDXWorld(World):
         return self.random.choice(filler_item_table).name
 
     def set_rules(self):
-        # TODO: Override for UT
-        self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive)
+        self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive,
+                                                       self.area_map)
 
     def write_spoiler(self, spoiler_handle: typing.TextIO):
         write_sadx_spoiler(self, spoiler_handle, self.starter_setup, self.options)
