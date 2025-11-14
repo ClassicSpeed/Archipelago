@@ -370,6 +370,10 @@ class AreaConnection(Enum):
     def get_index(self):
         return list(self.__class__.__members__).index(self.name)
 
+    @classmethod
+    def from_index(cls, index):
+        return list(cls.__members__.values())[index]
+
 
 level_areas = [
     Area.EmeraldCoast,
