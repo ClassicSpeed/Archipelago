@@ -56,6 +56,11 @@ def validate_settings(options):
         logging.warning(" -- SADX warning: Zero playable characters in settings. enabling Sonic as a failsafe.")
         options.playable_sonic.value = True
 
+    if options.gating_mode.value == 0 and not options.goal_requires_emblems:
+        logging.warning(
+            " -- SADX warning: Gating mode is set to Emblems and they are not enabled. Enabling emblems as a failsafe.")
+        options.goal_requires_emblems.value = True
+
     if options.starting_character.value > 0:
         if Character(options.starting_character.value) not in get_playable_characters(options):
             logging.warning(
