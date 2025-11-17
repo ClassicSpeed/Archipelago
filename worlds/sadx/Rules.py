@@ -306,10 +306,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         # So the closer the area is to a starter position, the cheaper it is
                         # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
                         weight = area_weights.get(connection_key, 5)  # Default to max weight if not found
-                        area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 5))
+                        area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 10))
 
                     processed_connections.add(connection_key)
-
+    i = 0
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
@@ -334,8 +334,9 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             key_items = normal_logic_items
 
         if region_from and region_to:
+            i += 1
             # Key item gating
-            if self.options.gating_mode == 1:
+            if self.options.gating_mode.value == 1:
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
                     if not key_items:
@@ -365,7 +366,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                             for
                                             requirement_group in items))
             # Emblem gating
-            elif self.options.gating_mode == 0:
+            elif self.options.gating_mode.value == 0:
                 # TODO: Use this on randomization
                 if "ONLY_RANDO" in key_items:
                     continue
@@ -383,19 +384,35 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                     key_items.remove("EMBLEM_BLOCKED")
                     emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
                     if not key_items:
-                        region_from.connect(region_to,
+                        region_from.connect(region_to, character.name + str(i),
                                             lambda state, emblems=emblem_requirement:
                                             state.has("Emblem", self.player, emblems))
                     else:
-                        region_from.connect(region_to,
-                                            lambda state, items=key_items, emblems=emblem_requirement: all(
-                                                state.has(item, self.player) for item in items) and
-                                                                                                       state.has(
-                                                                                                           "Emblem",
-                                                                                                           self.player,
-                                                                                                           emblems))
+                        if "ECSwitchAccess" in key_items:
+                            key_items.remove("ECSwitchAccess")
+                            region_from.connect(region_to, character.name + str(i),
+                                                lambda state, items=key_items, emblems=emblem_requirement: all(
+                                                    state.has(item, self.player) for item in items) and
+                                                                                                           state.has(
+                                                                                                               "Emblem",
+                                                                                                               self.player,
+                                                                                                               emblems) and
+                                                                                                           state.can_reach_region(
+                                                                                                               get_region_name(
+                                                                                                                   character,
+                                                                                                                   Area.CaptainRoom),
+                                                                                                               self.player))
+                        else:
+
+                            region_from.connect(region_to, character.name + str(i),
+                                                lambda state, items=key_items, emblems=emblem_requirement: all(
+                                                    state.has(item, self.player) for item in items) and
+                                                                                                           state.has(
+                                                                                                               "Emblem",
+                                                                                                               self.player,
+                                                                                                               emblems))
                 else:
-                    region_from.connect(region_to,
+                    region_from.connect(region_to, character.name + str(i),
                                         lambda state, items=key_items: all(
                                             state.has(item, self.player) for item in items))
 
