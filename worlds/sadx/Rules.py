@@ -275,7 +275,7 @@ def assign_area_weights(area_connections, starting_areas):
         distance = calculate_area_distance(area_from, area_to, starting_areas)
         # Map distance to a weight (0 to 5)
         weight = min(max(5 - distance, 0), 5)
-        area_weights[AreaConnection.from_areas(area_from, area_to)] = weight
+        area_weights[AreaConnection.from_areas(area_from, area_to)] = weight/5
     return area_weights
 
 
@@ -305,8 +305,8 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         # TODO: Use an algorithm to determine how close the area is to any starter position
                         # So the closer the area is to a starter position, the cheaper it is
                         # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
-                        weight = area_weights.get(connection_key, 5)  # Default to max weight if not found
-                        area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 10))
+                        weight = area_weights.get(connection_key, 0)  # Default to max weight if not found
+                        area_map[connection_key] = self.random.randint(0, int(weight * needed_emblems / 4))
 
                     processed_connections.add(connection_key)
 
