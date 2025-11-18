@@ -3,7 +3,6 @@ from typing import List
 from .Enums import Character, LevelMission
 from .Logic import LevelLocation
 from .Options import SonicAdventureDXOptions
-from ..AutoWorld import World
 
 
 def get_playable_character_item(character: Character) -> str:

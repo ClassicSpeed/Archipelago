@@ -9,7 +9,7 @@ from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocat
     CapsuleLocation, BossFightLocation, MissionLocation, chao_egg_location_table, ChaoEggLocation, \
     chao_race_location_table, enemy_location_table, EnemyLocation, fish_location_table, FishLocation, area_connections
 from .Names import ItemName
-from .Regions import get_region_name
+from .Regions import get_region_name, get_entrance_name
 
 
 class LocationDistribution:
@@ -309,7 +309,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         area_map[connection_key] = self.random.randint(0, weight * int(needed_emblems / 10))
 
                     processed_connections.add(connection_key)
-    i = 0
+
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
@@ -333,8 +333,9 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         else:
             key_items = normal_logic_items
 
+        entrance_name = get_entrance_name(character, region_from, region_to, is_alternative)
+
         if region_from and region_to:
-            i += 1
             # Key item gating
             if self.options.gating_mode.value == 1:
                 if "EMBLEM_BLOCKED" in key_items:
@@ -342,13 +343,12 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                     if not key_items:
                         region_from.connect(region_to)
                         continue
-                # TODO: Use this on randomization
                 if "ONLY_RANDO" in key_items:
                     continue
 
                 if all(isinstance(item, str) for item in key_items):
                     if "ECSwitchAccess" in key_items:
-                        region_from.connect(region_to,
+                        region_from.connect(region_to, entrance_name,
                                             lambda state, items=key_items: all(
                                                 state.has(item, self.player) for item in
                                                 items) and state.can_reach_region(
@@ -356,11 +356,11 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                                                 Area.CaptainRoom),
                                                 self.player))
                     else:
-                        region_from.connect(region_to,
+                        region_from.connect(region_to, entrance_name,
                                             lambda state, items=key_items: all(
                                                 state.has(item, self.player) for item in items))
                 else:
-                    region_from.connect(region_to,
+                    region_from.connect(region_to, entrance_name,
                                         lambda state, items=key_items: any(
                                             all(state.has(item, self.player) for item in requirement_group)
                                             for
@@ -384,13 +384,13 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                     key_items.remove("EMBLEM_BLOCKED")
                     emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
                     if not key_items:
-                        region_from.connect(region_to, character.name + str(i),
+                        region_from.connect(region_to, entrance_name,
                                             lambda state, emblems=emblem_requirement:
                                             state.has("Emblem", self.player, emblems))
                     else:
                         if "ECSwitchAccess" in key_items:
                             key_items.remove("ECSwitchAccess")
-                            region_from.connect(region_to, character.name + str(i),
+                            region_from.connect(region_to, entrance_name,
                                                 lambda state, items=key_items, emblems=emblem_requirement: all(
                                                     state.has(item, self.player) for item in items) and
                                                                                                            state.has(
@@ -404,7 +404,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                                                                                                self.player))
                         else:
 
-                            region_from.connect(region_to, character.name + str(i),
+                            region_from.connect(region_to, entrance_name,
                                                 lambda state, items=key_items, emblems=emblem_requirement: all(
                                                     state.has(item, self.player) for item in items) and
                                                                                                            state.has(
@@ -412,7 +412,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                                                                                                self.player,
                                                                                                                emblems))
                 else:
-                    region_from.connect(region_to, character.name + str(i),
+                    region_from.connect(region_to, entrance_name,
                                         lambda state, items=key_items: all(
                                             state.has(item, self.player) for item in items))
 
