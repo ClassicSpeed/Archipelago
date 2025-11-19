@@ -292,6 +292,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     starter_setup = self.starter_setup
     area_weights = assign_area_weights(starter_setup)
 
+    max_required_emblems = needed_emblems * 0.75
+    print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
+        max_required_emblems) + " for gating.")
+
     if self.options.gating_mode == 0:
 
         # Set to track processed connections
@@ -311,11 +315,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         # TODO: Use an algorithm to determine how close the area is to any starter position
                         # So the closer the area is to a starter position, the cheaper it is
                         weight = min(area_weights.get(area_from, 0), area_weights.get(area_to, 0))
-                        max_required_emblems = needed_emblems / 3
 
-                        min_value = int(max_required_emblems * weight/5)
-                        max_value = int(max_required_emblems * weight)
-                        area_map[connection_key] = self.random.randint(min_value, max_value)
+                        ranges = {0.2: (0.01, 0.1), 0.4: (0.2, 0.3), 0.6: (0.3, 0.6), 0.8: (0.6, 0.8), 1: (0.8, 1)}
+                        min_value, max_value = (max_required_emblems * factor for factor in ranges.get(weight, (0, 0)))
+                        area_map[connection_key] = self.random.randint(int(min_value), int(max_value))
 
                     processed_connections.add(connection_key)
 
