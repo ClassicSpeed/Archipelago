@@ -249,7 +249,7 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
         for key, value in area_map.items()
     }
     # Print the resulting map
-    print(indexed_area_map)
+    print(sorted(indexed_area_map.values()))
     return LocationDistribution(
         levels_for_perfect_chaos=levels_for_perfect_chaos,
         missions_for_perfect_chaos=missions_for_perfect_chaos,
@@ -258,24 +258,30 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
     )
 
 
-# Define a function to calculate the "distance" between areas
-def calculate_area_distance(area_from, area_to, starting_areas):
-    # Example heuristic: Check if the area is in the starting areas or nearby
-    if area_from in starting_areas or area_to in starting_areas:
-        return 0  # Closest distance
-    # Add logic to calculate distance based on your area graph or connections
-    # For simplicity, assume a default distance of 1 for now
-    return 1
+def assign_area_weights(starter_setup) -> dict[Area, float]:
+    # Initialize lists
+    area_tiers = [[starter_setup.area], [], [], [], [], []]
+    remaining_areas = set([area for area in Area]) - {starter_setup.area}
 
+    # Process connections iteratively
+    for i in range(5):
+        for area in area_tiers[i]:
+            connected_areas = {
+                area_to for (character, area_from, area_to, is_alternative), _
+                in area_connections.items() if area_from == area and area_to in remaining_areas
+            }
+            area_tiers[i + 1].extend(connected_areas)
+            remaining_areas -= connected_areas
 
-# Assign weights (0 to 5) based on distance
-def assign_area_weights(area_connections, starting_areas):
-    area_weights = {}
-    for (character, area_from, area_to, is_alternative), _ in area_connections.items():
-        distance = calculate_area_distance(area_from, area_to, starting_areas)
-        # Map distance to a weight (0 to 5)
-        weight = min(max(5 - distance, 0), 5)
-        area_weights[AreaConnection.from_areas(area_from, area_to)] = weight/5
+    # Add remaining areas to list_5
+    area_tiers[5].extend(remaining_areas)
+
+    # Assign weights based on list index
+    area_weights: dict[Area, float] = {}
+    for weight, area_list in enumerate(area_tiers):
+        for area in area_list:
+            area_weights[area] = weight / 5  # Normalize weight to be between 0 and 1
+
     return area_weights
 
 
@@ -283,8 +289,8 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     # Initialize the key-value map
     if area_map is None:
         area_map = {}
-    starting_areas = [self.starter_setup.area]
-    area_weights = assign_area_weights(area_connections, starting_areas)
+    starter_setup = self.starter_setup
+    area_weights = assign_area_weights(starter_setup)
 
     if self.options.gating_mode == 0:
 
@@ -304,9 +310,12 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                     else:
                         # TODO: Use an algorithm to determine how close the area is to any starter position
                         # So the closer the area is to a starter position, the cheaper it is
-                        # area_map[connection_key] = self.random.randint(0, int(needed_emblems / 10))
-                        weight = area_weights.get(connection_key, 0)  # Default to max weight if not found
-                        area_map[connection_key] = self.random.randint(0, int(weight * needed_emblems / 4))
+                        weight = min(area_weights.get(area_from, 0), area_weights.get(area_to, 0))
+                        max_required_emblems = needed_emblems / 3
+
+                        min_value = int(max_required_emblems * weight/5)
+                        max_value = int(max_required_emblems * weight)
+                        area_map[connection_key] = self.random.randint(min_value, max_value)
 
                     processed_connections.add(connection_key)
 
