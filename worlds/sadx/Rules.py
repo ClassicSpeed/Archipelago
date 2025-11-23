@@ -285,6 +285,16 @@ def assign_area_weights(starter_setup) -> dict[Area, float]:
     return area_weights
 
 
+def get_connection_requirement(connection_key, area_map):
+    value = area_map.get(connection_key, -1)
+    if value != -1:
+        return value
+    value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1), -1)
+    if value != -1:
+        return value
+    return -1
+
+
 def connect_regions(self, needed_emblems: int, area_map=None):
     # Initialize the key-value map
     if area_map is None:
@@ -298,29 +308,26 @@ def connect_regions(self, needed_emblems: int, area_map=None):
 
     if self.options.gating_mode == 0:
 
-        # Set to track processed connections
-        processed_connections = set()
-
         if area_map == {}:
             # Iterate through area_connections
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
-                # Create a sorted tuple of areas to ensure uniqueness
+
                 connection_key = AreaConnection.from_areas(area_from, area_to)
+                connection_requirement = get_connection_requirement(connection_key, area_map)
+
                 # TODO: Use reverse connection's requirements (same with EC outside)
-                # Add to the map if not already processed
-                if connection_key not in processed_connections:
+                if connection_requirement != -1:
+                    area_map[connection_key] = connection_requirement
+                else:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
                     else:
-                        # TODO: Use an algorithm to determine how close the area is to any starter position
                         # So the closer the area is to a starter position, the cheaper it is
                         weight = min(area_weights.get(area_from, 0), area_weights.get(area_to, 0))
 
                         ranges = {0.2: (0.01, 0.1), 0.4: (0.2, 0.3), 0.6: (0.3, 0.6), 0.8: (0.6, 0.8), 1: (0.8, 1)}
                         min_value, max_value = (max_required_emblems * factor for factor in ranges.get(weight, (0, 0)))
                         area_map[connection_key] = self.random.randint(int(min_value), int(max_value))
-
-                    processed_connections.add(connection_key)
 
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
