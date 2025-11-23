@@ -205,9 +205,9 @@ class AreaConnection(Enum):
 
     # Casino
     Casino_to_Station = (Area.Casino, Area.Station)
-    Station_to_Casinopolis = (Area.Casino, Area.Casinopolis)
-    Station_to_Hotel = (Area.Casino, Area.Hotel)
-    Station_to_EggWalker = (Area.Casino, Area.EggWalker)
+    Casino_to_Casinopolis = (Area.Casino, Area.Casinopolis)
+    Casino_to_Hotel = (Area.Casino, Area.Hotel)
+    Casino_to_EggWalker = (Area.Casino, Area.EggWalker)
 
     # Sewers
     Sewers_to_CityHall = (Area.Sewers, Area.CityHall)
@@ -244,7 +244,7 @@ class AreaConnection(Enum):
     TwinkleParkLobby_to_TwinkleCircuit = (Area.TPLobby, Area.TwinkleCircuit)
 
     # MRMain
-    MrMain_to_SSMain = (Area.MRMain, Area.SSMain)
+    MrMain_to_Station = (Area.MRMain, Area.Station)
     MrMain_to_EcOutside = (Area.MRMain, Area.ECOutside)
     MrMain_to_Bridge = (Area.MRMain, Area.ECBridge)
     MrMain_to_AngelIsland = (Area.MRMain, Area.AngelIsland)
@@ -356,6 +356,10 @@ class AreaConnection(Enum):
     WarpHall_to_EcInside = (Area.WarpHall, Area.ECInside)
     WarpHall_to_EcChaoGarden = (Area.WarpHall, Area.ECChaoGarden)
 
+    SsChaoGarden_to_Hotel = (Area.SSChaoGarden, Area.Hotel)
+    MrChaoGarden_to_MrMain = (Area.MRChaoGarden, Area.MRMain)
+    EcChaoGarden_to_WarpHall = (Area.ECChaoGarden, Area.WarpHall)
+
     def __init__(self, area1, area2):
         self.area1 = area1
         self.area2 = area2
@@ -363,7 +367,7 @@ class AreaConnection(Enum):
     @classmethod
     def from_areas(cls, area1, area2):
         for connection in cls:
-            if {connection.area1, connection.area2} == {area1, area2}:
+            if connection.area1 == area1 and connection.area2 == area2:
                 return connection
         return None
 
