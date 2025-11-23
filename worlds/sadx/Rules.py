@@ -292,6 +292,78 @@ def get_connection_requirement(connection_key, area_map):
     value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1), -1)
     if value != -1:
         return value
+    if connection_key in [AreaConnection.SSMain_to_EcOutside, AreaConnection.EcOutside_to_SSMain,
+                          AreaConnection.SSMain_to_Bridge, AreaConnection.Bridge_to_SSMain]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.SSMain_to_EcOutside,
+            AreaConnection.EcOutside_to_SSMain,
+            AreaConnection.SSMain_to_Bridge,
+            AreaConnection.Bridge_to_SSMain
+        ])
+    if connection_key in [AreaConnection.MrMain_to_EcOutside, AreaConnection.EcOutside_to_MrMain,
+                          AreaConnection.MrMain_to_Bridge, AreaConnection.Bridge_to_MrMain]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.MrMain_to_EcOutside,
+            AreaConnection.EcOutside_to_MrMain,
+            AreaConnection.MrMain_to_Bridge,
+            AreaConnection.Bridge_to_MrMain
+        ])
+    if connection_key in [AreaConnection.EcOutside_to_SkyChase2, AreaConnection.Bridge_to_SkyChase2]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.EcOutside_to_SkyChase2,
+            AreaConnection.Bridge_to_SkyChase2
+        ])
+
+    if connection_key in [AreaConnection.Bridge_to_Chaos6ZeroBeta, AreaConnection.EcOutside_to_Chaos6ZeroBeta]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.Bridge_to_Chaos6ZeroBeta,
+            AreaConnection.EcOutside_to_Chaos6ZeroBeta
+        ])
+    if connection_key in [AreaConnection.EcOutside_to_EcInsideMonorail, AreaConnection.EcInside_to_EcOutsideMonorail,
+                          AreaConnection.Bridge_to_EcInsideMonorail, AreaConnection.EcInside_to_BridgeMonorail]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.EcOutside_to_EcInsideMonorail,
+            AreaConnection.EcInside_to_EcOutsideMonorail,
+            AreaConnection.Bridge_to_EcInsideMonorail,
+            AreaConnection.EcInside_to_BridgeMonorail
+        ])
+    if connection_key in [AreaConnection.EcOutside_to_EcInsideEggLift, AreaConnection.EcInside_to_EcOutsideEggLift,
+                          AreaConnection.Deck_to_EcInsideEggLift, AreaConnection.EcInside_to_DeckEggLift]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.EcOutside_to_EcInsideEggLift,
+            AreaConnection.EcInside_to_EcOutsideEggLift,
+            AreaConnection.Deck_to_EcInsideEggLift,
+            AreaConnection.EcInside_to_DeckEggLift
+        ])
+
+    if connection_key in [AreaConnection.EcOutside_to_CaptainRoom, AreaConnection.CaptainRoom_to_EcOutside,
+                          AreaConnection.Deck_to_CaptainRoom, AreaConnection.CaptainRoom_to_Deck]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.EcOutside_to_CaptainRoom,
+            AreaConnection.CaptainRoom_to_EcOutside,
+            AreaConnection.Deck_to_CaptainRoom,
+            AreaConnection.CaptainRoom_to_Deck
+        ])
+    if connection_key in [AreaConnection.EcOutside_to_Pool, AreaConnection.Pool_to_EcOutside,
+                          AreaConnection.Deck_to_Pool, AreaConnection.Pool_to_Deck]:
+        return check_alternative_connections(connection_key, area_map, [
+            AreaConnection.EcOutside_to_Pool,
+            AreaConnection.Pool_to_EcOutside,
+            AreaConnection.Deck_to_Pool,
+            AreaConnection.Pool_to_Deck
+        ])
+
+    return -1
+
+
+def check_alternative_connections(connection_key, area_map, alternatives):
+    for alt_connection in alternatives:
+        value = area_map.get(AreaConnection.from_areas(alt_connection.area1, alt_connection.area2), -1)
+        if value != -1:
+            return value
+        value = area_map.get(AreaConnection.from_areas(alt_connection.area2, alt_connection.area1), -1)
+        if value != -1:
+            return value
     return -1
 
 
