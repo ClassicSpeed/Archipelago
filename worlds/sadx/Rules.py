@@ -306,7 +306,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
                 # Create a sorted tuple of areas to ensure uniqueness
                 connection_key = AreaConnection.from_areas(area_from, area_to)
-
+                # TODO: Use reverse connection's requirements (same with EC outside)
                 # Add to the map if not already processed
                 if connection_key not in processed_connections:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
