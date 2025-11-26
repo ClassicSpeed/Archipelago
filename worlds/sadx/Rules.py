@@ -259,8 +259,11 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
 
 
 def assign_area_weights(starter_setup) -> dict[Area, float]:
-    # Initialize lists
     area_tiers = [[starter_setup.area], [], [], [], [], []]
+    area_tiers[1].extend(
+        char_area.area for char_area in starter_setup.charactersWithArea if char_area.area != starter_setup.area
+    )
+
     remaining_areas = set([area for area in Area]) - {starter_setup.area}
 
     # Process connections iteratively
@@ -275,6 +278,11 @@ def assign_area_weights(starter_setup) -> dict[Area, float]:
 
     # Add remaining areas to list_5
     area_tiers[5].extend(remaining_areas)
+
+    print("Area Tiers:")
+    for tier_index, tier_areas in enumerate(area_tiers):
+        area_names = [area.name for area in tier_areas]
+        print(f" Tier {tier_index}: {area_names}")
 
     # Assign weights based on list index
     area_weights: dict[Area, float] = {}
@@ -368,7 +376,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     starter_setup = self.starter_setup
     area_weights = assign_area_weights(starter_setup)
 
-    max_required_emblems = needed_emblems * 0.75
+    max_required_emblems = needed_emblems * 0.8
     print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
         max_required_emblems) + " for gating.")
 
@@ -398,6 +406,8 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
+        if not is_character_playable(character, self.options):
+            continue
 
         if self.options.entrance_randomizer:
             actual_area = self.starter_setup.level_mapping.get(area_to, area_to)
@@ -476,7 +486,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         if "ECSwitchAccess" in key_items:
                             key_items.remove("ECSwitchAccess")
                             region_from.connect(region_to, entrance_name,
-                                                lambda state, items=key_items, emblems=emblem_requirement: all(
+                                                lambda state, items=key_items, emblems=emblem_requirement, charac=character: all(
                                                     state.has(item, self.player) for item in items) and
                                                                                                            state.has(
                                                                                                                "Emblem",
@@ -484,7 +494,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                                                                                                emblems) and
                                                                                                            state.can_reach_region(
                                                                                                                get_region_name(
-                                                                                                                   character,
+                                                                                                                   charac,
                                                                                                                    Area.CaptainRoom),
                                                                                                                self.player))
                         else:
