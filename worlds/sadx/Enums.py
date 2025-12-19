@@ -392,3 +392,17 @@ level_areas = [
     Area.FinalEgg,
     Area.HotShelter
 ]
+
+bosses_areas = [
+    Area.Chaos0,
+    Area.EggWalker,
+    Area.Chaos2,
+    Area.TwinkleCircuit,
+    Area.Chaos4,
+    Area.EggHornet,
+    Area.SkyChase1,
+    Area.SandHill,
+    Area.BetaEggViper,
+    Area.SkyChase2,
+    Area.Chaos6ZeroBeta
+]

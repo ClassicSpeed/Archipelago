@@ -2,7 +2,7 @@ import math
 
 from worlds.generic.Rules import add_rule
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character, AreaConnection, Area
+from .Enums import LevelMission, Character, AreaConnection, Area, level_areas, bosses_areas
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -376,6 +376,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     starter_setup = self.starter_setup
     area_weights = assign_area_weights(starter_setup)
 
+    # max_required_emblems = min(needed_emblems * 0.5, 100)
     max_required_emblems = needed_emblems * 0.8
     print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
         max_required_emblems) + " for gating.")
@@ -395,13 +396,26 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                 else:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
+                    elif area_to in level_areas or area_from in level_areas:
+                        area_map[connection_key] = 0
+                    elif area_to in bosses_areas or area_from in bosses_areas:
+                        area_map[connection_key] = 0
                     else:
                         # So the closer the area is to a starter position, the cheaper it is
-                        weight = min(area_weights.get(area_from, 0), area_weights.get(area_to, 0))
 
-                        ranges = {0.2: (0.01, 0.1), 0.4: (0.2, 0.3), 0.6: (0.3, 0.6), 0.8: (0.6, 0.8), 1: (0.8, 1)}
-                        min_value, max_value = (max_required_emblems * factor for factor in ranges.get(weight, (0, 0)))
-                        area_map[connection_key] = self.random.randint(int(min_value), int(max_value))
+                        # ranges = {0.2: (0, 0.05), 0.4: (0.05, 0.2), 0.6: (0.2, 0.4), 0.8: (0.4, 0.7), 1: (0.7, 1)}
+                        # min_value, max_value = (max_required_emblems * factor for factor in ranges.get(weight, (0, 0)))
+                        # area_map[connection_key] = self.random.randint(int(min_value), int(max_value))
+
+                        # weight = area_weights.get(area_from, 0) + area_weights.get(area_to, 0) / 2
+                        # factor = weight ** 3
+                        # area_map[connection_key] = int(max_required_emblems * factor)
+
+                        weight = area_weights.get(area_from, 0) + area_weights.get(area_to, 0) / 2
+                        weight = self.random.uniform(weight - 0.2, weight)
+                        # weight = self.random.uniform(int(area_weights.get(area_from, 0)), area_weights.get(area_to, 0))
+                        factor = weight ** 2
+                        area_map[connection_key] = int(max_required_emblems * factor)
 
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
@@ -486,17 +500,18 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         if "ECSwitchAccess" in key_items:
                             key_items.remove("ECSwitchAccess")
                             region_from.connect(region_to, entrance_name,
-                                                lambda state, items=key_items, emblems=emblem_requirement, charac=character: all(
+                                                lambda state, items=key_items, emblems=emblem_requirement,
+                                                       charac=character: all(
                                                     state.has(item, self.player) for item in items) and
-                                                                                                           state.has(
-                                                                                                               "Emblem",
-                                                                                                               self.player,
-                                                                                                               emblems) and
-                                                                                                           state.can_reach_region(
-                                                                                                               get_region_name(
-                                                                                                                   charac,
-                                                                                                                   Area.CaptainRoom),
-                                                                                                               self.player))
+                                                                         state.has(
+                                                                             "Emblem",
+                                                                             self.player,
+                                                                             emblems) and
+                                                                         state.can_reach_region(
+                                                                             get_region_name(
+                                                                                 charac,
+                                                                                 Area.CaptainRoom),
+                                                                             self.player))
                         else:
 
                             region_from.connect(region_to, entrance_name,
