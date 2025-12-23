@@ -2,7 +2,7 @@ import math
 
 from worlds.generic.Rules import add_rule
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character, AreaConnection, Area, level_areas, bosses_areas
+from .Enums import LevelMission, Character, AreaConnection, Area
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -386,34 +386,19 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         if area_map == {}:
             # Iterate through area_connections
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
-
                 connection_key = AreaConnection.from_areas(area_from, area_to)
                 connection_requirement = get_connection_requirement(connection_key, area_map)
-
-                # TODO: Use reverse connection's requirements (same with EC outside)
                 if connection_requirement != -1:
                     area_map[connection_key] = connection_requirement
                 else:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
-                    elif area_to in level_areas or area_from in level_areas:
-                        area_map[connection_key] = 0
-                    elif area_to in bosses_areas or area_from in bosses_areas:
+                    elif self.random.randint(0, 100) > 70:
                         area_map[connection_key] = 0
                     else:
-                        # So the closer the area is to a starter position, the cheaper it is
-
-                        # ranges = {0.2: (0, 0.05), 0.4: (0.05, 0.2), 0.6: (0.2, 0.4), 0.8: (0.4, 0.7), 1: (0.7, 1)}
-                        # min_value, max_value = (max_required_emblems * factor for factor in ranges.get(weight, (0, 0)))
-                        # area_map[connection_key] = self.random.randint(int(min_value), int(max_value))
-
-                        # weight = area_weights.get(area_from, 0) + area_weights.get(area_to, 0) / 2
-                        # factor = weight ** 3
-                        # area_map[connection_key] = int(max_required_emblems * factor)
-
+                        # The closer the area is to a starter position, the cheaper it is
                         weight = area_weights.get(area_from, 0) + area_weights.get(area_to, 0) / 2
                         weight = self.random.uniform(weight - 0.2, weight)
-                        # weight = self.random.uniform(int(area_weights.get(area_from, 0)), area_weights.get(area_to, 0))
                         factor = weight ** 2
                         area_map[connection_key] = int(max_required_emblems * factor)
 
