@@ -293,9 +293,9 @@ Train = ItemName.KeyItem.Train
 Boat = ItemName.KeyItem.Boat
 Raft = ItemName.KeyItem.Raft
 
-EMBLEM_BLOCKED = "EMBLEM_BLOCKED"  # TODO
-ONLY_RANDO = "ONLY_RANDO"  # TODO
-ECSwitchAccess = "ECSwitchAccess"  # TODO
+EMBLEM_BLOCKED = "EMBLEM_BLOCKED"
+ONLY_RANDO = "ONLY_RANDO"
+ECSwitchAccess = "ECSwitchAccess"
 
 LightShoes = ItemName.Sonic.LightShoes
 AncientLight = ItemName.Sonic.AncientLight
@@ -317,7 +317,6 @@ P_BIG = Character.Big
 P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
-
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain, False): (
@@ -336,8 +335,7 @@ area_connections: Dict[
     (Character.Sonic, Area.Station, Area.Casino, False): ([ShutterKey], [ShutterKey], [], [], []),
     (Character.Sonic, Area.Casino, Area.Station, False): ([ShutterKey], [ShutterKey], [ShutterKey], [], []),
     (Character.Sonic, Area.Casino, Area.Casinopolis, False): (
-        [EMBLEM_BLOCKED, LightShoes], [EMBLEM_BLOCKED, LightShoes], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
-        [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED, LightShoes], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Casino, Area.Hotel, False): ([CasinoKey], [CasinoKey], [], [], []),
     (Character.Sonic, Area.Casino, Area.EggWalker, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
@@ -419,7 +417,7 @@ area_connections: Dict[
     (Character.Sonic, Area.Jungle, Area.LostWorld, True): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Sonic, Area.Jungle, Area.SandHill, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Jungle, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.FinalEggTower, Area.Jungle, False): (
@@ -799,8 +797,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.AngelIsland, Area.IceCave, False): ([IceStone], [IceStone], [], [IceStone], [[IceStone],
                                                                                                            [
                                                                                                                ShovelClaw]]),
-    (Character.Knuckles, Area.AngelIsland, Area.RedMountain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], []),
+    (Character.Knuckles, Area.AngelIsland, Area.RedMountain, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Knuckles, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Knuckles, Area.IceCave, Area.AngelIsland, False): (
@@ -941,7 +938,7 @@ area_connections: Dict[
     (Character.Amy, Area.Station, Area.SSMain, False): (
         [StationKey], [StationKey], [StationKey], [StationKey], [StationKey]),
     (Character.Amy, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
-    (Character.Amy, Area.Station, Area.Casino, False): ([ShutterKey], [ShutterKey], [], [ShutterKey], [ShutterKey]),
+    (Character.Amy, Area.Station, Area.Casino, False): ([ShutterKey], [ShutterKey], [], [], []),
     (Character.Amy, Area.Casino, Area.Station, False): (
         [ShutterKey], [ShutterKey], [ShutterKey], [ShutterKey], [ShutterKey]),
     (Character.Amy, Area.Casino, Area.Casinopolis, False): (
@@ -1694,8 +1691,7 @@ upgrade_location_table: List[UpgradeLocation] = [
     UpgradeLocation(100, LocationName.Sonic.LightShoes, Area.Sewers, Character.Sonic, [], [], [], [], []),
     UpgradeLocation(200, LocationName.Tails.JetAnklet, Area.SSMain, Character.Tails, [], [], [], [], []),
     UpgradeLocation(602, LocationName.Big.Lure1, Area.SSMain, Character.Big, [], [], [], [], []),
-    UpgradeLocation(101, LocationName.Sonic.CrystalRing, Area.Hotel, Character.Sonic, [LightShoes], [LightShoes], [],
-                    [], []),
+    UpgradeLocation(101, LocationName.Sonic.CrystalRing, Area.Hotel, Character.Sonic, [LightShoes], [], [], [], []),
     UpgradeLocation(300, LocationName.Knuckles.ShovelClaw, Area.MRMain, Character.Knuckles, [], [], [], [], []),
     UpgradeLocation(604, LocationName.Big.Lure3, Area.IceCap, Character.Big, [], [], [], [], []),
     UpgradeLocation(600, LocationName.Big.LifeBelt, Area.IceCave, Character.Big, [], [], [], [], []),
@@ -1725,7 +1721,7 @@ field_emblem_location_table: List[EmblemLocation] = [
     EmblemLocation(12, Area.CityHall, [P_TAILS, P_KNUCKLES_W_SC], [P_TAILS, P_KNUCKLES_W_SC],
                    [P_AMY, P_TAILS, P_KNUCKLES], [P_AMY, P_TAILS, P_KNUCKLES], [P_AMY, P_TAILS, P_KNUCKLES],
                    "City Hall Emblem"),
-    EmblemLocation(13, Area.Casino, [P_TAILS], [P_TAILS, P_SONIC], [P_TAILS, P_SONIC, P_AMY], [P_TAILS, P_SONIC],
+    EmblemLocation(13, Area.Casino, [P_TAILS], [P_TAILS], [P_TAILS, P_SONIC, P_AMY], [P_TAILS, P_SONIC],
                    [P_TAILS, P_SONIC, P_KNUCKLES], "Casino Emblem"),
     EmblemLocation(20, Area.MRMain, [P_TAILS, P_KNUCKLES, P_GAMMA_W_JB], [P_SONIC, P_TAILS, P_KNUCKLES, P_GAMMA_W_JB],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_GAMMA_W_JB, P_AMY],
@@ -2571,11 +2567,11 @@ enemy_location_table: List[EnemyLocation] = [
     EnemyLocation(54117, Area.HotShelter, Character.Gamma, 117, Enemy.Kiki, [JetBooster], [JetBooster], [], [], []),
     EnemyLocation(63001, Area.HotShelter, Character.Big, 1, Enemy.Kiki, [], [], [], [], []),
     EnemyLocation(63002, Area.HotShelter, Character.Big, 2, Enemy.Kiki, [], [], [], [], []),
-    EnemyLocation(63003, Area.HotShelter, Character.Big, 3, Enemy.Kiki, [LifeBelt], [LifeBelt], [LifeBelt], [LifeBelt],
+    EnemyLocation(63003, Area.HotShelter, Character.Big, 3, Enemy.Kiki, [LifeBelt], [LifeBelt], [], [LifeBelt],
                   [LifeBelt]),
-    EnemyLocation(63004, Area.HotShelter, Character.Big, 4, Enemy.Kiki, [LifeBelt], [LifeBelt], [LifeBelt], [LifeBelt],
+    EnemyLocation(63004, Area.HotShelter, Character.Big, 4, Enemy.Kiki, [LifeBelt], [LifeBelt], [], [LifeBelt],
                   [LifeBelt]),
-    EnemyLocation(63005, Area.HotShelter, Character.Big, 5, Enemy.Kiki, [LifeBelt], [LifeBelt], [LifeBelt], [LifeBelt],
+    EnemyLocation(63005, Area.HotShelter, Character.Big, 5, Enemy.Kiki, [LifeBelt], [LifeBelt], [], [LifeBelt],
                   [LifeBelt]),
 ]
 
@@ -3290,12 +3286,12 @@ capsule_location_table: List[CapsuleLocation] = [
     CapsuleLocation(63505, Area.HotShelter, Character.Big, 5, Capsule.TenRings, [], [], [], [], []),
     CapsuleLocation(63506, Area.HotShelter, Character.Big, 6, Capsule.RandomRings, [], [], [], [], []),
     CapsuleLocation(63507, Area.HotShelter, Character.Big, 7, Capsule.ExtraLife, [], [], [], [], []),
-    CapsuleLocation(63508, Area.HotShelter, Character.Big, 8, Capsule.SpeedUp, [LifeBelt], [LifeBelt], [LifeBelt],
-                    [LifeBelt], [LifeBelt]),
-    CapsuleLocation(63509, Area.HotShelter, Character.Big, 9, Capsule.TenRings, [LifeBelt], [LifeBelt], [LifeBelt],
-                    [LifeBelt], [LifeBelt]),
-    CapsuleLocation(63510, Area.HotShelter, Character.Big, 10, Capsule.TenRings, [LifeBelt], [LifeBelt], [LifeBelt],
-                    [LifeBelt], [LifeBelt]),
+    CapsuleLocation(63508, Area.HotShelter, Character.Big, 8, Capsule.SpeedUp, [LifeBelt], [LifeBelt], [], [LifeBelt],
+                    [LifeBelt]),
+    CapsuleLocation(63509, Area.HotShelter, Character.Big, 9, Capsule.TenRings, [LifeBelt], [LifeBelt], [], [LifeBelt],
+                    [LifeBelt]),
+    CapsuleLocation(63510, Area.HotShelter, Character.Big, 10, Capsule.TenRings, [LifeBelt], [LifeBelt], [], [LifeBelt],
+                    [LifeBelt]),
 ]
 
 fish_location_table: List[FishLocation] = [
