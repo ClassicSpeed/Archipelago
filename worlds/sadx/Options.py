@@ -439,7 +439,7 @@ class BossChecks(DefaultOnToggle):
     display_name = "Boss Checks"
 
 
-class UnifyChaos4(DefaultOnToggle):
+class UnifyChaos4(Toggle):
     """Determines whether the Chaos 4 fight counts as a single location or three (Sonic, Tails, and Knuckles)."""
     display_name = "Unify Chaos 4"
 
