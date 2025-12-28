@@ -316,7 +316,9 @@ P_GAMMA = Character.Gamma
 P_BIG = Character.Big
 P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
+P_SONIC_W_LS = CharacterUpgrade(Character.Sonic, ItemName.Sonic.LightShoes)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
+
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain, False): (
@@ -361,7 +363,7 @@ area_connections: Dict[
     (Character.Sonic, Area.TPLobby, Area.TwinkleCircuit, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Hotel, Area.SSMain, False): ([HotelKey], [HotelKey], [], [], []),
-    (Character.Sonic, Area.Hotel, Area.Casino, False): ([CasinoKey], [CasinoKey], [CasinoKey], [], []),
+    (Character.Sonic, Area.Hotel, Area.Casino, False): ([CasinoKey], [CasinoKey], [], [], []),
     (Character.Sonic, Area.Hotel, Area.SSChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Hotel, Area.Chaos2, False): (
@@ -954,7 +956,8 @@ area_connections: Dict[
     (Character.Amy, Area.SSMain, Area.ECBridge, False): (
         [Boat, ECSwitchAccess], [Boat, ECSwitchAccess], [Boat, ECSwitchAccess], [Boat, ECSwitchAccess],
         [Boat, ECSwitchAccess]),
-    (Character.Amy, Area.SSMain, Area.SpeedHighway, False): ([EmployeeCard], [EmployeeCard], [EmployeeCard], [], []),
+    (Character.Amy, Area.SSMain, Area.SpeedHighway, False): (
+        [ONLY_RANDO, EmployeeCard], [ONLY_RANDO, EmployeeCard], [], [], []),
     (Character.Amy, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Amy, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Amy, Area.TPTunnel, Area.Sewers, False): (
@@ -1157,7 +1160,8 @@ area_connections: Dict[
     (Character.Big, Area.SSMain, Area.ECBridge, False): (
         [Boat, ECSwitchAccess], [Boat, ECSwitchAccess], [Boat, ECSwitchAccess], [Boat, ECSwitchAccess],
         [Boat, ECSwitchAccess]),
-    (Character.Big, Area.SSMain, Area.SpeedHighway, False): ([EmployeeCard], [EmployeeCard], [EmployeeCard], [], []),
+    (Character.Big, Area.SSMain, Area.SpeedHighway, False): (
+        [ONLY_RANDO, EmployeeCard], [ONLY_RANDO, EmployeeCard], [], [], []),
     (Character.Big, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [TPTicket], [TPTicket], [TPTicket]),
     (Character.Big, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Big, Area.TPTunnel, Area.Sewers, False): (
@@ -1359,7 +1363,8 @@ area_connections: Dict[
     (Character.Gamma, Area.SSMain, Area.ECBridge, False): (
         [Boat, ECSwitchAccess], [Boat, ECSwitchAccess], [Boat, ECSwitchAccess], [Boat, ECSwitchAccess],
         [Boat, ECSwitchAccess]),
-    (Character.Gamma, Area.SSMain, Area.SpeedHighway, False): ([EmployeeCard], [EmployeeCard], [EmployeeCard], [], []),
+    (Character.Gamma, Area.SSMain, Area.SpeedHighway, False): (
+        [ONLY_RANDO, EmployeeCard], [ONLY_RANDO, EmployeeCard], [ONLY_RANDO, EmployeeCard], [], []),
     (Character.Gamma, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Gamma, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Gamma, Area.TPTunnel, Area.Sewers, False): (
@@ -1372,8 +1377,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Gamma, Area.TPLobby, Area.TwinkleCircuit, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Gamma, Area.Hotel, Area.SSMain, False): ([HotelKey], [HotelKey], [], [[HotelKey],
-                                                                                     [JetBooster]], []),
+    (Character.Gamma, Area.Hotel, Area.SSMain, False): ([HotelKey], [HotelKey], [], [], []),
     (Character.Gamma, Area.Hotel, Area.Casino, False): ([CasinoKey], [CasinoKey], [], [[CasinoKey],
                                                                                        [JetBooster]], []),
     (Character.Gamma, Area.Hotel, Area.SSChaoGarden, False): (
@@ -1719,9 +1723,9 @@ field_emblem_location_table: List[EmblemLocation] = [
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA], "Burger Shop Emblem"),
     EmblemLocation(12, Area.CityHall, [P_TAILS, P_KNUCKLES_W_SC], [P_TAILS, P_KNUCKLES_W_SC],
-                   [P_AMY, P_TAILS, P_KNUCKLES], [P_AMY, P_TAILS, P_KNUCKLES], [P_AMY, P_TAILS, P_KNUCKLES],
-                   "City Hall Emblem"),
-    EmblemLocation(13, Area.Casino, [P_TAILS], [P_TAILS], [P_TAILS, P_SONIC, P_AMY], [P_TAILS, P_SONIC],
+                   [P_AMY, P_TAILS, P_KNUCKLES, P_SONIC_W_LS], [P_AMY, P_TAILS, P_KNUCKLES],
+                   [P_AMY, P_TAILS, P_KNUCKLES], "City Hall Emblem"),
+    EmblemLocation(13, Area.Casino, [P_TAILS], [P_TAILS], [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY], [P_TAILS, P_SONIC],
                    [P_TAILS, P_SONIC, P_KNUCKLES], "Casino Emblem"),
     EmblemLocation(20, Area.MRMain, [P_TAILS, P_KNUCKLES, P_GAMMA_W_JB], [P_SONIC, P_TAILS, P_KNUCKLES, P_GAMMA_W_JB],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_GAMMA_W_JB, P_AMY],
@@ -1741,9 +1745,9 @@ field_emblem_location_table: List[EmblemLocation] = [
     EmblemLocation(30, Area.ECPool, [P_TAILS, P_KNUCKLES], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA], "Pool Emblem"),
-    EmblemLocation(31, Area.ECBridge, [P_TAILS], [P_TAILS, P_SONIC, P_KNUCKLES], [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY],
-                   [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY], [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY],
-                   "Spinning Platform Emblem"),
+    EmblemLocation(31, Area.ECBridge, [P_TAILS], [P_TAILS, P_SONIC, P_KNUCKLES],
+                   [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY, P_GAMMA_W_JB], [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY],
+                   [P_TAILS, P_SONIC, P_KNUCKLES, P_AMY], "Spinning Platform Emblem"),
     EmblemLocation(32, Area.PrivateRoom, [P_TAILS, P_SONIC], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA],
