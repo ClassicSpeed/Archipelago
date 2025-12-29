@@ -318,7 +318,6 @@ P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
 P_SONIC_W_LS = CharacterUpgrade(Character.Sonic, ItemName.Sonic.LightShoes)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
-
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain, False): (
@@ -505,7 +504,7 @@ area_connections: Dict[
     (Character.Sonic, Area.ECInside, Area.WaterTank, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.HedgehogHammer, Area.ECInside, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Sonic, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.PrisonHall, Area.HedgehogHammer, False): (
@@ -622,13 +621,13 @@ area_connections: Dict[
     (Character.Tails, Area.Jungle, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.FinalEggTower, Area.Jungle, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.FinalEggTower, Area.FinalEgg, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.FinalEggTower, Area.FinalEgg, True): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.FinalEggTower, Area.BetaEggViper, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.MRChaoGarden, Area.MRMain, False): (
@@ -681,8 +680,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECPool, Area.ECDeck, False): (
         [ECSwitchAccess], [ECSwitchAccess], [ECSwitchAccess], [ECSwitchAccess], [ECSwitchAccess]),
-    (Character.Tails, Area.ECPool, Area.SkyDeck, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+    (Character.Tails, Area.ECPool, Area.SkyDeck, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Tails, Area.ECInside, Area.ECOutside, False): (
         [Monorail], [Monorail], [Monorail], [Monorail], [Monorail]),
     (Character.Tails, Area.ECInside, Area.ECOutside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
@@ -695,7 +693,7 @@ area_connections: Dict[
     (Character.Tails, Area.ECInside, Area.HotShelter, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.ECInside, Area.HedgehogHammer, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.ECInside, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECInside, Area.WarpHall, False): (
@@ -705,7 +703,7 @@ area_connections: Dict[
     (Character.Tails, Area.ECInside, Area.WaterTank, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.HedgehogHammer, Area.ECInside, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.PrisonHall, Area.HedgehogHammer, False): (
@@ -900,7 +898,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.ECInside, Area.HotShelter, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.ECInside, Area.HedgehogHammer, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.ECInside, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.WarpHall, False): (
@@ -910,7 +908,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.ECInside, Area.WaterTank, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.HedgehogHammer, Area.ECInside, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.PrisonHall, Area.HedgehogHammer, False): (
@@ -948,7 +946,7 @@ area_connections: Dict[
     (Character.Amy, Area.Casino, Area.Hotel, False): ([CasinoKey], [CasinoKey], [CasinoKey], [CasinoKey], [CasinoKey]),
     (Character.Amy, Area.Casino, Area.EggWalker, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Amy, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [], [HotelKey], [HotelKey]),
+    (Character.Amy, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [], [], []),
     (Character.Amy, Area.SSMain, Area.Station, False): ([StationKey], [StationKey], [], [], []),
     (Character.Amy, Area.SSMain, Area.CityHall, False): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
@@ -1345,8 +1343,7 @@ area_connections: Dict[
     (Character.Gamma, Area.Station, Area.SSMain, False): (
         [StationKey], [StationKey], [StationKey], [StationKey], [StationKey]),
     (Character.Gamma, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
-    (Character.Gamma, Area.Station, Area.Casino, False): (
-        [ShutterKey], [ShutterKey], [ShutterKey], [ShutterKey], [[ShutterKey], [Train]]),
+    (Character.Gamma, Area.Station, Area.Casino, False): ([ShutterKey], [ShutterKey], [], [], []),
     (Character.Gamma, Area.Casino, Area.Station, False): (
         [ShutterKey], [ShutterKey], [ShutterKey], [ShutterKey], [ShutterKey]),
     (Character.Gamma, Area.Casino, Area.Casinopolis, False): (
@@ -1414,9 +1411,10 @@ area_connections: Dict[
     (Character.Gamma, Area.AngelIsland, Area.MRMain, False): ([Dynamite], [Dynamite], [[Dynamite],
                                                                                        [JetBooster]], [[Dynamite],
                                                                                                        [JetBooster]],
-                                                              [[Dynamite], [JetBooster]]),
+                                                              [[Dynamite],
+                                                               [JetBooster]]),
     (Character.Gamma, Area.AngelIsland, Area.IceCave, False): (
-        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
+        [IceStone], [IceStone], [[IceStone], [JetBooster]], [[IceStone], [JetBooster]], [[IceStone], [JetBooster]]),
     (Character.Gamma, Area.AngelIsland, Area.RedMountain, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.AngelIsland, Area.PastAltar, False): (
@@ -1740,8 +1738,8 @@ field_emblem_location_table: List[EmblemLocation] = [
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG, P_GAMMA], "Jungle Path Emblem"),
     EmblemLocation(23, Area.Jungle, [P_TAILS, P_KNUCKLES], [P_SONIC, P_TAILS, P_KNUCKLES],
-                   [P_SONIC, P_TAILS, P_KNUCKLES], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA],
-                   [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA], "Tree Stump Emblem"),
+                   [P_SONIC, P_TAILS, P_KNUCKLES, P_BIG], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG],
+                   [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG], "Tree Stump Emblem"),
     EmblemLocation(30, Area.ECPool, [P_TAILS, P_KNUCKLES], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY], [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA],
                    [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA], "Pool Emblem"),
