@@ -318,6 +318,7 @@ P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
 P_SONIC_W_LS = CharacterUpgrade(Character.Sonic, ItemName.Sonic.LightShoes)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
+
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain, False): (
@@ -330,7 +331,7 @@ area_connections: Dict[
     (Character.Sonic, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Sewers, Area.TPTunnel, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Station, Area.SSMain, False): ([StationKey], [StationKey], [], [], []),
     (Character.Sonic, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Sonic, Area.Station, Area.Casino, False): ([ShutterKey], [ShutterKey], [], [], []),
@@ -352,7 +353,7 @@ area_connections: Dict[
     (Character.Sonic, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Sonic, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Sonic, Area.TPTunnel, Area.Sewers, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.TPTunnel, Area.TPLobby, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.TPLobby, Area.TPTunnel, False): (
@@ -371,8 +372,7 @@ area_connections: Dict[
     (Character.Sonic, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Sonic, Area.HotelPool, Area.EmeraldCoast, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Sonic, Area.SSChaoGarden, Area.Hotel, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Sonic, Area.SSChaoGarden, Area.Hotel, False): ([], [], [], [], []),
     (Character.Sonic, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Sonic, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Sonic, Area.MRMain, Area.ECBridge, False): (
@@ -398,7 +398,7 @@ area_connections: Dict[
     (Character.Sonic, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Sonic, Area.IceCave, Area.AngelIsland, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Sonic, Area.IceCave, Area.IceCap, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.PastAltar, Area.AngelIsland, False): (
@@ -431,8 +431,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Sonic, Area.MRChaoGarden, Area.MRMain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Sonic, Area.MRChaoGarden, Area.MRMain, False): ([], [], [], [], []),
     (Character.Sonic, Area.ECOutside, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Sonic, Area.ECOutside, Area.MRMain, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Sonic, Area.ECOutside, Area.SkyChase2, False): (
@@ -494,7 +493,7 @@ area_connections: Dict[
     (Character.Sonic, Area.ECInside, Area.HotShelter, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Sonic, Area.ECInside, Area.HedgehogHammer, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECInside, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECInside, Area.WarpHall, False): (
@@ -504,7 +503,7 @@ area_connections: Dict[
     (Character.Sonic, Area.ECInside, Area.WaterTank, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.HedgehogHammer, Area.ECInside, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.PrisonHall, Area.HedgehogHammer, False): (
@@ -517,8 +516,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Sonic, Area.ECChaoGarden, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Sonic, Area.ECChaoGarden, Area.WarpHall, False): ([], [], [], [], []),
     (Character.Tails, Area.CityHall, Area.SSMain, False): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
     (Character.Tails, Area.CityHall, Area.SpeedHighway, False): ([ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [], []),
@@ -529,7 +527,7 @@ area_connections: Dict[
     (Character.Tails, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.Sewers, Area.TPTunnel, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.Station, Area.SSMain, False): ([StationKey], [StationKey], [], [StationKey], [StationKey]),
     (Character.Tails, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Tails, Area.Station, Area.Casino, False): ([ShutterKey], [ShutterKey], [], [], []),
@@ -551,7 +549,7 @@ area_connections: Dict[
     (Character.Tails, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Tails, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Tails, Area.TPTunnel, Area.Sewers, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.TPTunnel, Area.TPLobby, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.TPLobby, Area.TPTunnel, False): (
@@ -570,8 +568,7 @@ area_connections: Dict[
     (Character.Tails, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Tails, Area.HotelPool, Area.EmeraldCoast, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Tails, Area.SSChaoGarden, Area.Hotel, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Tails, Area.SSChaoGarden, Area.Hotel, False): ([], [], [], [], []),
     (Character.Tails, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Tails, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Tails, Area.MRMain, Area.ECBridge, False): (
@@ -597,7 +594,7 @@ area_connections: Dict[
     (Character.Tails, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Tails, Area.IceCave, Area.AngelIsland, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Tails, Area.IceCave, Area.IceCap, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.PastAltar, Area.AngelIsland, False): (
@@ -630,8 +627,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Tails, Area.MRChaoGarden, Area.MRMain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Tails, Area.MRChaoGarden, Area.MRMain, False): ([], [], [], [], []),
     (Character.Tails, Area.ECOutside, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Tails, Area.ECOutside, Area.MRMain, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Tails, Area.ECOutside, Area.SkyChase2, False): (
@@ -693,7 +689,7 @@ area_connections: Dict[
     (Character.Tails, Area.ECInside, Area.HotShelter, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Tails, Area.ECInside, Area.HedgehogHammer, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECInside, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECInside, Area.WarpHall, False): (
@@ -703,7 +699,7 @@ area_connections: Dict[
     (Character.Tails, Area.ECInside, Area.WaterTank, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.HedgehogHammer, Area.ECInside, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.PrisonHall, Area.HedgehogHammer, False): (
@@ -716,8 +712,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Tails, Area.ECChaoGarden, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Tails, Area.ECChaoGarden, Area.WarpHall, False): ([], [], [], [], []),
     (Character.Knuckles, Area.CityHall, Area.SSMain, False): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
     (Character.Knuckles, Area.CityHall, Area.SpeedHighway, False): (
@@ -729,7 +724,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.Sewers, Area.TPTunnel, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.Station, Area.SSMain, False): (
         [StationKey], [StationKey], [StationKey], [StationKey], [StationKey]),
     (Character.Knuckles, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
@@ -754,7 +749,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Knuckles, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Knuckles, Area.TPTunnel, Area.Sewers, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.TPTunnel, Area.TPLobby, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.TPLobby, Area.TPTunnel, False): (
@@ -773,8 +768,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Knuckles, Area.HotelPool, Area.EmeraldCoast, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Knuckles, Area.SSChaoGarden, Area.Hotel, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Knuckles, Area.SSChaoGarden, Area.Hotel, False): ([], [], [], [], []),
     (Character.Knuckles, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Knuckles, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Knuckles, Area.MRMain, Area.ECBridge, False): (
@@ -801,7 +795,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Knuckles, Area.IceCave, Area.AngelIsland, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Knuckles, Area.IceCave, Area.IceCap, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.PastAltar, Area.AngelIsland, False): (
@@ -834,8 +828,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Knuckles, Area.MRChaoGarden, Area.MRMain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Knuckles, Area.MRChaoGarden, Area.MRMain, False): ([], [], [], [], []),
     (Character.Knuckles, Area.ECOutside, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Knuckles, Area.ECOutside, Area.MRMain, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Knuckles, Area.ECOutside, Area.SkyChase2, False): (
@@ -898,7 +891,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.ECInside, Area.HotShelter, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.ECInside, Area.HedgehogHammer, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.WarpHall, False): (
@@ -908,7 +901,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.ECInside, Area.WaterTank, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.HedgehogHammer, Area.ECInside, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.PrisonHall, Area.HedgehogHammer, False): (
@@ -921,8 +914,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Knuckles, Area.ECChaoGarden, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Knuckles, Area.ECChaoGarden, Area.WarpHall, False): ([], [], [], [], []),
     (Character.Amy, Area.CityHall, Area.SSMain, False): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
     (Character.Amy, Area.CityHall, Area.SpeedHighway, False): (
@@ -934,7 +926,7 @@ area_connections: Dict[
     (Character.Amy, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.Sewers, Area.TPTunnel, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.Station, Area.SSMain, False): (
         [StationKey], [StationKey], [StationKey], [StationKey], [StationKey]),
     (Character.Amy, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
@@ -959,7 +951,7 @@ area_connections: Dict[
     (Character.Amy, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Amy, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Amy, Area.TPTunnel, Area.Sewers, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.TPTunnel, Area.TPLobby, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.TPLobby, Area.TPTunnel, False): (
@@ -978,8 +970,7 @@ area_connections: Dict[
     (Character.Amy, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Amy, Area.HotelPool, Area.EmeraldCoast, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Amy, Area.SSChaoGarden, Area.Hotel, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Amy, Area.SSChaoGarden, Area.Hotel, False): ([], [], [], [], []),
     (Character.Amy, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Amy, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Amy, Area.MRMain, Area.ECBridge, False): (
@@ -1006,7 +997,7 @@ area_connections: Dict[
     (Character.Amy, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Amy, Area.IceCave, Area.AngelIsland, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Amy, Area.IceCave, Area.IceCap, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Amy, Area.PastAltar, Area.AngelIsland, False): (
@@ -1039,8 +1030,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Amy, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Amy, Area.MRChaoGarden, Area.MRMain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Amy, Area.MRChaoGarden, Area.MRMain, False): ([], [], [], [], []),
     (Character.Amy, Area.ECOutside, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Amy, Area.ECOutside, Area.MRMain, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Amy, Area.ECOutside, Area.SkyChase2, False): (
@@ -1123,8 +1113,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Amy, Area.ECChaoGarden, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Amy, Area.ECChaoGarden, Area.WarpHall, False): ([], [], [], [], []),
     (Character.Big, Area.CityHall, Area.SSMain, False): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
     (Character.Big, Area.CityHall, Area.SpeedHighway, False): (
@@ -1182,8 +1171,7 @@ area_connections: Dict[
     (Character.Big, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Big, Area.HotelPool, Area.EmeraldCoast, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Big, Area.SSChaoGarden, Area.Hotel, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Big, Area.SSChaoGarden, Area.Hotel, False): ([], [], [], [], []),
     (Character.Big, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Big, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Big, Area.MRMain, Area.ECBridge, False): (
@@ -1210,7 +1198,7 @@ area_connections: Dict[
     (Character.Big, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Big, Area.IceCave, Area.AngelIsland, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Big, Area.IceCave, Area.IceCap, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Big, Area.PastAltar, Area.AngelIsland, False): (
@@ -1243,8 +1231,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Big, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Big, Area.MRChaoGarden, Area.MRMain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Big, Area.MRChaoGarden, Area.MRMain, False): ([], [], [], [], []),
     (Character.Big, Area.ECOutside, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Big, Area.ECOutside, Area.MRMain, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Big, Area.ECOutside, Area.SkyChase2, False): (
@@ -1326,8 +1313,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Big, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Big, Area.ECChaoGarden, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Big, Area.ECChaoGarden, Area.WarpHall, False): ([], [], [], [], []),
     (Character.Gamma, Area.CityHall, Area.SSMain, False): (
         [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
     (Character.Gamma, Area.CityHall, Area.SpeedHighway, False): (
@@ -1339,7 +1325,7 @@ area_connections: Dict[
     (Character.Gamma, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.Sewers, Area.TPTunnel, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.Station, Area.SSMain, False): (
         [StationKey], [StationKey], [StationKey], [StationKey], [StationKey]),
     (Character.Gamma, Area.Station, Area.MRMain, False): ([Train], [Train], [Train], [Train], [Train]),
@@ -1365,7 +1351,7 @@ area_connections: Dict[
     (Character.Gamma, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Gamma, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Gamma, Area.TPTunnel, Area.Sewers, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.TPTunnel, Area.TPLobby, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.TPLobby, Area.TPTunnel, False): (
@@ -1385,8 +1371,7 @@ area_connections: Dict[
     (Character.Gamma, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Gamma, Area.HotelPool, Area.EmeraldCoast, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Gamma, Area.SSChaoGarden, Area.Hotel, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Gamma, Area.SSChaoGarden, Area.Hotel, False): ([], [], [], [], []),
     (Character.Gamma, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Gamma, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Gamma, Area.MRMain, Area.ECBridge, False): (
@@ -1420,7 +1405,7 @@ area_connections: Dict[
     (Character.Gamma, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
     (Character.Gamma, Area.IceCave, Area.AngelIsland, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Gamma, Area.IceCave, Area.IceCap, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Gamma, Area.PastAltar, Area.AngelIsland, False): (
@@ -1453,8 +1438,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.FinalEggTower, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Gamma, Area.MRChaoGarden, Area.MRMain, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Gamma, Area.MRChaoGarden, Area.MRMain, False): ([], [], [], [], []),
     (Character.Gamma, Area.ECOutside, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Gamma, Area.ECOutside, Area.MRMain, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Gamma, Area.ECOutside, Area.SkyChase2, False): (
@@ -1540,8 +1524,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Gamma, Area.ECChaoGarden, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Gamma, Area.ECChaoGarden, Area.WarpHall, False): ([], [], [], [], []),
 }
 
 level_location_table: List[LevelLocation] = [
