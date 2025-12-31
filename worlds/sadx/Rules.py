@@ -377,7 +377,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     area_weights = assign_area_weights(starter_setup)
 
     # max_required_emblems = min(needed_emblems * 0.5, 100)
-    max_required_emblems = needed_emblems * 0.8
+    max_required_emblems = needed_emblems * 0.5
     print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
         max_required_emblems) + " for gating.")
 

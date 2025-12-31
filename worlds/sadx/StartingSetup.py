@@ -1,4 +1,4 @@
-import collections
+import logging
 import logging
 import re
 from dataclasses import dataclass, field
@@ -6,12 +6,10 @@ from typing import List, TextIO
 
 from Options import OptionError
 from worlds.AutoWorld import World
-from .CharacterUtils import get_playable_characters, are_character_upgrades_randomized, is_level_playable, \
+from .CharacterUtils import get_playable_characters, is_level_playable, \
     is_character_playable
-from .Enums import Character, Area, SubLevel, pascal_to_space, LevelMission
-from .Locations import level_location_table, upgrade_location_table, sub_level_location_table, \
-    field_emblem_location_table, boss_location_table, capsule_location_table, mission_location_table
-from .Logic import area_connections, chao_egg_location_table, enemy_location_table, fish_location_table
+from .Enums import Character, Area, pascal_to_space, LevelMission
+from .Locations import level_location_table, mission_location_table
 from .Options import SonicAdventureDXOptions
 
 
@@ -142,100 +140,6 @@ def get_possible_starting_areas() -> List[Area]:
             Area.FinalEggTower, Area.ECOutside, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
             Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall, Area.SSChaoGarden, Area.MRChaoGarden,
             Area.ECChaoGarden]
-
-
-def get_possible_starting_area_information(character: Character, area: Area, options: SonicAdventureDXOptions,
-                                           level_mapping: dict[Area, Area]) -> \
-        dict[Area, int]:
-    possible_locations = collections.defaultdict(int)
-
-    for level in level_location_table:
-        if is_level_playable(level, options):
-            actual_area_to = level.area
-            if options.entrance_randomizer:
-                for level_entrance, actual_level in level_mapping.items():
-                    if actual_level == level.area:
-                        actual_area_to = level_entrance
-            key = (character, area, actual_area_to)
-            if key in area_connections and not area_connections[key][options.logic_level.value]:
-                if level.character == character and not level.get_logic_items(options):
-                    possible_locations[area] += 1
-
-    if are_character_upgrades_randomized(character, options):
-        for upgrade in upgrade_location_table:
-            if upgrade.character == character and upgrade.area == area and not upgrade.get_logic_items(options):
-                possible_locations[area] += 1
-    if options.sand_hill_check:
-        for sub_level in sub_level_location_table:
-            if sub_level.subLevel == SubLevel.SandHill:
-                if character in sub_level.get_logic_characters(options) and sub_level.area == area:
-                    possible_locations[area] += 1
-    if options.twinkle_circuit_check:
-        for sub_level in sub_level_location_table:
-            if sub_level.subLevel == SubLevel.TwinkleCircuit and sub_level.subLevelMission == LevelMission.B:
-                if character in sub_level.get_logic_characters(options) and sub_level.area == area:
-                    possible_locations[area] += 1
-    if options.sky_chase_checks:
-        for sub_level in sub_level_location_table:
-            if sub_level.subLevel == SubLevel.SkyChaseAct1 or sub_level.subLevel == SubLevel.SkyChaseAct2:
-                if character in sub_level.get_logic_characters(options) and sub_level.area == area:
-                    possible_locations[area] += 1
-    if options.field_emblems_checks:
-        for field_emblem in field_emblem_location_table:
-            if character in field_emblem.get_logic_characters_upgrades(options) and field_emblem.area == area:
-                possible_locations[area] += 1
-    if options.boss_checks:
-        for boss_fight in boss_location_table:
-            if character in boss_fight.characters and boss_fight.area == area:
-                possible_locations[area] += 1
-    if options.capsule_sanity:
-        for life_capsule in capsule_location_table:
-            actual_area_to = life_capsule.area
-            if options.entrance_randomizer:
-                for level_entrance, actual_level in level_mapping.items():
-                    if actual_level == life_capsule.area:
-                        actual_area_to = level_entrance
-            key = (character, area, actual_area_to)
-            if key in area_connections and not area_connections[key][options.logic_level.value]:
-                if life_capsule.character == character and not life_capsule.get_logic_items(options):
-                    possible_locations[area] += 1
-    if options.mission_mode_checks:
-        for mission in mission_location_table:
-            if str(mission.missionNumber) in options.mission_blacklist.value:
-                continue
-            if str(mission.character.name) in options.mission_blacklist.value:
-                continue
-            if (mission.character == character and mission.cardArea == area
-                    and mission.objectiveArea == area and not mission.get_logic_items(options)):
-                possible_locations[area] += 1
-    if options.chao_egg_checks:
-        for egg in chao_egg_location_table:
-            if character in egg.characters and egg.area == area and not egg.requirements:
-                possible_locations[area] += 1
-    if options.enemy_sanity:
-        for enemy in enemy_location_table:
-            actual_area_to = enemy.area
-            if options.entrance_randomizer:
-                for level_entrance, actual_level in level_mapping.items():
-                    if actual_level == enemy.area:
-                        actual_area_to = level_entrance
-            key = (character, area, actual_area_to)
-            if key in area_connections and not area_connections[key][options.logic_level.value]:
-                if enemy.character == character and not enemy.get_logic_items(options):
-                    possible_locations[area] += 1
-    if options.fish_sanity:
-        for fish in fish_location_table:
-            actual_area_to = fish.area
-            if options.entrance_randomizer:
-                for level_entrance, actual_level in level_mapping.items():
-                    if actual_level == fish.area:
-                        actual_area_to = level_entrance
-            key = (character, area, actual_area_to)
-            if key in area_connections and not area_connections[key][options.logic_level.value]:
-                if Character.Big == character and not fish.get_logic_items(options):
-                    possible_locations[area] += 1
-
-    return possible_locations
 
 
 def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: StarterSetup,

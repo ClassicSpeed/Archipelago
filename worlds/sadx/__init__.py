@@ -106,12 +106,7 @@ class SonicAdventureDXWorld(World):
                 self.options.gamma_action_stage_missions.value = passthrough["GammaActionStageMissions"]
                 self.options.big_action_stage_missions.value = passthrough["BigActionStageMissions"]
 
-                self.options.randomized_sonic_upgrades.value = passthrough["RandomizedSonicUpgrades"]
-                self.options.randomized_tails_upgrades.value = passthrough["RandomizedTailsUpgrades"]
-                self.options.randomized_knuckles_upgrades.value = passthrough["RandomizedKnucklesUpgrades"]
-                self.options.randomized_amy_upgrades.value = passthrough["RandomizedAmyUpgrades"]
-                self.options.randomized_big_upgrades.value = passthrough["RandomizedGammaUpgrades"]
-                self.options.randomized_gamma_upgrades.value = passthrough["RandomizedBigUpgrades"]
+                self.options.randomized_upgrades.value = passthrough["RandomizedUpgrades"]
 
                 self.options.boss_checks.value = passthrough["BossChecks"]
                 self.options.unify_chaos4.value = passthrough["UnifyChaos4"]
@@ -314,12 +309,7 @@ class SonicAdventureDXWorld(World):
             "UnifyChaos6": self.options.unify_chaos6.value,
             "UnifyEggHornet": self.options.unify_egg_hornet.value,
 
-            "RandomizedSonicUpgrades": self.options.randomized_sonic_upgrades.value,
-            "RandomizedTailsUpgrades": self.options.randomized_tails_upgrades.value,
-            "RandomizedKnucklesUpgrades": self.options.randomized_knuckles_upgrades.value,
-            "RandomizedAmyUpgrades": self.options.randomized_amy_upgrades.value,
-            "RandomizedGammaUpgrades": self.options.randomized_big_upgrades.value,
-            "RandomizedBigUpgrades": self.options.randomized_gamma_upgrades.value,
+            "RandomizedUpgrades": self.options.randomized_upgrades.value,
 
             "PlayableSonic": self.options.playable_sonic.value,
             "PlayableTails": self.options.playable_tails.value,
