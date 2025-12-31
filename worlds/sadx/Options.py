@@ -139,13 +139,6 @@ class StartingLocationOption(Choice):
     default = 0
 
 
-class GuaranteedStartingChecks(Range):
-    """Ensures at least this many checks in your starting location if possible."""
-    display_name = "Guaranteed Starting Checks"
-    range_start = 1
-    range_end = 10
-    default = 2
-
 
 class EntranceRandomizer(Toggle):
     """
@@ -772,7 +765,6 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     logic_level: LogicLevel
     starting_character: StartingCharacterOption
     starting_location: StartingLocationOption
-    guaranteed_starting_checks: GuaranteedStartingChecks
     entrance_randomizer: EntranceRandomizer
     level_entrance_plando: LevelEntrancePlando
     gating_mode: GatingMode
@@ -888,7 +880,6 @@ sadx_option_groups = [
         LogicLevel,
         StartingCharacterOption,
         StartingLocationOption,
-        GuaranteedStartingChecks,
         EntranceRandomizer,
         LevelEntrancePlando,
         SendDeathLinkChance,
