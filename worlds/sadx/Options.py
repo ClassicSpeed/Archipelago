@@ -139,7 +139,6 @@ class StartingLocationOption(Choice):
     default = 0
 
 
-
 class EntranceRandomizer(Toggle):
     """
     Randomizes the entrances to action stages.
@@ -384,34 +383,9 @@ class LifeCapsulesChangeSongs(Toggle):
     display_name = "Life Capsules Change Songs"
 
 
-class RandomizedSonicUpgrades(DefaultOnToggle):
-    """Determines whether Sonic's upgrades are randomized and sent to the item pool."""
+class RandomizedUpgrades(DefaultOnToggle):
+    """Determines whether upgrades are randomized and sent to the item pool."""
     display_name = "Randomize Sonic's Upgrades"
-
-
-class RandomizedTailsUpgrades(DefaultOnToggle):
-    """Determines whether Tails' upgrades are randomized and sent to the item pool."""
-    display_name = "Randomize Tails' Upgrades"
-
-
-class RandomizedKnucklesUpgrades(DefaultOnToggle):
-    """Determines whether Knuckles' upgrades are randomized and sent to the item pool."""
-    display_name = "Randomize Knuckles' Upgrades"
-
-
-class RandomizedAmyUpgrades(DefaultOnToggle):
-    """Determines whether Amy's upgrades are randomized and sent to the item pool."""
-    display_name = "Randomize Amy's Upgrades"
-
-
-class RandomizedBigUpgrades(DefaultOnToggle):
-    """Determines whether Big's upgrades are randomized and sent to the item pool."""
-    display_name = "Randomize Big's Upgrades"
-
-
-class RandomizedGammaUpgrades(DefaultOnToggle):
-    """Determines whether Gamma's upgrades are randomized and sent to the item pool."""
-    display_name = "Randomize Gamma's Upgrades"
 
 
 class BossChecks(DefaultOnToggle):
@@ -797,12 +771,7 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     music_shuffle_consistency: MusicShuffleConsistency
     life_capsules_change_songs: LifeCapsulesChangeSongs
 
-    randomized_sonic_upgrades: RandomizedSonicUpgrades
-    randomized_tails_upgrades: RandomizedTailsUpgrades
-    randomized_knuckles_upgrades: RandomizedKnucklesUpgrades
-    randomized_amy_upgrades: RandomizedAmyUpgrades
-    randomized_big_upgrades: RandomizedBigUpgrades
-    randomized_gamma_upgrades: RandomizedGammaUpgrades
+    randomized_upgrades: RandomizedUpgrades
 
     boss_checks: BossChecks
     unify_chaos4: UnifyChaos4
@@ -912,14 +881,6 @@ sadx_option_groups = [
         MusicShuffleConsistency,
         LifeCapsulesChangeSongs,
     ]),
-    OptionGroup("Upgrade Options", [
-        RandomizedSonicUpgrades,
-        RandomizedTailsUpgrades,
-        RandomizedKnucklesUpgrades,
-        RandomizedAmyUpgrades,
-        RandomizedBigUpgrades,
-        RandomizedGammaUpgrades,
-    ]),
     OptionGroup("Bosses Options", [
         BossChecks,
         UnifyChaos4,
@@ -927,6 +888,7 @@ sadx_option_groups = [
         UnifyEggHornet,
     ]),
     OptionGroup("Extra locations", [
+        RandomizedUpgrades,
         FieldEmblemsChecks,
         SecretChaoEggs,
         ChaoRacesChecks,

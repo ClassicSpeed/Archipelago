@@ -52,17 +52,6 @@ def character_has_enemy_sanity(character: Character, options: SonicAdventureDXOp
     }.get(character).value > 0
 
 
-def are_character_upgrades_randomized(character: Character, options: SonicAdventureDXOptions) -> bool:
-    return {
-        Character.Sonic: options.randomized_sonic_upgrades,
-        Character.Tails: options.randomized_tails_upgrades,
-        Character.Knuckles: options.randomized_knuckles_upgrades,
-        Character.Amy: options.randomized_amy_upgrades,
-        Character.Big: options.randomized_big_upgrades,
-        Character.Gamma: options.randomized_gamma_upgrades
-    }.get(character).value > 0
-
-
 def is_character_playable(character: Character, options: SonicAdventureDXOptions) -> bool:
     return {
         Character.Sonic: options.playable_sonic,
