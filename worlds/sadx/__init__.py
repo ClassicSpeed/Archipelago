@@ -121,7 +121,6 @@ class SonicAdventureDXWorld(World):
                 self.options.field_emblems_checks.value = passthrough["FieldEmblemChecks"]
                 self.options.starting_character.value = passthrough["StartingCharacterOption"]
                 self.options.starting_location.value = passthrough["StartingLocationOption"]
-                self.options.guaranteed_starting_checks.value = passthrough["GuaranteedStartingChecks"]
 
                 self.options.chao_egg_checks.value = passthrough["SecretChaoEggs"]
                 self.options.chao_races_checks.value = passthrough["ChaoRacesChecks"]
@@ -251,7 +250,6 @@ class SonicAdventureDXWorld(World):
 
             "StartingCharacterOption": self.options.starting_character.value,
             "StartingLocationOption": self.options.starting_location.value,
-            "GuaranteedStartingChecks": self.options.guaranteed_starting_checks.value,
             "FieldEmblemChecks": self.options.field_emblems_checks.value,
             "SecretChaoEggs": self.options.chao_egg_checks.value,
             "ChaoRacesChecks": self.options.chao_races_checks.value,
