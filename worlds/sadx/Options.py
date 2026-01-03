@@ -504,34 +504,22 @@ class EnemySanity(Toggle):
     display_name = "Enemy Sanity"
 
 
-class SonicEnemySanity(DefaultOnToggle):
-    """If enemy-sanity is on, determines whether Sonic's enemies are part of the randomizer (308 Locations)."""
-    display_name = "Sonic's Enemy Sanity"
+class EnemySanityList(OptionSet):
+    """
+    Determines which enemies are included in enemy-sanity.
+    Character names are used as values
+    """
+    display_name = "EnemySanityList"
+    default = {'Sonic', 'Tails', 'Knuckles', 'Amy', 'Big', 'Gamma'}
+    valid_keys = ['Sonic', 'Tails', 'Knuckles', 'Amy', 'Big', 'Gamma']
 
 
-class TailsEnemySanity(DefaultOnToggle):
-    """If enemy-sanity is on, determines whether Tails' enemies are part of the randomizer (46 Locations)."""
-    display_name = "Tails' Enemy Sanity"
-
-
-class KnucklesEnemySanity(DefaultOnToggle):
-    """If enemy-sanity is on, determines whether Knuckles' enemies are part of the randomizer (80 Locations)."""
-    display_name = "Knuckles' Enemy Sanity"
-
-
-class AmyEnemySanity(DefaultOnToggle):
-    """If enemy-sanity is on, determines whether Amy's enemies are part of the randomizer (54 Locations)."""
-    display_name = "Amy's Enemy Sanity"
-
-
-class BigEnemySanity(DefaultOnToggle):
-    """If enemy-sanity is on, determines whether Big's enemies are part of the randomizer (12 Locations)."""
-    display_name = "Big's Enemy Sanity"
-
-
-class GammaEnemySanity(DefaultOnToggle):
-    """If enemy-sanity is on, determines whether Gamma's enemies are part of the randomizer (210 Locations)."""
-    display_name = "Gamma's Enemy Sanity"
+class MissableEnemies(DefaultOnToggle):
+    """Determines whether enemies in missable locations grant checks. This includes:
+    - Enemies in the Casinopolis Sewers (Sonic and Tails)
+    - Enemies in the Kart section of Sonic's Twinkle Park
+    """
+    display_name = "Include Missable Capsules"
 
 
 class CapsuleSanity(Toggle):
@@ -542,59 +530,40 @@ class CapsuleSanity(Toggle):
     display_name = "Capsule Sanity"
 
 
+class CapsuleSanityList(OptionSet):
+    """
+    Determines which capsules are included in capsule-sanity.
+    You can sue Character name and capsule type as values.
+    X-Life, X-Shield, X-PowerUp, and X-Ring with X being the character name (i.e. 'Sonic-PowerUp')
+    """
+    display_name = "CapsuleSanityList"
+    default = {'Sonic-Life', 'Sonic-Shield', 'Sonic-PowerUp', 'Sonic-Ring',
+               'Tails-Life', 'Tails-Shield', 'Tails-PowerUp', 'Tails-Ring',
+               'Knuckles-Life', 'Knuckles-Shield', 'Knuckles-PowerUp', 'Knuckles-Ring',
+               'Amy-Life', 'Amy-Shield', 'Amy-PowerUp', 'Amy-Ring',
+               'Big-Life', 'Big-Shield', 'Big-PowerUp', 'Big-Ring',
+               'Gamma-Life', 'Gamma-Shield', 'Gamma-PowerUp', 'Gamma-Ring'}
+    valid_keys = ['Sonic-Life', 'Sonic-Shield', 'Sonic-PowerUp', 'Sonic-Ring',
+                  'Tails-Life', 'Tails-Shield', 'Tails-PowerUp', 'Tails-Ring',
+                  'Knuckles-Life', 'Knuckles-Shield', 'Knuckles-PowerUp', 'Knuckles-Ring',
+                  'Amy-Life', 'Amy-Shield', 'Amy-PowerUp', 'Amy-Ring',
+                  'Big-Life', 'Big-Shield', 'Big-PowerUp', 'Big-Ring',
+                  'Gamma-Life', 'Gamma-Shield', 'Gamma-PowerUp', 'Gamma-Ring']
+
+
+class MissableCapsules(DefaultOnToggle):
+    """Determines whether capsules in missable locations grant checks. This includes:
+    - Capsules in the Casinopolis Sewers (Sonic and Tails)
+    - Capsules in the Kart section of Sonic's Twinkle Park
+    - Capsules in the 'Going Down?' section of Sonic's Speed Highway
+    - Capsules in the Boulder section of Sonic's Lost World
+    """
+    display_name = "Include Missable Capsules"
+
+
 class PinballCapsules(Toggle):
     """Determines whether pinball's capsules grant checks (5 Locations)."""
     display_name = "Include Pinball's Capsules"
-
-
-class SonicCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, determines whether Sonic's capsules are part of the randomizer (360 Locations)."""
-    display_name = "Sonic's Capsule Sanity"
-
-
-class TailsCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, determines whether Tails' capsules are part of the randomizer (111 Locations)."""
-    display_name = "Tails' Capsule Sanity"
-
-
-class KnucklesCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, determines whether Knuckles' capsules are part of the randomizer (66 Locations)."""
-    display_name = "Knuckles' Capsule Sanity"
-
-
-class AmyCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, determines whether Amy's capsules are part of the randomizer (53 Locations)."""
-    display_name = "Amy's Capsule Sanity"
-
-
-class BigCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, determines whether Big's capsules are part of the randomizer (26 Locations)."""
-    display_name = "Big's Capsule Sanity"
-
-
-class GammaCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, determines whether Gamma's capsules are part of the randomizer (76 Locations)."""
-    display_name = "Gamma's Capsule Sanity"
-
-
-class LifeCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, the randomizer will include Life Capsules (103 Locations)."""
-    display_name = "Life Capsule Sanity"
-
-
-class ShieldCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, the randomizer will include  Shields and Magnetic Shields (78 Locations)."""
-    display_name = "Shield Capsule Sanity"
-
-
-class PowerUpCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, the randomizer will include Invincibility, Speed Up and Bomb Capsules (70 Locations)."""
-    display_name = "Power Up Capsule Sanity"
-
-
-class RingCapsuleSanity(DefaultOnToggle):
-    """If capsule-sanity is on, the randomizer will include 5, 10 and ? capsules (441 Locations)."""
-    display_name = "Ring Capsule Sanity"
 
 
 class FishSanity(Toggle):
@@ -793,27 +762,13 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     sky_chase_checks_hard: SkyChaseChecksHard
 
     enemy_sanity: EnemySanity
-    sonic_enemy_sanity: SonicEnemySanity
-    tails_enemy_sanity: TailsEnemySanity
-    knuckles_enemy_sanity: KnucklesEnemySanity
-    amy_enemy_sanity: AmyEnemySanity
-    big_enemy_sanity: BigEnemySanity
-    gamma_enemy_sanity: GammaEnemySanity
+    enemy_sanity_list: EnemySanityList
+    missable_enemies: MissableEnemies
 
     capsule_sanity: CapsuleSanity
+    capsule_sanity_list: CapsuleSanityList
+    missable_capsules: MissableCapsules
     pinball_capsules: PinballCapsules
-
-    sonic_capsule_sanity: SonicCapsuleSanity
-    tails_capsule_sanity: TailsCapsuleSanity
-    knuckles_capsule_sanity: KnucklesCapsuleSanity
-    amy_capsule_sanity: AmyCapsuleSanity
-    big_capsule_sanity: BigCapsuleSanity
-    gamma_capsule_sanity: GammaCapsuleSanity
-
-    life_capsule_sanity: LifeCapsuleSanity
-    shield_capsule_sanity: ShieldCapsuleSanity
-    powerup_capsule_sanity: PowerUpCapsuleSanity
-    ring_capsule_sanity: RingCapsuleSanity
 
     fish_sanity: FishSanity
     lazy_fishing: LazyFishing
@@ -903,24 +858,12 @@ sadx_option_groups = [
         SkyChaseChecks,
         SkyChaseChecksHard,
         EnemySanity,
-        SonicEnemySanity,
-        TailsEnemySanity,
-        KnucklesEnemySanity,
-        AmyEnemySanity,
-        BigEnemySanity,
-        GammaEnemySanity,
+        EnemySanityList,
+        MissableEnemies,
         CapsuleSanity,
+        CapsuleSanityList,
+        MissableCapsules,
         PinballCapsules,
-        SonicCapsuleSanity,
-        TailsCapsuleSanity,
-        KnucklesCapsuleSanity,
-        AmyCapsuleSanity,
-        BigCapsuleSanity,
-        GammaCapsuleSanity,
-        LifeCapsuleSanity,
-        ShieldCapsuleSanity,
-        PowerUpCapsuleSanity,
-        RingCapsuleSanity,
         FishSanity,
         LazyFishing,
     ]),

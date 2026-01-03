@@ -393,7 +393,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                 else:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
-                    elif self.random.randint(0, 100) > 70:
+                    elif self.random.randint(0, 100) > 50:
                         area_map[connection_key] = 0
                     else:
                         # The closer the area is to a starter position, the cheaper it is

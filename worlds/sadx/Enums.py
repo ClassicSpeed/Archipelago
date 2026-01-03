@@ -1,6 +1,8 @@
 import re
 from enum import Enum, auto
-from typing import List
+from typing import List, Dict
+
+from Options import OptionSet
 
 SADX_BASE_ID = 543800000
 
@@ -128,6 +130,85 @@ class AdventureField(Enum):
     MysticRuins = auto()
     EggCarrier = auto()
     Past = auto()
+
+
+class EnemySanityCategory(Enum):
+    Sonic = 0
+    Tails = auto()
+    Knuckles = auto()
+    Amy = auto()
+    Big = auto()
+    Gamma = auto()
+
+    @classmethod
+    def from_object_list(cls, objects: OptionSet) -> List['EnemySanityCategory']:
+        enum_list = []
+        for obj in objects:
+            try:
+                enum_member = cls[obj]
+                enum_list.append(enum_member)
+            except (KeyError, AttributeError):
+                print(f"Warning: '{getattr(obj, 'value', None)}' is not a valid enum member.")
+        return enum_list
+
+    @classmethod
+    def to_object_list(cls, enum_map: Dict[int, int]) -> 'OptionSet':
+        try:
+            enum_names = {member.name for value in enum_map.values()
+                          for member in cls if member.value == value}
+            return OptionSet(enum_names)
+        except Exception as e:
+            print(f"Error while converting to object list: {e}")
+            return OptionSet({})
+
+
+class CapsuleSanityCategory(Enum):
+    SonicLife = 0
+    SonicShield = auto()
+    SonicPowerUp = auto()
+    SonicRing = auto()
+    TailsLife = auto()
+    TailsShield = auto()
+    TailsPowerUp = auto()
+    TailsRing = auto()
+    KnucklesLife = auto()
+    KnucklesShield = auto()
+    KnucklesPowerUp = auto()
+    KnucklesRing = auto()
+    AmyLife = auto()
+    AmyShield = auto()
+    AmyPowerUp = auto()
+    AmyRing = auto()
+    BigLife = auto()
+    BigShield = auto()
+    BigPowerUp = auto()
+    BigRing = auto()
+    GammaLife = auto()
+    GammaShield = auto()
+    GammaPowerUp = auto()
+    GammaRing = auto()
+
+    @classmethod
+    def from_object_list(cls, objects: OptionSet) -> List['CapsuleSanityCategory']:
+        enum_list = []
+        for obj in objects:
+            try:
+                normalized_value = re.sub(r'[-\s]', '', obj)
+                enum_member = cls[normalized_value]
+                enum_list.append(enum_member)
+            except (KeyError, AttributeError):
+                print(f"Warning: '{getattr(obj, 'value', None)}' is not a valid enum member.")
+        return enum_list
+
+    @classmethod
+    def to_object_list(cls, enum_map: Dict[int, int]) -> 'OptionSet':
+        try:
+            enum_names = {member.name for value in enum_map.values()
+                          for member in cls if member.value == value}
+            return OptionSet(enum_names)
+        except Exception as e:
+            print(f"Error while converting to object list: {e}")
+            return OptionSet({})
 
 
 class Area(Enum):

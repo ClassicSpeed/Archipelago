@@ -2,11 +2,10 @@ from dataclasses import dataclass
 from typing import Dict, Tuple
 
 from BaseClasses import Region
-from .CharacterUtils import is_character_playable
+from .CharacterUtils import is_character_playable, is_capsule_enabled
 from .CharacterUtils import is_level_playable, \
-    get_playable_characters, get_playable_character_item, is_any_character_playable, character_has_enemy_sanity, \
-    character_has_capsule_sanity
-from .Enums import Area, Character, SubLevelMission, SubLevel, pascal_to_space, Capsule
+    get_playable_characters, get_playable_character_item, is_any_character_playable, character_has_enemy_sanity
+from .Enums import Area, Character, SubLevelMission, SubLevel, pascal_to_space
 from .Locations import SonicAdventureDXLocation, \
     upgrade_location_table, level_location_table, mission_location_table, boss_location_table, sub_level_location_table, \
     field_emblem_location_table
@@ -24,6 +23,17 @@ class AreaConnection:
     areaTo: Area
     character: Character
     item: str
+
+
+MISSABLE_CAPSULES = (list(range(12501, 12547))  # Sonic Casinopolis Sewers
+                     + list(range(21501, 21542))  # Tails Casinopolis Sewers
+                     + list(range(14501, 14519))  # Sonic Twinkle Park Karting
+                     + list(range(15524, 15532))  # Sonic Speed Highway Going down
+                     + list(range(18512, 18514)))  # Sonic Lost Would Boulder
+
+MISSABLE_ENEMIES = (list(range(12001, 12010))  # Sonic Casinopolis Sewers
+                    + list(range(21001, 21003))  # Tails Casinopolis Sewers
+                    + list(range(14001, 14008)))  # Sonic Twinkle Park karting
 
 
 def get_region_name(character: Character, area: Area) -> str:
@@ -100,25 +110,21 @@ def get_location_ids_for_area(area: Area, character: Character, options: SonicAd
         for capsule in capsule_location_table:
             if capsule.area == area and capsule.character == character and is_character_playable(capsule.character,
                                                                                                  options):
-                if character_has_capsule_sanity(capsule.character, options):
-                    if 12548 <= capsule.locationId <= 12552 and not options.pinball_capsules.value:
-                        continue
-                    if capsule.type == Capsule.ExtraLife and options.life_capsule_sanity:
-                        location_ids.append(capsule.locationId)
-                    elif capsule.type in [Capsule.Shield, Capsule.MagneticShield] and options.shield_capsule_sanity:
-                        location_ids.append(capsule.locationId)
-                    elif (capsule.type in [Capsule.SpeedUp, Capsule.Invincibility, Capsule.Bomb]
-                          and options.powerup_capsule_sanity):
-                        location_ids.append(capsule.locationId)
-                    elif (capsule.type in [Capsule.FiveRings, Capsule.TenRings, Capsule.RandomRings]
-                          and options.ring_capsule_sanity):
-                        location_ids.append(capsule.locationId)
+                if not is_capsule_enabled(capsule, options):
+                    continue
+                if not options.pinball_capsules.value and 12548 <= capsule.locationId <= 12552:
+                    continue
+                if not options.missable_capsules.value and capsule.locationId in MISSABLE_CAPSULES:
+                    continue
+                location_ids.append(capsule.locationId)
 
     if options.enemy_sanity:
         for enemy in enemy_location_table:
             if enemy.area == area and enemy.character == character:
                 if is_character_playable(enemy.character, options):
                     if character_has_enemy_sanity(enemy.character, options):
+                        if not options.missable_enemies.value and enemy.locationId in MISSABLE_ENEMIES:
+                            continue
                         location_ids.append(enemy.locationId)
 
     if options.fish_sanity:
