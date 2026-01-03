@@ -4,7 +4,8 @@ from typing import Dict, Any
 from BaseClasses import Tutorial, Region
 from worlds.AutoWorld import WebWorld, World
 from .CharacterUtils import get_playable_characters
-from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas, AreaConnection
+from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas, AreaConnection, \
+    EnemySanityCategory, CapsuleSanityCategory
 from .ItemPool import create_sadx_items, get_item_names, ItemDistribution
 from .Items import SonicAdventureDXItem, group_item_table, item_name_to_info, filler_item_table
 from .Locations import all_location_table, group_location_table
@@ -133,28 +134,17 @@ class SonicAdventureDXWorld(World):
                 self.options.sky_chase_checks_hard.value = passthrough["SkyChaseChecksHard"]
 
                 self.options.enemy_sanity.value = passthrough["EnemySanity"]
-
-                self.options.sonic_enemy_sanity.value = passthrough["SonicEnemySanity"]
-                self.options.tails_enemy_sanity.value = passthrough["TailsEnemySanity"]
-                self.options.knuckles_enemy_sanity.value = passthrough["KnucklesEnemySanity"]
-                self.options.amy_enemy_sanity.value = passthrough["AmyEnemySanity"]
-                self.options.big_enemy_sanity.value = passthrough["BigEnemySanity"]
-                self.options.gamma_enemy_sanity.value = passthrough["GammaEnemySanity"]
+                self.options.enemy_sanity_list = EnemySanityCategory.to_object_list(passthrough["EnemySanityList"])
+                self.options.enemy_sanity_list.value = passthrough["EnemySanityList"]
+                self.options.missable_enemies.value = passthrough["MissableEnemies"]
 
                 self.options.capsule_sanity.value = passthrough["CapsuleSanity"]
+                self.options.capsule_sanity_list = CapsuleSanityCategory.to_object_list(
+                    passthrough["CapsuleSanityList"])
+                self.options.capsule_sanity_list.value = passthrough["CapsuleSanityList"]
+                self.options.missable_capsules.value = passthrough["MissableCapsules"]
                 self.options.pinball_capsules.value = passthrough["PinballCapsules"]
 
-                self.options.sonic_capsule_sanity.value = passthrough["SonicCapsuleSanity"]
-                self.options.tails_capsule_sanity.value = passthrough["TailsCapsuleSanity"]
-                self.options.knuckles_capsule_sanity.value = passthrough["KnucklesCapsuleSanity"]
-                self.options.amy_capsule_sanity.value = passthrough["AmyCapsuleSanity"]
-                self.options.big_capsule_sanity.value = passthrough["BigCapsuleSanity"]
-                self.options.gamma_capsule_sanity.value = passthrough["GammaCapsuleSanity"]
-
-                self.options.life_capsule_sanity.value = passthrough["LifeCapsuleSanity"]
-                self.options.shield_capsule_sanity.value = passthrough["ShieldCapsuleSanity"]
-                self.options.powerup_capsule_sanity.value = passthrough["PowerUpCapsuleSanity"]
-                self.options.ring_capsule_sanity.value = passthrough["RingCapsuleSanity"]
                 self.options.fish_sanity.value = passthrough["FishSanity"]
                 self.options.lazy_fishing.value = passthrough["LazyFishing"]
 
@@ -260,24 +250,16 @@ class SonicAdventureDXWorld(World):
             },
 
             "EnemySanity": self.options.enemy_sanity.value,
-            "SonicEnemySanity": self.options.sonic_enemy_sanity.value,
-            "TailsEnemySanity": self.options.tails_enemy_sanity.value,
-            "KnucklesEnemySanity": self.options.knuckles_enemy_sanity.value,
-            "AmyEnemySanity": self.options.amy_enemy_sanity.value,
-            "BigEnemySanity": self.options.big_enemy_sanity.value,
-            "GammaEnemySanity": self.options.gamma_enemy_sanity.value,
+            "EnemySanityList": {enum_member.value: enum_member.value for enum_member in
+                                EnemySanityCategory.from_object_list(self.options.enemy_sanity_list)},
+            "MissableEnemies": self.options.missable_enemies.value,
+
             "CapsuleSanity": self.options.capsule_sanity.value,
+            "CapsuleSanityList": {enum_member.value: enum_member.value for enum_member in
+                                  CapsuleSanityCategory.from_object_list(self.options.capsule_sanity_list)},
+            "MissableCapsules": self.options.missable_capsules.value,
             "PinballCapsules": self.options.pinball_capsules.value,
-            "SonicCapsuleSanity": self.options.sonic_capsule_sanity.value,
-            "TailsCapsuleSanity": self.options.tails_capsule_sanity.value,
-            "KnucklesCapsuleSanity": self.options.knuckles_capsule_sanity.value,
-            "AmyCapsuleSanity": self.options.amy_capsule_sanity.value,
-            "BigCapsuleSanity": self.options.big_capsule_sanity.value,
-            "GammaCapsuleSanity": self.options.gamma_capsule_sanity.value,
-            "LifeCapsuleSanity": self.options.life_capsule_sanity.value,
-            "ShieldCapsuleSanity": self.options.shield_capsule_sanity.value,
-            "PowerUpCapsuleSanity": self.options.powerup_capsule_sanity.value,
-            "RingCapsuleSanity": self.options.ring_capsule_sanity.value,
+
             "FishSanity": self.options.fish_sanity.value,
             "LazyFishing": self.options.lazy_fishing.value,
 

@@ -1,7 +1,7 @@
 from typing import List
 
-from .Enums import Character, LevelMission
-from .Logic import LevelLocation
+from .Enums import Character, LevelMission, Capsule, CapsuleSanityCategory, EnemySanityCategory
+from .Logic import LevelLocation, CapsuleLocation
 from .Options import SonicAdventureDXOptions
 
 
@@ -30,26 +30,31 @@ def get_character_upgrades_item(character: Character) -> List[str]:
     }.get(character)
 
 
-def character_has_capsule_sanity(character: Character, options: SonicAdventureDXOptions) -> bool:
-    return {
-        Character.Sonic: options.sonic_capsule_sanity,
-        Character.Tails: options.tails_capsule_sanity,
-        Character.Knuckles: options.knuckles_capsule_sanity,
-        Character.Amy: options.amy_capsule_sanity,
-        Character.Big: options.big_capsule_sanity,
-        Character.Gamma: options.gamma_capsule_sanity
-    }.get(character).value > 0
+def is_capsule_enabled(capsule: CapsuleLocation, options: SonicAdventureDXOptions) -> bool:
+    capsule_to_category = {
+        Capsule.ExtraLife: "Life",
+        Capsule.Shield: "Shield",
+        Capsule.MagneticShield: "Shield",
+        Capsule.SpeedUp: "PowerUp",
+        Capsule.Invincibility: "PowerUp",
+        Capsule.Bomb: "PowerUp",
+        Capsule.FiveRings: "Ring",
+        Capsule.TenRings: "Ring",
+        Capsule.RandomRings: "Ring",
+    }
+    category_suffix = capsule_to_category.get(capsule.type)
+    if not category_suffix:
+        return False
+    category_name = f"{capsule.character.name}{category_suffix}"
+    category = CapsuleSanityCategory[category_name]
+
+    return category in CapsuleSanityCategory.from_object_list(options.capsule_sanity_list)
 
 
 def character_has_enemy_sanity(character: Character, options: SonicAdventureDXOptions) -> bool:
-    return {
-        Character.Sonic: options.sonic_enemy_sanity,
-        Character.Tails: options.tails_enemy_sanity,
-        Character.Knuckles: options.knuckles_enemy_sanity,
-        Character.Amy: options.amy_enemy_sanity,
-        Character.Big: options.big_enemy_sanity,
-        Character.Gamma: options.gamma_enemy_sanity
-    }.get(character).value > 0
+    category = EnemySanityCategory[character.name]
+
+    return category in EnemySanityCategory.from_object_list(options.enemy_sanity_list)
 
 
 def is_character_playable(character: Character, options: SonicAdventureDXOptions) -> bool:
