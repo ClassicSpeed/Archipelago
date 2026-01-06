@@ -385,7 +385,7 @@ class LifeCapsulesChangeSongs(Toggle):
 
 class RandomizedUpgrades(DefaultOnToggle):
     """Determines whether upgrades are randomized and sent to the item pool."""
-    display_name = "Randomize Sonic's Upgrades"
+    display_name = "Randomize Everyone's Upgrades"
 
 
 class BossChecks(DefaultOnToggle):
@@ -790,6 +790,8 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
 
 sadx_option_groups = [
     OptionGroup("General Options", [
+        LogicLevel,
+        GatingMode,
         GoalRequiresLevels,
         LevelPercentage,
         GoalRequiresChaosEmeralds,
@@ -801,7 +803,6 @@ sadx_option_groups = [
         GoalRequiresBosses,
         BossPercentage,
         GoalRequiresChaoRaces,
-        LogicLevel,
         StartingCharacterOption,
         StartingLocationOption,
         EntranceRandomizer,
