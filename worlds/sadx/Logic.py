@@ -733,7 +733,8 @@ area_connections: Dict[
         [ShutterKey], [ShutterKey], [ShutterKey], [ShutterKey], []),
     (Character.Knuckles, Area.Casino, Area.Casinopolis, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Knuckles, Area.Casino, Area.Hotel, False): ([CasinoKey], [CasinoKey], [CasinoKey], [], []),
+    (Character.Knuckles, Area.Casino, Area.Hotel, False): (
+        [CasinoKey], [CasinoKey], [CasinoKey], [[CasinoKey], [ShutterKey]], []),
     (Character.Knuckles, Area.Casino, Area.EggWalker, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [HotelKey], [], []),
