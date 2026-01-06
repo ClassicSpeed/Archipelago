@@ -191,26 +191,23 @@ class ReceiveDeathLinkChance(Range):
     default = 100
 
 
-class RingLink(Toggle):
+class RingLink(Choice):
     """
     Whether your in-level ring gain/loss is linked to other players.
+    Disabled (0): Ring Link is disabled.
+    Enabled (1): Rings are sent and received in normal situations.
+    Enabled Casinopolis (2): Rings are sent and received in most situations, plus while playing Sonic's Casinopolis.
+    Enabled Hard (3): Rings are sent and received when including finishing a level and during the Perfect Chaos fight.
+
     """
     display_name = "Ring Link"
-
-
-class CasinopolisRingLink(Toggle):
-    """
-    Whether Ring Link is enabled while playing Sonic's Casinopolis.
-    """
-    display_name = "Enable Ring Link while playing Sonic's Casinopolis"
-
-
-class HardRingLink(Toggle):
-    """
-    If Ring Link is enabled, sends and receives rings in more situations.
-    Particularly, it will subtract rings when finishing a level and during the Perfect Chaos fight.
-    """
-    display_name = "Hard Ring Link"
+    option_disabled = 0
+    option_enabled = 1
+    option_enabled_casinopolis = 2
+    option_enabled_hard = 3
+    default = 0
+    alias_false = 0
+    alias_true = 1
 
 
 class RingLoss(Choice):
@@ -457,43 +454,52 @@ class MissionBlackList(OptionSet):
     valid_keys = [str(i) for i in range(1, 61)] + ["Sonic", "Tails", "Knuckles", "Amy", "Big", "Gamma"]
 
 
-class TwinkleCircuitCheck(DefaultOnToggle):
-    """Determines whether beating Twinkle Circuit grants a check."""
+class TwinkleCircuitChecks(Choice):
+    """
+    Determines whether beating Twinkle Circuit grants a checks
+    Disabled (0): Twinkle Circuit disabled.
+    Enabled (1): Twinkle Circuit enabled (1 location).
+    Enabled Multiple (2): Enable a different track for each character as well (+5 locations).
+    """
     display_name = "Twinkle Circuit Check"
+    option_disabled = 0
+    option_enabled = 1
+    option_enabled_multiple = 2
+    default = 1
+    alias_false = 0
+    alias_true = 1
 
 
-class MultipleTwinkleCircuitChecks(Toggle):
+class SandHillChecks(Choice):
     """
-    If enabled, each character will have their own Twinkle Circuit check (5 extra locations).
-    Only works if Twinkle Circuit Check is enabled.
+    Determines whether beating Sand Hill grants a check:
+    Disabled (0): Sand Hill disabled.
+    Enabled (1): Sand Hill enabled (1 location).
+    Enabled Hard (2): Harder (points-based) Sand Hill mission enabled (+1 location).
     """
-    display_name = "Multiple Twinkle Circuit Checks"
-
-
-class SandHillCheck(DefaultOnToggle):
-    """Determines whether beating Sand Hill grants a check."""
     display_name = "Sand Hill Check"
+    option_disabled = 0
+    option_enabled = 1
+    option_enabled_hard = 2
+    default = 1
+    alias_false = 0
+    alias_true = 1
 
 
-class SandHillCheckHard(Toggle):
+class SkyChaseChecks(Choice):
     """
-    Determines whether beating the harder (points-based) Sand Hill mission grants a check.
-    Only works if Sand Hill Check is enabled.
+    Determines whether beating Sky Chase grants a check:
+    Disabled (0): Sky Chase disabled.
+    Enabled (1): Sky Chase Act 1 and 2 enabled (2 locations).
+    Enabled Hard (2): Harder (points-based) Sky Chase missions enabled (+2 locations).
     """
-    display_name = "Hard Sand Hill Check"
-
-
-class SkyChaseChecks(DefaultOnToggle):
-    """Determines whether beating Sky Chase Act 1 and 2 grants checks (2 Locations)."""
     display_name = "Sky Chase Checks"
-
-
-class SkyChaseChecksHard(Toggle):
-    """
-    Determines whether beating the harder (points-based) Sky Chase Act 1 and 2 missions grants checks (2 Locations).
-    Only works if Sky Chase checks are enabled.
-    """
-    display_name = "Hard Sky Chase Checks"
+    option_disabled = 0
+    option_enabled = 1
+    option_enabled_hard = 2
+    default = 1
+    alias_false = 0
+    alias_true = 1
 
 
 class EnemySanity(Toggle):
@@ -716,8 +722,6 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     send_death_link_chance: SendDeathLinkChance
     receive_death_link_chance: ReceiveDeathLinkChance
     ring_link: RingLink
-    casinopolis_ring_link: CasinopolisRingLink
-    hard_ring_link: HardRingLink
     ring_loss: RingLoss
     trap_link: TrapLink
 
@@ -754,12 +758,9 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     mission_mode_checks: MissionChecks
     auto_start_missions: AutoStartMissions
     mission_blacklist: MissionBlackList
-    twinkle_circuit_check: TwinkleCircuitCheck
-    twinkle_circuit_multiple_check: MultipleTwinkleCircuitChecks
-    sand_hill_check: SandHillCheck
-    sand_hill_check_hard: SandHillCheckHard
+    twinkle_circuit_checks: TwinkleCircuitChecks
+    sand_hill_checks: SandHillChecks
     sky_chase_checks: SkyChaseChecks
-    sky_chase_checks_hard: SkyChaseChecksHard
 
     enemy_sanity: EnemySanity
     enemy_sanity_list: EnemySanityList
@@ -809,11 +810,7 @@ sadx_option_groups = [
         LevelEntrancePlando,
         SendDeathLinkChance,
         ReceiveDeathLinkChance,
-        RingLink,
-        CasinopolisRingLink,
-        HardRingLink,
         RingLoss,
-        TrapLink,
     ]),
     OptionGroup("Characters Options", [
         PlayableSonic,
@@ -843,21 +840,8 @@ sadx_option_groups = [
         UnifyChaos6,
         UnifyEggHornet,
     ]),
-    OptionGroup("Extra locations", [
-        RandomizedUpgrades,
-        FieldEmblemsChecks,
-        SecretChaoEggs,
-        ChaoRacesChecks,
-        ChaoRacesLevelsToAccessPercentage,
-        MissionChecks,
-        AutoStartMissions,
-        MissionBlackList,
-        TwinkleCircuitCheck,
-        MultipleTwinkleCircuitChecks,
-        SandHillCheck,
-        SandHillCheckHard,
-        SkyChaseChecks,
-        SkyChaseChecksHard,
+
+    OptionGroup("Sanity Options", [
         EnemySanity,
         EnemySanityList,
         MissableEnemies,
@@ -868,6 +852,21 @@ sadx_option_groups = [
         FishSanity,
         LazyFishing,
     ]),
+
+    OptionGroup("Extra locations", [
+        RandomizedUpgrades,
+        FieldEmblemsChecks,
+        SecretChaoEggs,
+        ChaoRacesChecks,
+        ChaoRacesLevelsToAccessPercentage,
+        MissionChecks,
+        AutoStartMissions,
+        MissionBlackList,
+        TwinkleCircuitChecks,
+        SandHillChecks,
+        SkyChaseChecks,
+    ]),
+
     OptionGroup("Junk Options", [
         JunkFillPercentage,
         TrapFillPercentage,

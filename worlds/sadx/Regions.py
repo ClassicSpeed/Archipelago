@@ -89,7 +89,7 @@ def add_locations_to_region(region: Region, area: Area, character: Character, pl
 
 def get_location_ids_for_area(area: Area, character: Character, options: SonicAdventureDXOptions):
     location_ids = []
-    if area == Area.TPLobby and options.twinkle_circuit_check and options.twinkle_circuit_multiple_check:
+    if area == Area.TPLobby and options.twinkle_circuit_check.value == 2:
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.TwinkleCircuit:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
@@ -171,11 +171,11 @@ def get_location_ids_for_common_region(options):
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.SandHill:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
-                    if ((options.sand_hill_check_hard and sub_level.subLevelMission == SubLevelMission.A)
+                    if ((options.sand_hill_check.value == 2 and sub_level.subLevelMission == SubLevelMission.A)
                             or sub_level.subLevelMission == SubLevelMission.B):
                         location_ids.append(sub_level.locationId)
 
-    if options.twinkle_circuit_check and not options.twinkle_circuit_multiple_check:
+    if options.twinkle_circuit_check.value == 1:
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.TwinkleCircuit:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
@@ -185,7 +185,7 @@ def get_location_ids_for_common_region(options):
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.SkyChaseAct1 or sub_level.subLevel == SubLevel.SkyChaseAct2:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
-                    if ((options.sky_chase_checks_hard and sub_level.subLevelMission == SubLevelMission.A)
+                    if ((options.sky_chase_checks.value == 2 and sub_level.subLevelMission == SubLevelMission.A)
                             or sub_level.subLevelMission == SubLevelMission.B):
                         location_ids.append(sub_level.locationId)
 

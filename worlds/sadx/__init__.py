@@ -126,12 +126,9 @@ class SonicAdventureDXWorld(World):
                 self.options.auto_start_missions.value = passthrough["AutoStartMissions"]
                 self.options.mission_blacklist.value = list(passthrough["MissionBlackList"].keys())
 
-                self.options.twinkle_circuit_check.value = passthrough["TwinkleCircuitCheck"]
-                self.options.twinkle_circuit_multiple_check.value = passthrough["MultipleTwinkleCircuitChecks"]
-                self.options.sand_hill_check.value = passthrough["SandHillCheck"]
-                self.options.sand_hill_check_hard.value = passthrough["SandHillCheckHard"]
+                self.options.twinkle_circuit_checks.value = passthrough["TwinkleCircuitChecks"]
+                self.options.sand_hill_checks.value = passthrough["SandHillChecks"]
                 self.options.sky_chase_checks.value = passthrough["SkyChaseChecks"]
-                self.options.sky_chase_checks_hard.value = passthrough["SkyChaseChecksHard"]
 
                 self.options.enemy_sanity.value = passthrough["EnemySanity"]
                 self.options.enemy_sanity_list = EnemySanityCategory.to_object_list(passthrough["EnemySanityList"])
@@ -269,16 +266,11 @@ class SonicAdventureDXWorld(World):
             "SendDeathLinkChance": self.options.send_death_link_chance.value,
             "ReceiveDeathLinkChance": self.options.receive_death_link_chance.value,
             "RingLink": self.options.ring_link.value,
-            "CasinopolisRingLink": self.options.casinopolis_ring_link.value,
-            "HardRingLink": self.options.hard_ring_link.value,
             "RingLoss": self.options.ring_loss.value,
             "TrapLink": self.options.trap_link.value,
-            "TwinkleCircuitCheck": self.options.twinkle_circuit_check.value,
-            "MultipleTwinkleCircuitChecks": self.options.twinkle_circuit_multiple_check.value,
-            "SandHillCheck": self.options.sand_hill_check.value,
-            "SandHillCheckHard": self.options.sand_hill_check_hard.value,
+            "TwinkleCircuitChecks": self.options.twinkle_circuit_checks.value,
+            "SandHillChecks": self.options.sand_hill_checks.value,
             "SkyChaseChecks": self.options.sky_chase_checks.value,
-            "SkyChaseChecksHard": self.options.sky_chase_checks_hard.value,
 
             "MusicSource": self.options.music_source.value,
             "MusicShuffle": self.options.music_shuffle.value,
