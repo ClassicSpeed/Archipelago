@@ -2,7 +2,7 @@ import math
 
 from worlds.generic.Rules import add_rule
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character, AreaConnection, Area
+from .Enums import LevelMission, Character, AreaConnection, Area, non_existent_areas
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -406,6 +406,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
         if not is_character_playable(character, self.options):
+            continue
+        if (character, area_from) in non_existent_areas:
+            continue
+        if (character, area_to) in non_existent_areas:
             continue
 
         if self.options.entrance_randomizer:
