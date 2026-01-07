@@ -2,14 +2,10 @@ from dataclasses import dataclass
 
 from schema import Schema, And, Optional
 
-from Options import OptionGroup, Choice, Range, DefaultOnToggle, Toggle, DeathLink, OptionSet, OptionDict, \
-    ProgressionBalancing
+from Options import OptionGroup, Choice, Range, DefaultOnToggle, Toggle, DeathLink, OptionSet, OptionDict
 from Options import PerGameCommonOptions
 from .Enums import level_areas, pascal_to_space
 
-
-class SADXProgressionBalancing(ProgressionBalancing):
-    default = 80
 
 
 class GoalRequiresLevels(DefaultOnToggle):
@@ -33,7 +29,7 @@ class GoalRequiresChaosEmeralds(Toggle):
     display_name = "Goal Requires Chaos Emeralds"
 
 
-class GoalRequiresEmblems(Toggle):
+class GoalRequiresEmblems(DefaultOnToggle):
     """
     If enabled, you have to collect a certain number of emblems to unlock the last fight.
     The emblems are extra items added to the item pool, so they scale with the number of checks.
@@ -410,7 +406,7 @@ class FieldEmblemsChecks(DefaultOnToggle):
     display_name = "Field Emblems Checks"
 
 
-class SecretChaoEggs(DefaultOnToggle):
+class SecretChaoEggs(Toggle):
     """Determines whether getting the 3 secret chao eggs grants checks (3 Locations)."""
     display_name = "Secret Chao Egg Checks"
 
@@ -698,7 +694,6 @@ class TrapsAndFillerOnPerfectChaosFight(Toggle):
 
 @dataclass
 class SonicAdventureDXOptions(PerGameCommonOptions):
-    progression_balancing: SADXProgressionBalancing
     goal_requires_levels: GoalRequiresLevels
     levels_percentage: LevelPercentage
     goal_requires_chaos_emeralds: GoalRequiresChaosEmeralds

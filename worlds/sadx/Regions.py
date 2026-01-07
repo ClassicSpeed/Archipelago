@@ -5,7 +5,7 @@ from BaseClasses import Region
 from .CharacterUtils import is_character_playable, is_capsule_enabled
 from .CharacterUtils import is_level_playable, \
     get_playable_characters, get_playable_character_item, is_any_character_playable, character_has_enemy_sanity
-from .Enums import Area, Character, SubLevelMission, SubLevel, pascal_to_space
+from .Enums import Area, Character, SubLevelMission, SubLevel, pascal_to_space, non_existent_areas
 from .Locations import SonicAdventureDXLocation, \
     upgrade_location_table, level_location_table, mission_location_table, boss_location_table, sub_level_location_table, \
     field_emblem_location_table
@@ -57,6 +57,8 @@ def create_sadx_regions(world: World, starter_setup: StarterSetup, options: Soni
     created_regions: Dict[Tuple[Character, Area], Region] = {}
     for area in Area:
         for character in get_playable_characters(options):
+            if (character, area) in non_existent_areas:
+                continue
             region = Region(get_region_name(character, area), world.player, world.multiworld)
             world.multiworld.regions.append(region)
             add_locations_to_region(region, area, character, world.player, options)
