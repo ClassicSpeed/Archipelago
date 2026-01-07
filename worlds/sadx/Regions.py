@@ -89,7 +89,7 @@ def add_locations_to_region(region: Region, area: Area, character: Character, pl
 
 def get_location_ids_for_area(area: Area, character: Character, options: SonicAdventureDXOptions):
     location_ids = []
-    if area == Area.TPLobby and options.twinkle_circuit_check.value == 2:
+    if area == Area.TPLobby and options.twinkle_circuit_checks.value == 2:
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.TwinkleCircuit:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
@@ -167,15 +167,15 @@ def add_locations_to_common_region(region: Region, player: int, options: SonicAd
 
 def get_location_ids_for_common_region(options):
     location_ids = []
-    if options.sand_hill_check:
+    if options.sand_hill_checks:
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.SandHill:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
-                    if ((options.sand_hill_check.value == 2 and sub_level.subLevelMission == SubLevelMission.A)
+                    if ((options.sand_hill_checks.value == 2 and sub_level.subLevelMission == SubLevelMission.A)
                             or sub_level.subLevelMission == SubLevelMission.B):
                         location_ids.append(sub_level.locationId)
 
-    if options.twinkle_circuit_check.value == 1:
+    if options.twinkle_circuit_checks.value == 1:
         for sub_level in sub_level_location_table:
             if sub_level.subLevel == SubLevel.TwinkleCircuit:
                 if is_any_character_playable(sub_level.get_logic_characters(options), options):
