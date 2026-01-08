@@ -123,12 +123,6 @@ def validate_settings(options):
             raise OptionError(
                 " -- SADX Error: You need to add more missions in the settings to use mission as goal. Either add more characters or remove missions from the blacklist.")
 
-    if options.capsule_sanity.value:
-        if not options.life_capsule_sanity.value and not options.shield_capsule_sanity.value and not options.powerup_capsule_sanity and not options.ring_capsule_sanity:
-            logging.warning(
-                " -- SADX warning: Capsule-sanity is enabled but all capsule types are disabled. Enabling life capsules.")
-            options.life_capsule_sanity.value = True
-
     if options.logic_level.value == 0 and (
             options.sonic_action_stage_missions.value == 4 or options.tails_action_stage_missions.value == 4
             or options.knuckles_action_stage_missions.value == 4 or options.amy_action_stage_missions.value == 4

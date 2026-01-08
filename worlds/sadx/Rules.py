@@ -1,8 +1,9 @@
 import math
 
 from worlds.generic.Rules import add_rule
+from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character, AreaConnection, Area, non_existent_areas
+from .Enums import LevelMission, Character, AreaConnection, Area, non_existent_areas, bosses_areas
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -260,7 +261,7 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
 
 def assign_area_weights(starter_setup) -> dict[Area, float]:
     area_tiers = [[starter_setup.area], [], [], [], [], []]
-    area_tiers[1].extend(
+    area_tiers[2].extend(
         char_area.area for char_area in starter_setup.charactersWithArea if char_area.area != starter_setup.area
     )
 
@@ -377,7 +378,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     area_weights = assign_area_weights(starter_setup)
 
     # max_required_emblems = min(needed_emblems * 0.5, 100)
-    max_required_emblems = needed_emblems * 0.5
+    max_required_emblems = needed_emblems * 0.75
     print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
         max_required_emblems) + " for gating.")
 
@@ -393,13 +394,21 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                 else:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
-                    elif self.random.randint(0, 100) > 50:
+
+                    if area_to in level_areas or area_from in level_areas:
+                        area_map[connection_key] = 0
+
+                    if area_to in bosses_areas or area_from in bosses_areas:
+                        area_map[connection_key] = 0
+
+                    elif self.random.randint(0, 100) > 80:
                         area_map[connection_key] = 0
                     else:
                         # The closer the area is to a starter position, the cheaper it is
-                        weight = area_weights.get(area_from, 0) + area_weights.get(area_to, 0) / 2
-                        weight = self.random.uniform(weight - 0.2, weight)
+                        weight = min(area_weights.get(area_from, 0), area_weights.get(area_to, 0))
                         factor = weight ** 2
+                        factor = self.random.uniform(max(0.0, factor - 0.3), factor)
+
                         area_map[connection_key] = int(max_required_emblems * factor)
 
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
