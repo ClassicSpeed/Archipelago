@@ -289,7 +289,7 @@ def assign_area_weights(starter_setup) -> dict[Area, float]:
     area_weights: dict[Area, float] = {}
     for weight, area_list in enumerate(area_tiers):
         for area in area_list:
-            area_weights[area] = weight / 5  # Normalize weight to be between 0 and 1
+            area_weights[area] = max(0, weight - 1) / 5  # Normalize weight to be between 0 and 1
 
     return area_weights
 
@@ -394,25 +394,16 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                 else:
                     if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
-
-                    if area_to in level_areas or area_from in level_areas:
-                        if self.random.randint(0, 100) > 25:
-                            area_map[connection_key] = 0
-
-                    if area_to in bosses_areas or area_from in bosses_areas:
-                        if self.random.randint(0, 100) > 25:
-                            area_map[connection_key] = 0
-
-                    elif self.random.randint(0, 100) > 75:
+                    elif area_to in level_areas or area_from in level_areas:
+                        area_map[connection_key] = 0
+                    elif area_to in bosses_areas or area_from in bosses_areas:
                         area_map[connection_key] = 0
 
                     else:
                         # The closer the area is to a starter position, the cheaper it is
-                        weight = (area_weights.get(area_from, 0) + area_weights.get(area_to, 0))/2
-                        factor = weight ** 2
-                        factor = self.random.uniform(max(0.0, factor - 0.2), min(1.0, factor + 0.2))
-
-                        area_map[connection_key] = int(max_required_emblems * factor)
+                        factor = self.random.uniform(area_weights.get(area_from, 0)-0.1, area_weights.get(area_to, 0))
+                        weight = factor ** 2
+                        area_map[connection_key] = int(max_required_emblems * weight)
 
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
