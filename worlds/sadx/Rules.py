@@ -396,18 +396,21 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         area_map[connection_key] = 0
 
                     if area_to in level_areas or area_from in level_areas:
-                        area_map[connection_key] = 0
+                        if self.random.randint(0, 100) > 25:
+                            area_map[connection_key] = 0
 
                     if area_to in bosses_areas or area_from in bosses_areas:
+                        if self.random.randint(0, 100) > 25:
+                            area_map[connection_key] = 0
+
+                    elif self.random.randint(0, 100) > 75:
                         area_map[connection_key] = 0
 
-                    elif self.random.randint(0, 100) > 80:
-                        area_map[connection_key] = 0
                     else:
                         # The closer the area is to a starter position, the cheaper it is
-                        weight = min(area_weights.get(area_from, 0), area_weights.get(area_to, 0))
+                        weight = (area_weights.get(area_from, 0) + area_weights.get(area_to, 0))/2
                         factor = weight ** 2
-                        factor = self.random.uniform(max(0.0, factor - 0.3), factor)
+                        factor = self.random.uniform(max(0.0, factor - 0.2), min(1.0, factor + 0.2))
 
                         area_map[connection_key] = int(max_required_emblems * factor)
 
