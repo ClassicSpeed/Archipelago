@@ -135,8 +135,7 @@ def get_possible_starting_areas() -> List[Area]:
     return [Area.Station, Area.Casino, Area.Sewers, Area.SSMain, Area.TPTunnel, Area.Hotel, Area.HotelPool,
             Area.TPLobby, Area.MRMain, Area.AngelIsland, Area.IceCave, Area.PastAltar, Area.PastMain, Area.Jungle,
             Area.FinalEggTower, Area.ECOutside, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
-            Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall, Area.SSChaoGarden, Area.MRChaoGarden,
-            Area.ECChaoGarden]
+            Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall]
 
 
 def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: StarterSetup,
