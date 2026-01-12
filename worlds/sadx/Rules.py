@@ -261,9 +261,6 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
 
 def assign_area_weights(starter_setup) -> dict[Area, float]:
     area_tiers = [[starter_setup.area], [], [], [], [], []]
-    area_tiers[2].extend(
-        char_area.area for char_area in starter_setup.charactersWithArea if char_area.area != starter_setup.area
-    )
 
     remaining_areas = set([area for area in Area]) - {starter_setup.area}
 
@@ -377,8 +374,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     starter_setup = self.starter_setup
     area_weights = assign_area_weights(starter_setup)
 
-    # max_required_emblems = min(needed_emblems * 0.5, 100)
-    max_required_emblems = needed_emblems * 0.75
+    max_required_emblems = needed_emblems * 0.8
     print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
         max_required_emblems) + " for gating.")
 
@@ -400,10 +396,11 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         area_map[connection_key] = 0
 
                     else:
-                        # The closer the area is to a starter position, the cheaper it is
-                        factor = self.random.uniform(area_weights.get(area_from, 0)-0.1, area_weights.get(area_to, 0))
-                        weight = factor ** 2
-                        area_map[connection_key] = int(max_required_emblems * weight)
+                        # # The closer the area is to a starter position, the cheaper it is
+                        factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)-0.2),
+                                                     min(1.0, area_weights.get(area_to, 0)))
+                        factor = factor ** 2
+                        area_map[connection_key] = int(max_required_emblems * factor)
 
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
