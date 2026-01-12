@@ -396,9 +396,14 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         area_map[connection_key] = 0
 
                     else:
-                        # # The closer the area is to a starter position, the cheaper it is
-                        factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)-0.2),
+                        factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
                                                      min(1.0, area_weights.get(area_to, 0)))
+                        if area_weights.get(area_from, 0) <= 0.6 and area_weights.get(area_to, 0) <= 0.6:
+                            factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0) - 0.2),
+                                                         min(1.0, area_weights.get(area_to, 0)))
+                        if area_weights.get(area_from, 0) >= 0.6 and area_weights.get(area_to, 0) >= 0.6:
+                            factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
+                                                         min(1.0, area_weights.get(area_to, 0) + 0.2))
                         factor = factor ** 2
                         area_map[connection_key] = int(max_required_emblems * factor)
 
