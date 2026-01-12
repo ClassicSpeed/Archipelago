@@ -521,6 +521,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                 else:
                     region_from.connect(region_to, entrance_name,
                                         lambda state, items=key_items: all(
-                                            state.has(item, self.player) for item in items))
+                                            state.has(sub_item, self.player) for item in items for sub_item in
+                                            (item if isinstance(item, list) else [item])))
 
     return area_map
