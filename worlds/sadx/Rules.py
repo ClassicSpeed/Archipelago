@@ -440,27 +440,27 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             key_items = normal_logic_items
 
         entrance_name = get_entrance_name(character, region_from, region_to, is_alternative)
-
+        self.multiworld.explicit_indirect_conditions = False
         if region_from and region_to:
             # Key item gating
             if self.options.gating_mode.value == 1:
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
                     if not key_items:
-                        region_from.connect(region_to)
+                        region_from.connect(region_to, name=entrance_name)
                         continue
                 if "ONLY_RANDO" in key_items:
                     continue
 
                 if all(isinstance(item, str) for item in key_items):
                     if "ECSwitchAccess" in key_items:
+                        key_items.remove("ECSwitchAccess")
                         region_from.connect(region_to, entrance_name,
-                                            lambda state, items=key_items: all(
+                                            lambda state, charac=character, items=key_items: all(
                                                 state.has(item, self.player) for item in
                                                 items) and state.can_reach_region(
-                                                get_region_name(character,
-                                                                Area.CaptainRoom),
-                                                self.player))
+                                                get_region_name(charac, Area.CaptainRoom), self.player))
+
                     else:
                         region_from.connect(region_to, entrance_name,
                                             lambda state, items=key_items: all(
@@ -478,7 +478,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                     continue
 
                 if not key_items:
-                    region_from.connect(region_to)
+                    region_from.connect(region_to, name=entrance_name)
                     continue
 
                 # Replace any key items with EMBLEM_BLOCKED
