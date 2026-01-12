@@ -37,6 +37,7 @@ class SonicAdventureDXWorld(World):
     web = SonicAdventureDXWeb()
     starter_setup: StarterSetup = StarterSetup()
     area_map = None
+    explicit_indirect_conditions = False
     created_regions: Dict[typing.Tuple[Character, Area], Region] = {}
     item_distribution: ItemDistribution = ItemDistribution()
     location_distribution: LocationDistribution = LocationDistribution()
