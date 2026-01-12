@@ -396,11 +396,14 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         area_map[connection_key] = 0
 
                     else:
+                        # We assign a random factor based on area weights
                         factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
                                                      min(1.0, area_weights.get(area_to, 0)))
+                        # For lower to lower connections, make it slightly lower
                         if area_weights.get(area_from, 0) <= 0.6 and area_weights.get(area_to, 0) <= 0.6:
                             factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0) - 0.2),
                                                          min(1.0, area_weights.get(area_to, 0)))
+                        # For higher to higher connections, make it slightly higher
                         if area_weights.get(area_from, 0) >= 0.6 and area_weights.get(area_to, 0) >= 0.6:
                             factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
                                                          min(1.0, area_weights.get(area_to, 0) + 0.2))
