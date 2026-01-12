@@ -318,6 +318,7 @@ P_GAMMA_W_JB = CharacterUpgrade(Character.Gamma, ItemName.Gamma.JetBooster)
 P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelClaw)
 P_SONIC_W_LS = CharacterUpgrade(Character.Sonic, ItemName.Sonic.LightShoes)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
+
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain, False): (
@@ -458,7 +459,7 @@ area_connections: Dict[
         [ONLY_RANDO], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Sonic, Area.ECDeck, Area.PrivateRoom, False): (
+    (Character.Sonic, Area.ECDeck, Area.PrivateRoom, True): (
         [ONLY_RANDO], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECDeck, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Sonic, Area.CaptainRoom, Area.ECOutside, False): (
@@ -473,7 +474,7 @@ area_connections: Dict[
     (Character.Sonic, Area.PrivateRoom, Area.ECDeck, False): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
-    (Character.Sonic, Area.PrivateRoom, Area.ECDeck, False): (
+    (Character.Sonic, Area.PrivateRoom, Area.ECDeck, True): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
     (Character.Sonic, Area.ECPool, Area.ECOutside, False): (
@@ -655,7 +656,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Tails, Area.ECDeck, Area.PrivateRoom, False): (
+    (Character.Tails, Area.ECDeck, Area.PrivateRoom, True): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.ECDeck, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Tails, Area.CaptainRoom, Area.ECOutside, False): (
@@ -860,7 +861,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Knuckles, Area.ECDeck, Area.PrivateRoom, False): (
+    (Character.Knuckles, Area.ECDeck, Area.PrivateRoom, True): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECDeck, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Knuckles, Area.CaptainRoom, Area.ECOutside, False): (
@@ -875,7 +876,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.PrivateRoom, Area.ECDeck, False): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
-    (Character.Knuckles, Area.PrivateRoom, Area.ECDeck, False): (
+    (Character.Knuckles, Area.PrivateRoom, Area.ECDeck, True): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
     (Character.Knuckles, Area.ECPool, Area.ECOutside, False): (
@@ -1064,7 +1065,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Amy, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Amy, Area.ECDeck, Area.PrivateRoom, False): (
+    (Character.Amy, Area.ECDeck, Area.PrivateRoom, True): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Amy, Area.ECDeck, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Amy, Area.CaptainRoom, Area.ECOutside, False): (
@@ -1079,7 +1080,7 @@ area_connections: Dict[
     (Character.Amy, Area.PrivateRoom, Area.ECDeck, False): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
-    (Character.Amy, Area.PrivateRoom, Area.ECDeck, False): (
+    (Character.Amy, Area.PrivateRoom, Area.ECDeck, True): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
     (Character.Amy, Area.ECPool, Area.ECOutside, False): (
@@ -1269,7 +1270,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Big, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Big, Area.ECDeck, Area.PrivateRoom, False): (
+    (Character.Big, Area.ECDeck, Area.PrivateRoom, True): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Big, Area.ECDeck, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Big, Area.CaptainRoom, Area.ECOutside, False): (
@@ -1284,7 +1285,7 @@ area_connections: Dict[
     (Character.Big, Area.PrivateRoom, Area.ECDeck, False): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
-    (Character.Big, Area.PrivateRoom, Area.ECDeck, False): (
+    (Character.Big, Area.PrivateRoom, Area.ECDeck, True): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
     (Character.Big, Area.ECPool, Area.ECOutside, False): (
@@ -1482,7 +1483,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Gamma, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Gamma, Area.ECDeck, Area.PrivateRoom, False): (
+    (Character.Gamma, Area.ECDeck, Area.PrivateRoom, True): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Gamma, Area.ECDeck, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Gamma, Area.CaptainRoom, Area.ECOutside, False): (
@@ -1497,7 +1498,7 @@ area_connections: Dict[
     (Character.Gamma, Area.PrivateRoom, Area.ECDeck, False): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
-    (Character.Gamma, Area.PrivateRoom, Area.ECDeck, False): (
+    (Character.Gamma, Area.PrivateRoom, Area.ECDeck, True): (
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
     (Character.Gamma, Area.ECPool, Area.ECOutside, False): (
