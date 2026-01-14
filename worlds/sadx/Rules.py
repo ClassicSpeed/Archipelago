@@ -372,7 +372,6 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     if area_map is None:
         area_map = {}
     starter_setup = self.starter_setup
-    area_weights = assign_area_weights(starter_setup)
 
     max_required_emblems = needed_emblems * 0.8
     print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
@@ -381,6 +380,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     if self.options.gating_mode == 0:
 
         if area_map == {}:
+            area_weights = assign_area_weights(starter_setup)
             # Iterate through area_connections
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
                 connection_key = AreaConnection.from_areas(area_from, area_to)
@@ -413,17 +413,19 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
+        if self.options.entrance_randomizer.value > 0:
+            connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
+            actual_connection = starter_setup.level_mapping.get(connection, connection)
+            actual_area = actual_connection.area2
+        else:
+            actual_area = area_to
+
         if not is_character_playable(character, self.options):
             continue
         if (character, area_from) in non_existent_areas:
             continue
-        if (character, area_to) in non_existent_areas:
+        if (character, actual_area) in non_existent_areas:
             continue
-
-        if self.options.entrance_randomizer:
-            actual_area = self.starter_setup.level_mapping.get(area_to, area_to)
-        else:
-            actual_area = area_to
 
         region_from = self.created_regions.get((character, area_from))
         region_to = self.created_regions.get((character, actual_area))
@@ -450,7 +452,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         region_from.connect(region_to, name=entrance_name)
                         continue
                 if "ONLY_RANDO" in key_items:
-                    continue
+                    if self.options.entrance_randomizer.value == 0:
+                        continue
+                    else:
+                        key_items.remove("ONLY_RANDO")
 
                 if all(isinstance(item, str) for item in key_items):
                     if "ECSwitchAccess" in key_items:
@@ -473,9 +478,11 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                             requirement_group in items))
             # Emblem gating
             elif self.options.gating_mode.value == 0:
-                # TODO: Use this on randomization
                 if "ONLY_RANDO" in key_items:
-                    continue
+                    if self.options.entrance_randomizer.value == 0:
+                        continue
+                    else:
+                        key_items.remove("ONLY_RANDO")
 
                 if not key_items:
                     region_from.connect(region_to, name=entrance_name)
@@ -488,7 +495,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
 
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
-                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, area_to), 0)
+                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, actual_area), 0)
                     if not key_items:
                         region_from.connect(region_to, entrance_name,
                                             lambda state, emblems=emblem_requirement:

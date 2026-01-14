@@ -72,8 +72,9 @@ class SonicAdventureDXWorld(World):
                     CharacterArea(Character.Big, Area(passthrough["BigStartingArea"]))
 
                 ]
-                self.starter_setup.level_mapping = {Area(int(original)): Area(int(randomized))
-                                                    for original, randomized in passthrough["LevelEntranceMap"].items()}
+                self.starter_setup.level_mapping = {
+                    AreaConnection.from_index(original): AreaConnection.from_index(randomized)
+                    for original, randomized in passthrough["LevelEntranceMap"].items()}
 
                 self.area_map = {AreaConnection.from_index(int(entranceIndex)): int(value)
                                  for entranceIndex, value in passthrough["EntranceEmblemValueMap"].items()}
@@ -179,15 +180,16 @@ class SonicAdventureDXWorld(World):
         write_sadx_spoiler(self, spoiler_handle, self.starter_setup, self.options)
 
     def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
-        if not self.options.entrance_randomizer:
+        if self.options.entrance_randomizer.value == 0:
             return
 
         sadx_hint_data = {}
         level_area_strings = [pascal_to_space(area.name) + " (" for area in level_areas]
-        # Add level entrance hints if entrance randomizer is on
-        for location in self.multiworld.get_locations(self.player):
-            if any(location.parent_region.name.startswith(area_string) for area_string in level_area_strings):
-                sadx_hint_data[location.address] = remove_character_suffix(location.parent_region.entrances[0].name)
+        # TODO
+        # # Add level entrance hints if entrance randomizer is on
+        # for location in self.multiworld.get_locations(self.player):
+        #     if any(location.parent_region.name.startswith(area_string) for area_string in level_area_strings):
+        #         sadx_hint_data[location.address] = remove_character_suffix(location.parent_region.entrances[0].name)
 
         hint_data[self.player] = sadx_hint_data
 
@@ -228,7 +230,7 @@ class SonicAdventureDXWorld(World):
             "GammaStartingArea": self.starter_setup.get_starting_area(Character.Gamma).value,
             "BigStartingArea": self.starter_setup.get_starting_area(Character.Big).value,
             "EntranceRandomizer": self.options.entrance_randomizer.value,
-            "LevelEntranceMap": {original.value: randomized.value for original, randomized in
+            "LevelEntranceMap": {original.get_index(): randomized.get_index() for original, randomized in
                                  self.starter_setup.level_mapping.items()},
 
             "StartingCharacterOption": self.options.starting_character.value,
