@@ -338,13 +338,13 @@ class AreaConnection(Enum):
 
     # Angel Island
     AngelIsland_to_MrMain = (Area.AngelIsland, Area.MRMain)
-    AngelIsland_to_IceCap = (Area.AngelIsland, Area.IceCave)
+    AngelIsland_to_IceCave = (Area.AngelIsland, Area.IceCave)
     AngelIsland_to_RedMountain = (Area.AngelIsland, Area.RedMountain)
     AngelIsland_to_PastAltar = (Area.AngelIsland, Area.PastAltar)
 
     # Ice Cave
-    IceCap_to_AngelIsland = (Area.IceCave, Area.AngelIsland)
-    IceCap_to_IceCap = (Area.IceCave, Area.IceCap)
+    IceCave_to_AngelIsland = (Area.IceCave, Area.AngelIsland)
+    IceCave_to_IceCap = (Area.IceCave, Area.IceCap)
 
     # Past Altar
     PastAltar_to_AngelIsland = (Area.PastAltar, Area.AngelIsland)
@@ -357,7 +357,7 @@ class AreaConnection(Enum):
     # Jungle
     Jungle_to_MrMain = (Area.Jungle, Area.MRMain)
     Jungle_to_LostWorld = (Area.Jungle, Area.LostWorld)
-    Jungle_to_LostWorldAlternative = (Area.Jungle, Area.LostWorld)
+    Jungle_to_LostWorldAlternative = (Area.Jungle, Area.LostWorld, True)
     Jungle_to_FinalEggTower = (Area.Jungle, Area.FinalEggTower)
     Jungle_to_SandHill = (Area.Jungle, Area.SandHill)
     Jungle_to_PastMain = (Area.Jungle, Area.PastMain)
@@ -365,7 +365,7 @@ class AreaConnection(Enum):
     # Final Egg Tower
     FinalEggTower_to_Jungle = (Area.FinalEggTower, Area.Jungle)
     FinalEggTower_to_FinalEgg = (Area.FinalEggTower, Area.FinalEgg)
-    FinalEggTower_to_FinalEggAlternative = (Area.FinalEggTower, Area.FinalEgg)
+    FinalEggTower_to_FinalEggAlternative = (Area.FinalEggTower, Area.FinalEgg, True)
     FinalEggTower_to_BetaEggViper = (Area.FinalEggTower, Area.BetaEggViper)
     FinalEggTower_to_EcInside = (Area.FinalEggTower, Area.ECInside)
     # Egg Carrier Outside (Untransformed)
@@ -390,7 +390,7 @@ class AreaConnection(Enum):
     Deck_to_Pool = (Area.ECDeck, Area.ECPool)
     Deck_to_CaptainRoom = (Area.ECDeck, Area.CaptainRoom)
     Deck_to_PrivateRoom = (Area.ECDeck, Area.PrivateRoom)
-    Deck_to_PrivateRoomAlternative = (Area.ECDeck, Area.PrivateRoom)
+    Deck_to_PrivateRoomAlternative = (Area.ECDeck, Area.PrivateRoom, True)
     Deck_to_EcInsideEggLift = (Area.ECDeck, Area.ECInside)
 
     # Captain Room
@@ -401,7 +401,7 @@ class AreaConnection(Enum):
     # Private Room
     PrivateRoom_to_CaptainRoom = (Area.PrivateRoom, Area.CaptainRoom)
     PrivateRoom_to_Deck = (Area.PrivateRoom, Area.ECDeck)
-    PrivateRoom_to_DeckAlternative = (Area.PrivateRoom, Area.ECDeck)
+    PrivateRoom_to_DeckAlternative = (Area.PrivateRoom, Area.ECDeck, True)
 
     # Pool
     Pool_to_EcOutside = (Area.ECPool, Area.ECOutside)
@@ -441,14 +441,15 @@ class AreaConnection(Enum):
     MrChaoGarden_to_MrMain = (Area.MRChaoGarden, Area.MRMain)
     EcChaoGarden_to_WarpHall = (Area.ECChaoGarden, Area.WarpHall)
 
-    def __init__(self, area1, area2):
+    def __init__(self, area1, area2, alt=False):
         self.area1 = area1
         self.area2 = area2
+        self.isAlt = alt
 
     @classmethod
-    def from_areas(cls, area1, area2):
+    def from_areas(cls, area1, area2, alt=False):
         for connection in cls:
-            if connection.area1 == area1 and connection.area2 == area2:
+            if connection.area1 == area1 and connection.area2 == area2 and connection.isAlt == alt:
                 return connection
         return None
 
@@ -485,10 +486,49 @@ bosses_areas = [
     Area.SandHill,
     Area.BetaEggViper,
     Area.SkyChase2,
-    Area.Chaos6ZeroBeta
+    Area.Chaos6ZeroBeta,
+    Area.SSChaoGarden,
+    Area.MRChaoGarden,
+    Area.ECChaoGarden
 ]
-# areas that don't exist:
+level_area_connections = [
+    AreaConnection.CityHall_to_SpeedHighway,
+    AreaConnection.Casino_to_Casinopolis,
+    AreaConnection.SSMain_to_SpeedHighway,
+    AreaConnection.HotelPool_to_EmeraldCoast,
+    AreaConnection.TwinkleParkLobby_to_TwinklePark,
+    AreaConnection.MrMain_to_WindyValley,
+    AreaConnection.AngelIsland_to_RedMountain,
+    AreaConnection.IceCave_to_IceCap,
+    AreaConnection.Jungle_to_LostWorld,
+    AreaConnection.Jungle_to_LostWorldAlternative,
+    AreaConnection.FinalEggTower_to_FinalEgg,
+    AreaConnection.FinalEggTower_to_FinalEggAlternative,
+    AreaConnection.Bridge_to_SkyDeck,
+    AreaConnection.Pool_to_SkyDeck,
+    AreaConnection.EcInside_to_HotShelter,
+]
 
+bosses_area_connections = [
+    AreaConnection.CityHall_to_Chaos0,
+    AreaConnection.Casino_to_EggWalker,
+    AreaConnection.Hotel_to_SsChaoGarden,
+    AreaConnection.Hotel_to_Chaos2,
+    AreaConnection.TwinkleParkLobby_to_TwinkleCircuit,
+    AreaConnection.MrMain_to_Chaos4,
+    AreaConnection.MrMain_to_EggHornet,
+    AreaConnection.MrMain_to_MrChaoGarden,
+    AreaConnection.MrMain_to_SkyChase1,
+    AreaConnection.Jungle_to_SandHill,
+    AreaConnection.FinalEggTower_to_BetaEggViper,
+    AreaConnection.EcOutside_to_SkyChase2,
+    # AreaConnection.Bridge_to_SkyChase2 ,
+    AreaConnection.EcOutside_to_Chaos6ZeroBeta,
+    # AreaConnection.Bridge_to_Chaos6ZeroBeta ,
+    AreaConnection.WarpHall_to_EcChaoGarden,
+]
+
+# areas that don't exist:
 non_existent_areas = {
     (Character.Tails, Area.EmeraldCoast),
     (Character.Knuckles, Area.EmeraldCoast),

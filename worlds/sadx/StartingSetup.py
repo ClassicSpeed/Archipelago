@@ -5,9 +5,11 @@ from typing import List, TextIO
 
 from Options import OptionError
 from worlds.AutoWorld import World
+from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, \
     is_character_playable
-from .Enums import Character, Area, pascal_to_space, LevelMission
+from .Enums import Character, Area, pascal_to_space, LevelMission, bosses_areas, level_area_connections, \
+    bosses_area_connections, AreaConnection
 from .Locations import level_location_table, mission_location_table
 from .Options import SonicAdventureDXOptions
 
@@ -23,7 +25,7 @@ class StarterSetup:
     character: Character = None
     area: Area = None
     charactersWithArea: List[CharacterArea] = field(default_factory=list)
-    level_mapping: dict[Area, Area] = field(default_factory=dict)
+    level_mapping: dict[AreaConnection, AreaConnection] = field(default_factory=dict)
 
     def get_starting_area(self, character: Character) -> Area:
         for char_area in self.charactersWithArea:
@@ -44,6 +46,15 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
         possible_characters.insert(0, Character(options.starting_character.value))
 
     starter_setup = calculate_starter_locations(options, possible_characters, world)
+
+    if options.entrance_randomizer.value > 0:
+        area_list = list(level_area_connections)
+        if options.entrance_randomizer.value == 2:
+            area_list += bosses_area_connections
+        randomized_remaining_areas = dict(zip(area_list, world.random.sample(area_list, len(area_list))))
+        starter_setup.level_mapping = randomized_remaining_areas
+        for original_area, randomized_area in starter_setup.level_mapping.items():
+            print(f"{original_area.name} -> {randomized_area.name}")
 
     return starter_setup
 
