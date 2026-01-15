@@ -1707,7 +1707,7 @@ upgrade_location_table: List[UpgradeLocation] = [
     UpgradeLocation(401, LocationName.Amy.LongHammer, Area.HedgehogHammer, Character.Amy, [], [], [], [], []),
     UpgradeLocation(500, LocationName.Gamma.JetBooster, Area.Arsenal, Character.Gamma, [], [], [], [], []),
     UpgradeLocation(501, LocationName.Gamma.LaserBlaster, Area.WaterTank, Character.Gamma, [], [], [], [], []),
-    UpgradeLocation(605, LocationName.Big.Lure4, Area.PrivateRoom, Character.Big, [], [], [], [], []),
+    UpgradeLocation(605, LocationName.Big.Lure4, Area.PrisonHall, Character.Big, [], [], [], [], []),
     UpgradeLocation(201, LocationName.Tails.RhythmBadge, Area.PastMain, Character.Tails, [], [], [], [], []),
 ]
 
