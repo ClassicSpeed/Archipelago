@@ -5,10 +5,9 @@ from typing import List, TextIO
 
 from Options import OptionError
 from worlds.AutoWorld import World
-from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, \
     is_character_playable
-from .Enums import Character, Area, pascal_to_space, LevelMission, bosses_areas, level_area_connections, \
+from .Enums import Character, Area, pascal_to_space, LevelMission, level_area_connections, \
     bosses_area_connections, AreaConnection
 from .Locations import level_location_table, mission_location_table
 from .Options import SonicAdventureDXOptions
@@ -53,6 +52,12 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             area_list += bosses_area_connections
         randomized_remaining_areas = dict(zip(area_list, world.random.sample(area_list, len(area_list))))
         starter_setup.level_mapping = randomized_remaining_areas
+        if options.entrance_randomizer.value == 2:
+            starter_setup.level_mapping[AreaConnection.Bridge_to_SkyChase2] = starter_setup.level_mapping.get(
+                AreaConnection.EcOutside_to_SkyChase2)
+            starter_setup.level_mapping[AreaConnection.Bridge_to_Chaos6ZeroBeta] = starter_setup.level_mapping.get(
+                AreaConnection.EcOutside_to_Chaos6ZeroBeta)
+
         for original_area, randomized_area in starter_setup.level_mapping.items():
             print(f"{original_area.name} -> {randomized_area.name}")
 
