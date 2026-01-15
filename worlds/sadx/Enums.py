@@ -458,7 +458,7 @@ class AreaConnection(Enum):
 
     @classmethod
     def from_index(cls, index):
-        return list(cls.__members__.values())[index]
+        return list(cls.__members__.values())[int(index)]
 
 
 level_areas = [
