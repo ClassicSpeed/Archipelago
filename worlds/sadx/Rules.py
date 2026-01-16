@@ -259,7 +259,7 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
     )
 
 
-def assign_area_weights(starter_setup) -> dict[Area, float]:
+def assign_area_weights(self, starter_setup) -> dict[Area, float]:
     area_tiers = [[starter_setup.area], [], [], [], [], []]
 
     remaining_areas = set([area for area in Area]) - {starter_setup.area}
@@ -271,7 +271,17 @@ def assign_area_weights(starter_setup) -> dict[Area, float]:
                 area_to for (character, area_from, area_to, is_alternative), _
                 in area_connections.items() if area_from == area and area_to in remaining_areas
             }
-            area_tiers[i + 1].extend(connected_areas)
+            for area_to in connected_areas:
+                # High chance to move areas to the next tier if the tier has too many areas
+                if len(area_tiers[i + 1]) > 4 and self.random.random() < 0.75:
+                    area_tiers[min(i + 2, 5)].append(area_to)
+                elif len(area_tiers[i + 1]) > 6 and self.random.random() < 0.75:
+                    area_tiers[min(i + 3, 5)].append(area_to)
+                # Chance to move some areas to later tiers
+                elif i > 3 and self.random.random() < 0.25:
+                    area_tiers[min(i + 2, 5)].append(area_to)
+                else:
+                    area_tiers[i + 1].append(area_to)
             remaining_areas -= connected_areas
 
     # Add remaining areas to list_5
@@ -380,7 +390,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     if self.options.gating_mode == 0:
 
         if area_map == {}:
-            area_weights = assign_area_weights(starter_setup)
+            area_weights = assign_area_weights(self, starter_setup)
             # Iterate through area_connections
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
                 connection_key = AreaConnection.from_areas(area_from, area_to)
