@@ -185,11 +185,10 @@ class SonicAdventureDXWorld(World):
 
         sadx_hint_data = {}
         level_area_strings = [pascal_to_space(area.name) + " (" for area in level_areas]
-        # TODO
-        # # Add level entrance hints if entrance randomizer is on
-        # for location in self.multiworld.get_locations(self.player):
-        #     if any(location.parent_region.name.startswith(area_string) for area_string in level_area_strings):
-        #         sadx_hint_data[location.address] = remove_character_suffix(location.parent_region.entrances[0].name)
+        # Add level entrance hints if entrance randomizer is on
+        for location in self.multiworld.get_locations(self.player):
+            if any(location.parent_region.name.startswith(area_string) for area_string in level_area_strings):
+                sadx_hint_data[location.address] = remove_character_suffix(location.parent_region.entrances[0].name)
 
         hint_data[self.player] = sadx_hint_data
 
