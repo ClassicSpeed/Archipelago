@@ -442,6 +442,9 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             key_items = normal_logic_items
 
         entrance_name = get_entrance_name(character, region_from, region_to, is_alternative)
+        if actual_area != area_to:
+            entrance_name += " [Original: " + area_to.name + "]"
+
         self.multiworld.explicit_indirect_conditions = False
         if region_from and region_to:
             # Key item gating
