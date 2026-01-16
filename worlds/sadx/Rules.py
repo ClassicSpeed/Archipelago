@@ -249,8 +249,6 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
         key.get_index(): value
         for key, value in area_map.items()
     }
-    # Print the resulting map
-    print(sorted(indexed_area_map.values()))
     return LocationDistribution(
         levels_for_perfect_chaos=levels_for_perfect_chaos,
         missions_for_perfect_chaos=missions_for_perfect_chaos,
@@ -286,11 +284,6 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
 
     # Add remaining areas to list_5
     area_tiers[5].extend(remaining_areas)
-
-    print("Area Tiers:")
-    for tier_index, tier_areas in enumerate(area_tiers):
-        area_names = [area.name for area in tier_areas]
-        print(f" Tier {tier_index}: {area_names}")
 
     # Assign weights based on list index
     area_weights: dict[Area, float] = {}
@@ -384,8 +377,6 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     starter_setup = self.starter_setup
 
     max_required_emblems = needed_emblems * 0.8
-    print(str(needed_emblems) + " Emblems needed to reach Perfect Chaos, but only used max " + str(
-        max_required_emblems) + " for gating.")
 
     if self.options.gating_mode == 0:
 

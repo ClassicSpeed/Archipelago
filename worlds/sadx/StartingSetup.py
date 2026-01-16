@@ -58,9 +58,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             starter_setup.level_mapping[AreaConnection.Bridge_to_Chaos6ZeroBeta] = starter_setup.level_mapping.get(
                 AreaConnection.EcOutside_to_Chaos6ZeroBeta)
 
-        for original_area, randomized_area in starter_setup.level_mapping.items():
-            print(f"{original_area.name} -> {randomized_area.name}")
-
     return starter_setup
 
 
