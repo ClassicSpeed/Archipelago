@@ -8,6 +8,10 @@ SADX_BASE_ID = 543800000
 
 
 def pascal_to_space(s):
+    s = re.sub(r'^(SS)', 'S.S.', s)
+    s = re.sub(r'^(MR)', 'M.R.', s)
+    s = re.sub(r'^(TP)', 'T.P.', s)
+    s = re.sub(r'^(EC)', 'E.C.', s)
     return re.sub(r'(?<!^)(?=[A-Z0-9])', ' ', s)
 
 
@@ -22,9 +26,8 @@ class Character(Enum):
 
 def remove_character_suffix(string: str) -> str:
     for character in Character:
-        if string.endswith(f" ({character.name})"):
-            return re.sub(rf" \({character.name}\)$", "", string)
-    return string
+        string = re.sub(rf"\s*\({character.name}\)", "", string)
+    return re.sub(r"\s{2,}", " ", string).strip()
 
 
 EVERYONE: List[Character] = [Character.Sonic, Character.Tails, Character.Knuckles,

@@ -40,13 +40,11 @@ def get_region_name(character: Character, area: Area) -> str:
     return "{} ({})".format(pascal_to_space(area.name), character.name)
 
 
-def get_entrance_name(character: Character, area_from: Area, area_to: Area, alt: bool) -> str:
+def get_entrance_name(character: Character, area_from: Region, area_to: Region, alt: bool) -> str:
     if alt:
-        return "{} to {} Alt Entrance ({})".format(pascal_to_space(area_from.name), pascal_to_space(area_to.name),
-                                                   character.name)
+        return "{} to {} Alt Entrance ({})".format(area_from.name, area_to.name, character.name)
     else:
-        return "{} to {} Entrance ({})".format(pascal_to_space(area_from.name), pascal_to_space(area_to.name),
-                                               character.name)
+        return "{} to {} Entrance ({})".format(area_from.name, area_to.name, character.name)
 
 
 def create_sadx_regions(world: World, starter_setup: StarterSetup, options: SonicAdventureDXOptions):
