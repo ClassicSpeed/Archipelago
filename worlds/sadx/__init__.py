@@ -188,7 +188,8 @@ class SonicAdventureDXWorld(World):
         # Add level entrance hints if entrance randomizer is on
         for location in self.multiworld.get_locations(self.player):
             if any(location.parent_region.name.startswith(area_string) for area_string in level_area_strings):
-                sadx_hint_data[location.address] = remove_character_suffix(location.parent_region.entrances[0].name)
+                if location.parent_region.entrances:
+                    sadx_hint_data[location.address] = remove_character_suffix(location.parent_region.entrances[0].name)
 
         hint_data[self.player] = sadx_hint_data
 

@@ -12,7 +12,10 @@ def pascal_to_space(s):
     s = re.sub(r'^(MR)', 'M.R.', s)
     s = re.sub(r'^(TP)', 'T.P.', s)
     s = re.sub(r'^(EC)', 'E.C.', s)
-    return re.sub(r'(?<!^)(?=[A-Z0-9])', ' ', s)
+    s = re.sub(r'_', ' ', s)  # Replace underscores with spaces
+    s = re.sub(r'(?<!^)(?=[A-Z][a-z])', ' ', s)  # Add spaces before PascalCase words
+    s = re.sub(r'\s{2,}', ' ', s)  # Remove extra spaces
+    return s.strip()
 
 
 class Character(Enum):

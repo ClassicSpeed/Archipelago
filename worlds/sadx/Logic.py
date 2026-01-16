@@ -1437,7 +1437,7 @@ area_connections: Dict[
         [JungleCart], [JungleCart], [JungleCart], [JungleCart], [JungleCart]),
     (Character.Gamma, Area.Jungle, Area.LostWorld, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Gamma, Area.Jungle, Area.LostWorld, False): (
+    (Character.Gamma, Area.Jungle, Area.LostWorld, True): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Gamma, Area.Jungle, Area.SandHill, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
@@ -1447,7 +1447,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.FinalEggTower, Area.FinalEgg, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Gamma, Area.FinalEggTower, Area.FinalEgg, False): (
+    (Character.Gamma, Area.FinalEggTower, Area.FinalEgg, True): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.FinalEggTower, Area.BetaEggViper, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
