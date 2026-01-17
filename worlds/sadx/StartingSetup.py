@@ -74,6 +74,10 @@ def validate_settings(options):
         logging.warning(
             " -- SADX warning: Emblem gating mode is not compatible with egg checks. Disabling them as a failsafe.")
         options.chao_egg_checks.value = False
+    if options.entrance_randomizer.value == 2 and options.chao_egg_checks:
+        logging.warning(
+            " -- SADX warning: Extended random level entrances is not compatible with egg checks. Disabling them as a failsafe.")
+        options.chao_egg_checks.value = False
 
     if options.starting_character.value > 0:
         if Character(options.starting_character.value) not in get_playable_characters(options):
