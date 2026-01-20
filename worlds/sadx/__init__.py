@@ -5,7 +5,7 @@ from BaseClasses import Tutorial, Region
 from worlds.AutoWorld import WebWorld, World
 from .CharacterUtils import get_playable_characters
 from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas, AreaConnection, \
-    EnemySanityCategory, CapsuleSanityCategory
+    EnemySanityCategory, CapsuleSanityCategory, bosses_areas
 from .ItemPool import create_sadx_items, get_item_names, ItemDistribution
 from .Items import SonicAdventureDXItem, group_item_table, item_name_to_info, filler_item_table
 from .Locations import all_location_table, group_location_table
@@ -184,7 +184,7 @@ class SonicAdventureDXWorld(World):
             return
 
         sadx_hint_data = {}
-        level_area_strings = [pascal_to_space(area.name) + " (" for area in level_areas]
+        level_area_strings = [pascal_to_space(area.name) + " (" for area in level_areas + bosses_areas]
         # Add level entrance hints if entrance randomizer is on
         for location in self.multiworld.get_locations(self.player):
             if any(location.parent_region.name.startswith(area_string) for area_string in level_area_strings):
