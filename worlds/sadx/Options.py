@@ -136,7 +136,7 @@ class EntranceRandomizer(Choice):
     Randomizes the entrances to action stages, bosses, sublevels and Chao Gardens.
     Disabled (0): No entrance randomization.
     Stages (1): Only action stages entrances are randomized.
-    Stages and Bosses (2): Action stages, bosse, sublevels and Chao Gardens entrances are randomized.
+    Stages and Bosses (2): Action stages, bosses, sublevels and Chao Gardens entrances are randomized.
     """
     display_name = "Entrance Randomizer"
     option_disabled = 0
