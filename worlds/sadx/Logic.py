@@ -321,13 +321,11 @@ EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
 
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
-    (Character.Sonic, Area.CityHall, Area.SSMain, False): (
-        [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
+    (Character.Sonic, Area.CityHall, Area.SSMain, False): ([PolicePass], [PolicePass], [PolicePass], [], []),
     (Character.Sonic, Area.CityHall, Area.SpeedHighway, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Sonic, Area.CityHall, Area.Chaos0, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Sonic, Area.CityHall, Area.Sewers, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Sonic, Area.CityHall, Area.Sewers, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Sonic, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Sewers, Area.TPTunnel, False): (
@@ -343,7 +341,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Sonic, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [], [], []),
     (Character.Sonic, Area.SSMain, Area.Station, False): ([StationKey], [StationKey], [], [], []),
-    (Character.Sonic, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [], [PolicePass], [PolicePass]),
+    (Character.Sonic, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [], [], []),
     (Character.Sonic, Area.SSMain, Area.ECOutside, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Sonic, Area.SSMain, Area.SpeedHighway, False): ([EmployeeCard], [EmployeeCard], [], [], []),
     (Character.Sonic, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
@@ -364,10 +362,9 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.Hotel, Area.Chaos2, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Sonic, Area.Hotel, Area.HotelPool, False): ([PoolKey], [PoolKey], [], [PoolKey], [PoolKey]),
+    (Character.Sonic, Area.Hotel, Area.HotelPool, False): ([PoolKey], [PoolKey], [], [], []),
     (Character.Sonic, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [], [PoolKey], [PoolKey]),
-    (Character.Sonic, Area.HotelPool, Area.EmeraldCoast, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Sonic, Area.HotelPool, Area.EmeraldCoast, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Sonic, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Sonic, Area.MRMain, Area.ECOutside, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Sonic, Area.MRMain, Area.WindyValley, False): (
@@ -432,7 +429,7 @@ area_connections: Dict[
         [Monorail], [Monorail], [Monorail], [Monorail], [Monorail]),
     (Character.Sonic, Area.ECOutside, Area.ECInside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
     (Character.Sonic, Area.ECOutside, Area.CaptainRoom, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], []),
     (Character.Sonic, Area.ECOutside, Area.ECPool, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECBridge, Area.SSMain, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
@@ -447,8 +444,7 @@ area_connections: Dict[
         [Monorail], [Monorail], [Monorail], [Monorail], [Monorail]),
     (Character.Sonic, Area.ECDeck, Area.ECPool, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Sonic, Area.ECDeck, Area.CaptainRoom, False): (
-        [ONLY_RANDO], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Sonic, Area.ECDeck, Area.CaptainRoom, False): ([ONLY_RANDO], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], []),
     (Character.Sonic, Area.ECDeck, Area.PrivateRoom, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECDeck, Area.PrivateRoom, True): (
@@ -515,8 +511,7 @@ area_connections: Dict[
     (Character.Tails, Area.CityHall, Area.SpeedHighway, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Tails, Area.CityHall, Area.Chaos0, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Tails, Area.CityHall, Area.Sewers, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Tails, Area.CityHall, Area.Sewers, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Tails, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.Sewers, Area.TPTunnel, False): (
@@ -532,19 +527,17 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [], [], []),
     (Character.Tails, Area.SSMain, Area.Station, False): ([StationKey], [StationKey], [], [], []),
-    (Character.Tails, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [], [PolicePass], [PolicePass]),
+    (Character.Tails, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [], [], []),
     (Character.Tails, Area.SSMain, Area.ECOutside, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Tails, Area.SSMain, Area.SpeedHighway, False): ([EmployeeCard], [EmployeeCard], [], [], []),
     (Character.Tails, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Tails, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Tails, Area.TPTunnel, Area.Sewers, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Tails, Area.TPTunnel, Area.TPLobby, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Tails, Area.TPTunnel, Area.TPLobby, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Tails, Area.TPLobby, Area.TPTunnel, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Tails, Area.TPLobby, Area.TwinklePark, False): (
-        [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
+    (Character.Tails, Area.TPLobby, Area.TwinklePark, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Tails, Area.TPLobby, Area.TwinkleCircuit, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.Hotel, Area.SSMain, False): ([HotelKey], [HotelKey], [], [], []),
@@ -704,8 +697,7 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.CityHall, Area.Chaos0, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Knuckles, Area.CityHall, Area.Sewers, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Knuckles, Area.CityHall, Area.Sewers, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Knuckles, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.Sewers, Area.TPTunnel, False): (
@@ -723,8 +715,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [], [], []),
     (Character.Knuckles, Area.SSMain, Area.Station, False): ([StationKey], [StationKey], [], [], []),
-    (Character.Knuckles, Area.SSMain, Area.CityHall, False): (
-        [PolicePass], [PolicePass], [], [PolicePass], [PolicePass]),
+    (Character.Knuckles, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [], [], []),
     (Character.Knuckles, Area.SSMain, Area.ECOutside, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Knuckles, Area.SSMain, Area.SpeedHighway, False): (
         [ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO], [ONLY_RANDO]),
@@ -741,12 +732,12 @@ area_connections: Dict[
     (Character.Knuckles, Area.TPLobby, Area.TwinkleCircuit, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.Hotel, Area.SSMain, False): ([HotelKey], [HotelKey], [], [], []),
-    (Character.Knuckles, Area.Hotel, Area.Casino, False): ([CasinoKey], [CasinoKey], [], [CasinoKey], [CasinoKey]),
+    (Character.Knuckles, Area.Hotel, Area.Casino, False): ([CasinoKey], [CasinoKey], [], [], []),
     (Character.Knuckles, Area.Hotel, Area.SSChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.Hotel, Area.Chaos2, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Knuckles, Area.Hotel, Area.HotelPool, False): ([PoolKey], [PoolKey], [], [PoolKey], [PoolKey]),
+    (Character.Knuckles, Area.Hotel, Area.HotelPool, False): ([PoolKey], [PoolKey], [], [], []),
     (Character.Knuckles, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
     (Character.Knuckles, Area.HotelPool, Area.EmeraldCoast, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
@@ -895,14 +886,12 @@ area_connections: Dict[
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Amy, Area.CityHall, Area.SSMain, False): (
-        [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
+    (Character.Amy, Area.CityHall, Area.SSMain, False): ([PolicePass], [PolicePass], [], [PolicePass], [PolicePass]),
     (Character.Amy, Area.CityHall, Area.SpeedHighway, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Amy, Area.CityHall, Area.Chaos0, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
-    (Character.Amy, Area.CityHall, Area.Sewers, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+    (Character.Amy, Area.CityHall, Area.Sewers, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], []),
     (Character.Amy, Area.Sewers, Area.CityHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.Sewers, Area.TPTunnel, False): (
@@ -920,8 +909,7 @@ area_connections: Dict[
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Amy, Area.SSMain, Area.Hotel, False): ([HotelKey], [HotelKey], [], [], []),
     (Character.Amy, Area.SSMain, Area.Station, False): ([StationKey], [StationKey], [], [], []),
-    (Character.Amy, Area.SSMain, Area.CityHall, False): (
-        [PolicePass], [PolicePass], [PolicePass], [PolicePass], [PolicePass]),
+    (Character.Amy, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [PolicePass], [], []),
     (Character.Amy, Area.SSMain, Area.ECOutside, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
     (Character.Amy, Area.SSMain, Area.SpeedHighway, False): (
         [ONLY_RANDO, EmployeeCard], [ONLY_RANDO, EmployeeCard], [], [], []),
@@ -1084,7 +1072,7 @@ area_connections: Dict[
     (Character.Amy, Area.Arsenal, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.WaterTank, Area.ECInside, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], []),
     (Character.Amy, Area.WarpHall, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.WarpHall, Area.ECChaoGarden, False): (
@@ -1704,7 +1692,8 @@ field_emblem_location_table: List[EmblemLocation] = [
 ]
 
 mission_location_table: List[MissionLocation] = [
-    MissionLocation(801, Area.SSMain, Area.SSMain, Character.Sonic, 1, [], [], [], [], []),
+    MissionLocation(801, Area.SSMain, Area.SSMain, Character.Sonic, 1, [PolicePass], [PolicePass], [PolicePass],
+                    [PolicePass], [PolicePass]),
     MissionLocation(802, Area.MRMain, Area.MRMain, Character.Sonic, 2, [], [], [], [], []),
     MissionLocation(803, Area.HotelPool, Area.HotelPool, Character.Sonic, 3, [LightShoes], [LightShoes], [LightShoes],
                     [LightShoes], [LightShoes]),
