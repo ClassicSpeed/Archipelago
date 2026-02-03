@@ -14,6 +14,7 @@ def pascal_to_space(s):
     s = re.sub(r'^(EC)', 'E.C.', s)
     s = re.sub(r'_', ' ', s)  # Replace underscores with spaces
     s = re.sub(r'(?<!^)(?=[A-Z][a-z])', ' ', s)  # Add spaces before PascalCase words
+    s = re.sub(r'(?<=[a-zA-Z])(?=\d)', ' ', s)  # Add spaces between letters and numbers
     s = re.sub(r'\s{2,}', ' ', s)  # Remove extra spaces
     return s.strip()
 
