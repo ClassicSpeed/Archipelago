@@ -321,7 +321,7 @@ EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
 
 area_connections: Dict[
     Tuple[Character, Area, Area, bool], Tuple[List[str], List[str], List[str], List[str], List[str]]] = {
-    (Character.Sonic, Area.CityHall, Area.SSMain, False): ([PolicePass], [PolicePass], [PolicePass], [], []),
+    (Character.Sonic, Area.CityHall, Area.SSMain, False): ([PolicePass], [PolicePass], [], [], []),
     (Character.Sonic, Area.CityHall, Area.SpeedHighway, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Sonic, Area.CityHall, Area.Chaos0, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
@@ -463,11 +463,11 @@ area_connections: Dict[
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
     (Character.Sonic, Area.ECPool, Area.ECOutside, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.ECPool, Area.ECDeck, False): (
-        [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess],
+        [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess], [ECSwitchAccess],
         [EMBLEM_BLOCKED, ECSwitchAccess], [EMBLEM_BLOCKED, ECSwitchAccess]),
-    (Character.Sonic, Area.ECPool, Area.SkyDeck, False): ([ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [], []),
+    (Character.Sonic, Area.ECPool, Area.SkyDeck, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Sonic, Area.ECInside, Area.ECOutside, False): (
         [Monorail], [Monorail], [Monorail], [Monorail], [Monorail]),
     (Character.Sonic, Area.ECInside, Area.ECOutside, False): ([Egglift], [Egglift], [Egglift], [Egglift], [Egglift]),
