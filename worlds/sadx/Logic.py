@@ -713,7 +713,8 @@ area_connections: Dict[
     (Character.Knuckles, Area.SSMain, Area.Station, False): ([StationKey], [StationKey], [], [], []),
     (Character.Knuckles, Area.SSMain, Area.CityHall, False): ([PolicePass], [PolicePass], [], [], []),
     (Character.Knuckles, Area.SSMain, Area.ECOutside, False): ([Boat], [Boat], [Boat], [Boat], [Boat]),
-    (Character.Knuckles, Area.SSMain, Area.SpeedHighway, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
+    (Character.Knuckles, Area.SSMain, Area.SpeedHighway, False): (
+        [ONLY_RANDO, EmployeeCard], [ONLY_RANDO, EmployeeCard], [], [], []),
     (Character.Knuckles, Area.SSMain, Area.TPTunnel, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Knuckles, Area.TPTunnel, Area.SSMain, False): ([TPTicket], [TPTicket], [], [], []),
     (Character.Knuckles, Area.TPTunnel, Area.Sewers, False): (
