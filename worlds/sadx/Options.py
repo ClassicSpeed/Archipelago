@@ -431,7 +431,7 @@ class MissionBlackList(OptionSet):
     Mission 53 (Triple Jump in the Snowboard section of Ice Cap).
     Mission 54 (Flags in the Snowboard section of Ice Cap).
     Mission 58 (Flags in the rolling bounce section of Lost World).
-    Also, you can blacklist all the missions by using the character names. i.e. {'Big', 'Sonic'}
+    Also, you can blacklist all the missions by using the character names. i.e. ['Big', 'Sonic']
     """
     display_name = "Mission Blacklist"
     default = {'49', '53', '54', '58'}
