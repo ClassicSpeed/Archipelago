@@ -2,10 +2,11 @@ from dataclasses import dataclass
 from typing import Dict, Tuple
 
 from BaseClasses import Region
+from . import bosses_areas
 from .CharacterUtils import is_character_playable, is_capsule_enabled
 from .CharacterUtils import is_level_playable, \
     get_playable_characters, get_playable_character_item, is_any_character_playable, character_has_enemy_sanity
-from .Enums import Area, Character, SubLevelMission, SubLevel, pascal_to_space, non_existent_areas
+from .Enums import Area, Character, SubLevelMission, SubLevel, pascal_to_space, non_existent_areas, level_areas
 from .Locations import SonicAdventureDXLocation, \
     upgrade_location_table, level_location_table, mission_location_table, boss_location_table, sub_level_location_table, \
     field_emblem_location_table
@@ -37,6 +38,8 @@ MISSABLE_ENEMIES = (list(range(12001, 12010 + 1))  # Sonic Casinopolis Sewers
 
 
 def get_region_name(character: Character, area: Area, transformed: bool) -> str:
+    if area in level_areas or area in bosses_areas:
+        return "{} ({})".format(pascal_to_space(area.name), character.name)
     return "{} ({}) [{}]".format(pascal_to_space(area.name), character.name, "T" if transformed else "N")
 
 
@@ -57,7 +60,6 @@ def create_sadx_regions(world: World, starter_setup: StarterSetup, options: Soni
         for character in get_playable_characters(options):
             if (character, area) in non_existent_areas:
                 continue
-
             if area != Area.ECOutside:
                 region = Region(get_region_name(character, area, True), world.player, world.multiworld)
                 world.multiworld.regions.append(region)
@@ -69,16 +71,17 @@ def create_sadx_regions(world: World, starter_setup: StarterSetup, options: Soni
                                                                                                                  world.player))
                 created_regions[(character, area, True)] = region
 
-            if area != Area.ECBridge and area != Area.ECDeck:
-                region = Region(get_region_name(character, area, False), world.player, world.multiworld)
-                world.multiworld.regions.append(region)
-                if not options.egg_carrier_starts_transformed:
-                    add_locations_to_region(region, area, character, world.player, options)
-                    if area == starter_setup.get_starting_area(character):
-                        menu_region.connect(region, None,
-                                            lambda state, item=get_playable_character_item(character): state.has(item,
-                                                                                                                 world.player))
-                created_regions[(character, area, False)] = region
+            if area not in level_areas and area not in bosses_areas:
+                if area != Area.ECBridge and area != Area.ECDeck:
+                    region = Region(get_region_name(character, area, False), world.player, world.multiworld)
+                    world.multiworld.regions.append(region)
+                    if not options.egg_carrier_starts_transformed:
+                        add_locations_to_region(region, area, character, world.player, options)
+                        if area == starter_setup.get_starting_area(character):
+                            menu_region.connect(region, None,
+                                                lambda state, item=get_playable_character_item(character): state.has(item,
+                                                                                                                     world.player))
+                    created_regions[(character, area, False)] = region
 
     common_region = Region("Common region", world.player, world.multiworld)
     world.multiworld.regions.append(common_region)

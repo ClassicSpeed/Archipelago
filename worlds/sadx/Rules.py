@@ -442,7 +442,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             not_transformed_area_to = Area.ECOutside
 
         not_transformed_region_from = self.created_regions.get((character, not_transformed_area_from, False))
-        not_transformed_region_to = self.created_regions.get((character, not_transformed_area_to, False))
+        if not_transformed_area_to in level_areas or not_transformed_area_to in bosses_areas:
+            not_transformed_region_to = self.created_regions.get((character, not_transformed_area_to, True))
+        else:
+            not_transformed_region_to = self.created_regions.get((character, not_transformed_area_to, False))
 
         if self.options.logic_level.value == 4:
             key_items = expert_plus_dx_logic_items
@@ -556,5 +559,8 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                             False)
         captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
         captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
+
+    # TODO: Fix mission 33
+    # TODO: Remove ECoutside > sky deck/private room
     visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
