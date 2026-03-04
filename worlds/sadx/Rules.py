@@ -1,5 +1,6 @@
 import math
 
+from Utils import visualize_regions
 from worlds.generic.Rules import add_rule
 from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
@@ -45,7 +46,8 @@ def add_upgrade_rules(self, location_name: str, upgrade: UpgradeLocation):
 def add_sub_level_rules(self, location_name: str, sub_level: SubLevelLocation):
     location = self.multiworld.get_location(location_name, self.player)
     add_rule(location, lambda state: any(
-        state.can_reach_region(get_region_name(character, sub_level.area), self.player) for character in
+        state.can_reach_region(get_region_name(character, sub_level.area, self.options.egg_carrier_starts_transformed),
+                               self.player) for character in
         sub_level.get_logic_characters(self.options) if character in get_playable_characters(self.options)))
 
 
@@ -55,7 +57,7 @@ def add_field_emblem_rules(self, location_name: str, field_emblem: EmblemLocatio
     add_rule(location, lambda state: any(
         (state.can_reach_region(
             get_region_name(character.character if isinstance(character, CharacterUpgrade) else character,
-                            field_emblem.area), self.player) and
+                            field_emblem.area, self.options.egg_carrier_starts_transformed), self.player) and
          (state.has(character.upgrade, self.player) if isinstance(character, CharacterUpgrade) else True))
         for character in field_emblem.get_logic_characters_upgrades(self.options) if
         character in get_playable_characters(self.options) or
@@ -73,13 +75,14 @@ def add_boss_fight_rules(self, location_name: str, boss_fight: BossFightLocation
     if not boss_fight.unified:
         return
     add_rule(location, lambda state: any(
-        state.can_reach_region(get_region_name(character, boss_fight.area), self.player) for character in
+        state.can_reach_region(get_region_name(character, boss_fight.area, self.options.egg_carrier_starts_transformed),
+                               self.player) for character in
         boss_fight.characters if character in get_playable_characters(self.options)))
 
 
 def add_mission_rules(self, location_name: str, mission: MissionLocation):
     location = self.multiworld.get_location(location_name, self.player)
-    card_area_name = get_region_name(mission.character, mission.cardArea)
+    card_area_name = get_region_name(mission.character, mission.cardArea, self.options.egg_carrier_starts_transformed)
     if not self.options.auto_start_missions:
         add_rule(location, lambda state, card_area=card_area_name: state.can_reach_region(card_area, self.player))
 
@@ -98,7 +101,8 @@ def add_mission_rules(self, location_name: str, mission: MissionLocation):
 def add_egg_rules(self, location_name: str, egg: ChaoEggLocation):
     location = self.multiworld.get_location(location_name, self.player)
     add_rule(location, lambda state: any(
-        state.can_reach_region(get_region_name(character, egg.area), self.player) for character in
+        state.can_reach_region(get_region_name(character, egg.area, self.options.egg_carrier_starts_transformed),
+                               self.player) for character in
         egg.characters if character in get_playable_characters(self.options)))
     if egg.requirements:
         add_rule(location, lambda state, egg_requirements=egg.requirements: any(
@@ -382,9 +386,8 @@ def connect_regions(self, needed_emblems: int, area_map=None):
 
         if area_map == {}:
             area_weights = assign_area_weights(self, starter_setup)
-            # Iterate through area_connections
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
-                connection_key = AreaConnection.from_areas(area_from, area_to)
+                connection_key = AreaConnection.from_areas(area_from, area_to, is_alternative)
                 connection_requirement = get_connection_requirement(connection_key, area_map)
                 if connection_requirement != -1:
                     area_map[connection_key] = connection_requirement
@@ -428,8 +431,18 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         if (character, actual_area) in non_existent_areas:
             continue
 
-        region_from = self.created_regions.get((character, area_from))
-        region_to = self.created_regions.get((character, actual_area))
+        transformed_region_from = self.created_regions.get((character, area_from, True))
+        transformed_region_to = self.created_regions.get((character, actual_area, True))
+
+        not_transformed_area_from = area_from
+        if area_from == Area.ECBridge or area_from == Area.ECDeck:
+            not_transformed_area_from = Area.ECOutside
+        not_transformed_area_to = actual_area
+        if actual_area == Area.ECBridge or actual_area == Area.ECDeck:
+            not_transformed_area_to = Area.ECOutside
+
+        not_transformed_region_from = self.created_regions.get((character, not_transformed_area_from, False))
+        not_transformed_region_to = self.created_regions.get((character, not_transformed_area_to, False))
 
         if self.options.logic_level.value == 4:
             key_items = expert_plus_dx_logic_items
@@ -442,18 +455,24 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         else:
             key_items = normal_logic_items
 
-        entrance_name = get_entrance_name(character, region_from, region_to, is_alternative)
+        transformed_entrance_name = get_entrance_name(character, transformed_region_from, transformed_region_to,
+                                                      is_alternative)
+        not_transformed_entrance_name = get_entrance_name(character, not_transformed_region_from,
+                                                          not_transformed_region_to, is_alternative)
         if actual_area != area_to:
-            entrance_name += " [Original: " + area_to.name + "]"
+            transformed_entrance_name += " [Original (Transformed): " + area_to.name + "]"
+            not_transformed_entrance_name += " [Original (Not Transformed): " + area_to.name + "]"
 
         self.multiworld.explicit_indirect_conditions = False
-        if region_from and region_to:
+        if transformed_region_from and transformed_region_to:
             # Key item gating
             if self.options.gating_mode.value == 1:
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
                     if not key_items:
-                        region_from.connect(region_to, name=entrance_name)
+                        transformed_region_from.connect(transformed_region_to, name=transformed_entrance_name)
+                        not_transformed_region_from.connect(not_transformed_region_to,
+                                                            name=not_transformed_entrance_name)
                         continue
                 if "ONLY_RANDO" in key_items:
                     if self.options.entrance_randomizer.value == 0:
@@ -462,20 +481,19 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         key_items.remove("ONLY_RANDO")
 
                 if all(isinstance(item, str) for item in key_items):
-                    if "ECSwitchAccess" in key_items:
-                        key_items.remove("ECSwitchAccess")
-                        region_from.connect(
-                            region_to, entrance_name, lambda state, charac=character, items=key_items:
-                            all(state.has(item, self.player) for item in items) and
-                            state.can_reach_region(get_region_name(charac, Area.CaptainRoom), self.player))
-
-                    else:
-                        region_from.connect(region_to, entrance_name,
-                                            lambda state, items=key_items: all(
-                                                state.has(item, self.player) for item in items))
+                    transformed_region_from.connect(transformed_region_to, transformed_entrance_name,
+                                                    lambda state, items=key_items: all(
+                                                        state.has(item, self.player) for item in items))
+                    not_transformed_region_from.connect(not_transformed_region_to, not_transformed_entrance_name,
+                                                        lambda state, items=key_items: all(
+                                                            state.has(item, self.player) for item in items))
                 else:
-                    region_from.connect(
-                        region_to, entrance_name, lambda state, items=key_items:
+                    transformed_region_from.connect(
+                        transformed_region_to, transformed_entrance_name, lambda state, items=key_items:
+                        any(all(state.has(item, self.player) for item in requirement_group)
+                            for requirement_group in items))
+                    not_transformed_region_from.connect(
+                        not_transformed_region_to, not_transformed_entrance_name, lambda state, items=key_items:
                         any(all(state.has(item, self.player) for item in requirement_group)
                             for requirement_group in items))
             # Emblem gating
@@ -487,11 +505,9 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         key_items.remove("ONLY_RANDO")
 
                 if not key_items:
-                    region_from.connect(region_to, name=entrance_name)
+                    transformed_region_from.connect(transformed_region_to, name=transformed_entrance_name)
+                    not_transformed_region_from.connect(not_transformed_region_to, name=not_transformed_entrance_name)
                     continue
-
-                if all(item in key_items for item in ['Egglift', 'Monorail', 'ECSwitchAccess']):
-                    key_items.append("MONORAIL_EGGLIFT_SWITCH_ACCESS")
 
                 # Replace any key items with EMBLEM_BLOCKED
                 if any(item in vars(ItemName.KeyItem).values() for item in key_items):
@@ -502,41 +518,43 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                     key_items.remove("EMBLEM_BLOCKED")
                     emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, actual_area), 0)
                     if not key_items:
-                        region_from.connect(region_to, entrance_name,
-                                            lambda state, emblems=emblem_requirement:
-                                            state.has("Emblem", self.player, emblems))
+                        transformed_region_from.connect(transformed_region_to, transformed_entrance_name,
+                                                        lambda state, emblems=emblem_requirement:
+                                                        state.has("Emblem", self.player, emblems))
+                        not_transformed_region_from.connect(not_transformed_region_to, not_transformed_entrance_name,
+                                                            lambda state, emblems=emblem_requirement:
+                                                            state.has("Emblem", self.player, emblems))
                     else:
-                        if "MONORAIL_EGGLIFT_SWITCH_ACCESS" in key_items:
-                            key_items.remove("MONORAIL_EGGLIFT_SWITCH_ACCESS")
-                            key_items.remove("ECSwitchAccess")
-                            emblem_requirement = max(
-                                area_map.get(AreaConnection.EcInside_to_EcOutsideEggLift, emblem_requirement),
-                                area_map.get(AreaConnection.EcInside_to_EcOutsideMonorail, emblem_requirement))
-                            region_from.connect(
-                                region_to, entrance_name,
-                                lambda state, emblems=emblem_requirement, charac=character:
-                                state.has("Emblem", self.player, emblems) and
-                                state.can_reach_region(get_region_name(charac, Area.CaptainRoom), self.player))
-
-                        elif "ECSwitchAccess" in key_items:
-                            key_items.remove("ECSwitchAccess")
-                            region_from.connect(
-                                region_to, entrance_name,
-                                lambda state, items=key_items, emblems=emblem_requirement, charac=character:
-                                all(state.has(item, self.player) for item in items) and
-                                state.has("Emblem", self.player, emblems) and
-                                state.can_reach_region(get_region_name(charac, Area.CaptainRoom), self.player))
-                        else:
-
-                            region_from.connect(
-                                region_to, entrance_name,
-                                lambda state, items=key_items, emblems=emblem_requirement:
-                                all(state.has(item, self.player) for item in items) and
-                                state.has("Emblem", self.player, emblems))
+                        transformed_region_from.connect(
+                            transformed_region_to, transformed_entrance_name,
+                            lambda state, items=key_items, emblems=emblem_requirement:
+                            all(state.has(item, self.player) for item in items) and
+                            state.has("Emblem", self.player, emblems))
+                        not_transformed_region_from.connect(
+                            not_transformed_region_to, not_transformed_entrance_name,
+                            lambda state, items=key_items, emblems=emblem_requirement:
+                            all(state.has(item, self.player) for item in items) and
+                            state.has("Emblem", self.player, emblems))
                 else:
-                    region_from.connect(region_to, entrance_name,
-                                        lambda state, items=key_items: all(
-                                            state.has(sub_item, self.player) for item in items for sub_item in
-                                            (item if isinstance(item, list) else [item])))
+                    transformed_region_from.connect(transformed_region_to, transformed_entrance_name,
+                                                    lambda state, items=key_items: all(
+                                                        state.has(sub_item, self.player) for item in items for sub_item
+                                                        in
+                                                        (item if isinstance(item, list) else [item])))
+                    not_transformed_region_from.connect(not_transformed_region_to, not_transformed_entrance_name,
+                                                        lambda state, items=key_items: all(
+                                                            state.has(sub_item, self.player) for item in items for
+                                                            sub_item in
+                                                            (item if isinstance(item, list) else [item])))
 
+    for character in get_playable_characters(self.options):
+        captain_region_transformed = self.created_regions.get((character, Area.CaptainRoom, True))
+        captain_region_not_transformed = self.created_regions.get((character, Area.CaptainRoom, False))
+        entrance_name_1 = get_entrance_name(character, captain_region_transformed, captain_region_not_transformed,
+                                            False)
+        entrance_name_2 = get_entrance_name(character, captain_region_not_transformed, captain_region_transformed,
+                                            False)
+        captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
+        captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
+    visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
