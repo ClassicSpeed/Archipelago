@@ -385,7 +385,7 @@ class AreaConnection(Enum):
     EcOutside_to_SkyChase2 = (Area.ECOutside, Area.SkyChase2)
     EcOutside_to_Chaos6ZeroBeta = (Area.ECOutside, Area.Chaos6ZeroBeta)
     EcOutside_to_EcInsideMonorail = (Area.ECOutside, Area.ECInside)
-    EcOutside_to_EcInsideEggLift = (Area.ECOutside, Area.ECInside)
+    EcOutside_to_EcInsideEggLift = (Area.ECOutside, Area.ECInside, True)
     EcOutside_to_CaptainRoom = (Area.ECOutside, Area.CaptainRoom)
     EcOutside_to_Pool = (Area.ECOutside, Area.ECPool)
 
@@ -402,7 +402,7 @@ class AreaConnection(Enum):
     Deck_to_CaptainRoom = (Area.ECDeck, Area.CaptainRoom)
     Deck_to_PrivateRoom = (Area.ECDeck, Area.PrivateRoom)
     Deck_to_PrivateRoomAlternative = (Area.ECDeck, Area.PrivateRoom, True)
-    Deck_to_EcInsideEggLift = (Area.ECDeck, Area.ECInside)
+    Deck_to_EcInsideEggLift = (Area.ECDeck, Area.ECInside, True)
 
     # Captain Room
     CaptainRoom_to_EcOutside = (Area.CaptainRoom, Area.ECOutside)
@@ -423,9 +423,9 @@ class AreaConnection(Enum):
     Arsenal_to_EcInside = (Area.Arsenal, Area.ECInside)
 
     # Egg Carrier Inside
-    EcInside_to_EcOutsideEggLift = (Area.ECInside, Area.ECOutside)
+    EcInside_to_EcOutsideEggLift = (Area.ECInside, Area.ECOutside, True)
     EcInside_to_EcOutsideMonorail = (Area.ECInside, Area.ECOutside)
-    EcInside_to_DeckEggLift = (Area.ECInside, Area.ECDeck)
+    EcInside_to_DeckEggLift = (Area.ECInside, Area.ECDeck, True)
     EcInside_to_BridgeMonorail = (Area.ECInside, Area.ECBridge)
     EcInside_to_HotShelter = (Area.ECInside, Area.HotShelter)
     EcInside_to_HedgehogHammer = (Area.ECInside, Area.HedgehogHammer)
