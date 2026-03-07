@@ -528,7 +528,7 @@ class CapsuleSanity(Toggle):
 class CapsuleSanityList(OptionSet):
     """
     Determines which capsules are included in capsule-sanity.
-    You can sue Character name and capsule type as values.
+    You can use Character name plus capsule type as values.
     X-Life, X-Shield, X-PowerUp, and X-Ring with X being the character name (i.e. 'Sonic-PowerUp')
     """
     display_name = "CapsuleSanityList"
