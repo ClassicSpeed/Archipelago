@@ -1,5 +1,7 @@
 import math
+from dataclasses import dataclass
 
+from BaseClasses import Region
 from Utils import visualize_regions
 from worlds.generic.Rules import add_rule
 from . import level_areas
@@ -374,18 +376,166 @@ def check_alternative_connections(area_map, alternatives):
     return -1
 
 
+@dataclass
+class FullConnectionData:
+    t_region_from: Region
+    t_region_to: Region
+    t_entrance_name: str
+    nt_region_from: Region
+    nt_region_to: Region
+    nt_entrance_name: str
+
+
+def connect_pair(full_connection: FullConnectionData, rule=None):
+    if rule:
+        full_connection.t_region_from.connect(full_connection.t_region_to, full_connection.t_entrance_name, rule)
+        full_connection.nt_region_from.connect(full_connection.nt_region_to, full_connection.nt_entrance_name, rule)
+    else:
+        full_connection.t_region_from.connect(full_connection.t_region_to, name=full_connection.t_entrance_name)
+        full_connection.nt_region_from.connect(full_connection.nt_region_to, name=full_connection.nt_entrance_name)
+
+
 def connect_regions(self, needed_emblems: int, area_map=None):
     # Initialize the key-value map
+    area_map = calculate_connection_requirements(area_map, needed_emblems, self)
+
+    for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
+                                                          expert_dx_logic_items,
+                                                          expert_plus_dx_logic_items) in area_connections.items():
+        if self.options.entrance_randomizer.value > 0:
+            connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
+            actual_connection = self.starter_setup.level_mapping.get(connection, connection)
+            actual_area = actual_connection.area2
+        else:
+            actual_area = area_to
+
+        if not is_character_playable(character, self.options):
+            continue
+        if (character, area_from) in non_existent_areas:
+            continue
+        if (character, actual_area) in non_existent_areas:
+            continue
+
+        t_region_from = self.created_regions.get((character, area_from, True))
+        t_region_to = self.created_regions.get((character, actual_area, True))
+
+        nt_area_from = area_from
+        if area_from == Area.ECBridge or area_from == Area.ECDeck:
+            nt_area_from = Area.ECOutside
+        nt_area_to = actual_area
+        if actual_area == Area.ECBridge or actual_area == Area.ECDeck:
+            nt_area_to = Area.ECOutside
+
+        nt_region_from = self.created_regions.get((character, nt_area_from, False))
+        if nt_area_to in level_areas or nt_area_to in bosses_areas:
+            nt_region_to = self.created_regions.get((character, nt_area_to, True))
+        else:
+            nt_region_to = self.created_regions.get((character, nt_area_to, False))
+
+        if self.options.logic_level.value == 4:
+            key_items = expert_plus_dx_logic_items
+        elif self.options.logic_level.value == 3:
+            key_items = expert_dx_logic_items
+        elif self.options.logic_level.value == 2:
+            key_items = expert_dc_logic_items
+        elif self.options.logic_level.value == 1:
+            key_items = hard_logic_items
+        else:
+            key_items = normal_logic_items
+
+        t_entrance_name = get_entrance_name(character, t_region_from, t_region_to,
+                                            is_alternative)
+        nt_entrance_name = get_entrance_name(character, nt_region_from,
+                                             nt_region_to, is_alternative)
+        if actual_area != area_to:
+            t_entrance_name += " [Original (Transformed): " + area_to.name + "]"
+            nt_entrance_name += " [Original (Not Transformed): " + area_to.name + "]"
+
+        full_connection_data = FullConnectionData(t_region_from, t_region_to, t_entrance_name, nt_region_from,
+                                                  nt_region_to, nt_entrance_name)
+
+        self.multiworld.explicit_indirect_conditions = False
+        if t_region_from and t_region_to:
+            # Key item gating
+            if self.options.gating_mode.value == 1:
+                if "EMBLEM_BLOCKED" in key_items:
+                    key_items.remove("EMBLEM_BLOCKED")
+                    if not key_items:
+                        connect_pair(full_connection_data)
+                        continue
+                if "ONLY_RANDO" in key_items:
+                    if self.options.entrance_randomizer.value == 0:
+                        continue
+                    else:
+                        key_items.remove("ONLY_RANDO")
+
+                if all(isinstance(item, str) for item in key_items):
+                    connect_pair(full_connection_data, lambda state, items=key_items: all(
+                        state.has(item, self.player) for item in items))
+                else:
+                    connect_pair(full_connection_data, lambda state, items=key_items:
+                    any(all(state.has(item, self.player) for item in requirement_group)
+                        for requirement_group in items))
+            # Emblem gating
+            elif self.options.gating_mode.value == 0:
+                if "ONLY_RANDO" in key_items:
+                    if self.options.entrance_randomizer.value == 0:
+                        continue
+                    else:
+                        key_items.remove("ONLY_RANDO")
+
+                if not key_items:
+                    connect_pair(full_connection_data)
+                    continue
+
+                # Replace any key items with EMBLEM_BLOCKED
+                if any(item in vars(ItemName.KeyItem).values() for item in key_items):
+                    key_items = ["EMBLEM_BLOCKED" if item in vars(ItemName.KeyItem).values() else item for item in
+                                 key_items]
+
+                if "EMBLEM_BLOCKED" in key_items:
+                    key_items.remove("EMBLEM_BLOCKED")
+                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, actual_area), 0)
+                    if not key_items:
+                        connect_pair(full_connection_data,
+                                     lambda state, emblems=emblem_requirement:
+                                     state.has("Emblem", self.player, emblems))
+                    else:
+                        connect_pair(full_connection_data,
+                                     lambda state, items=key_items, emblems=emblem_requirement:
+                                     all(state.has(item, self.player) for item in items) and
+                                     state.has("Emblem", self.player, emblems))
+                else:
+                    connect_pair(full_connection_data,
+                                 lambda state, items=key_items: all(
+                                     state.has(sub_item, self.player) for item in items for sub_item
+                                     in
+                                     (item if isinstance(item, list) else [item])))
+
+    for character in get_playable_characters(self.options):
+        captain_region_transformed = self.created_regions.get((character, Area.CaptainRoom, True))
+        captain_region_not_transformed = self.created_regions.get((character, Area.CaptainRoom, False))
+        entrance_name_1 = get_entrance_name(character, captain_region_transformed, captain_region_not_transformed,
+                                            False)
+        entrance_name_2 = get_entrance_name(character, captain_region_not_transformed, captain_region_transformed,
+                                            False)
+        captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
+        captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
+
+    # TODO: Fix mission 33
+    # TODO: Remove ECoutside > sky deck/private room
+    visualize_regions(self.get_region("Menu"), "sadx.puml")
+    return area_map
+
+
+def calculate_connection_requirements(area_map, needed_emblems, self):
     if area_map is None:
         area_map = {}
-    starter_setup = self.starter_setup
-
     max_required_emblems = needed_emblems * 0.8
-
     if self.options.gating_mode == 0:
 
         if area_map == {}:
-            area_weights = assign_area_weights(self, starter_setup)
+            area_weights = assign_area_weights(self, self.starter_setup)
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
                 connection_key = AreaConnection.from_areas(area_from, area_to, is_alternative)
                 connection_requirement = get_connection_requirement(connection_key, area_map)
@@ -413,154 +563,4 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                                          min(1.0, area_weights.get(area_to, 0) + 0.2))
                         factor = factor ** 2
                         area_map[connection_key] = int(max_required_emblems * factor)
-
-    for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
-                                                          expert_dx_logic_items,
-                                                          expert_plus_dx_logic_items) in area_connections.items():
-        if self.options.entrance_randomizer.value > 0:
-            connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
-            actual_connection = starter_setup.level_mapping.get(connection, connection)
-            actual_area = actual_connection.area2
-        else:
-            actual_area = area_to
-
-        if not is_character_playable(character, self.options):
-            continue
-        if (character, area_from) in non_existent_areas:
-            continue
-        if (character, actual_area) in non_existent_areas:
-            continue
-
-        transformed_region_from = self.created_regions.get((character, area_from, True))
-        transformed_region_to = self.created_regions.get((character, actual_area, True))
-
-        not_transformed_area_from = area_from
-        if area_from == Area.ECBridge or area_from == Area.ECDeck:
-            not_transformed_area_from = Area.ECOutside
-        not_transformed_area_to = actual_area
-        if actual_area == Area.ECBridge or actual_area == Area.ECDeck:
-            not_transformed_area_to = Area.ECOutside
-
-        not_transformed_region_from = self.created_regions.get((character, not_transformed_area_from, False))
-        if not_transformed_area_to in level_areas or not_transformed_area_to in bosses_areas:
-            not_transformed_region_to = self.created_regions.get((character, not_transformed_area_to, True))
-        else:
-            not_transformed_region_to = self.created_regions.get((character, not_transformed_area_to, False))
-
-        if self.options.logic_level.value == 4:
-            key_items = expert_plus_dx_logic_items
-        elif self.options.logic_level.value == 3:
-            key_items = expert_dx_logic_items
-        elif self.options.logic_level.value == 2:
-            key_items = expert_dc_logic_items
-        elif self.options.logic_level.value == 1:
-            key_items = hard_logic_items
-        else:
-            key_items = normal_logic_items
-
-        transformed_entrance_name = get_entrance_name(character, transformed_region_from, transformed_region_to,
-                                                      is_alternative)
-        not_transformed_entrance_name = get_entrance_name(character, not_transformed_region_from,
-                                                          not_transformed_region_to, is_alternative)
-        if actual_area != area_to:
-            transformed_entrance_name += " [Original (Transformed): " + area_to.name + "]"
-            not_transformed_entrance_name += " [Original (Not Transformed): " + area_to.name + "]"
-
-        self.multiworld.explicit_indirect_conditions = False
-        if transformed_region_from and transformed_region_to:
-            # Key item gating
-            if self.options.gating_mode.value == 1:
-                if "EMBLEM_BLOCKED" in key_items:
-                    key_items.remove("EMBLEM_BLOCKED")
-                    if not key_items:
-                        transformed_region_from.connect(transformed_region_to, name=transformed_entrance_name)
-                        not_transformed_region_from.connect(not_transformed_region_to,
-                                                            name=not_transformed_entrance_name)
-                        continue
-                if "ONLY_RANDO" in key_items:
-                    if self.options.entrance_randomizer.value == 0:
-                        continue
-                    else:
-                        key_items.remove("ONLY_RANDO")
-
-                if all(isinstance(item, str) for item in key_items):
-                    transformed_region_from.connect(transformed_region_to, transformed_entrance_name,
-                                                    lambda state, items=key_items: all(
-                                                        state.has(item, self.player) for item in items))
-                    not_transformed_region_from.connect(not_transformed_region_to, not_transformed_entrance_name,
-                                                        lambda state, items=key_items: all(
-                                                            state.has(item, self.player) for item in items))
-                else:
-                    transformed_region_from.connect(
-                        transformed_region_to, transformed_entrance_name, lambda state, items=key_items:
-                        any(all(state.has(item, self.player) for item in requirement_group)
-                            for requirement_group in items))
-                    not_transformed_region_from.connect(
-                        not_transformed_region_to, not_transformed_entrance_name, lambda state, items=key_items:
-                        any(all(state.has(item, self.player) for item in requirement_group)
-                            for requirement_group in items))
-            # Emblem gating
-            elif self.options.gating_mode.value == 0:
-                if "ONLY_RANDO" in key_items:
-                    if self.options.entrance_randomizer.value == 0:
-                        continue
-                    else:
-                        key_items.remove("ONLY_RANDO")
-
-                if not key_items:
-                    transformed_region_from.connect(transformed_region_to, name=transformed_entrance_name)
-                    not_transformed_region_from.connect(not_transformed_region_to, name=not_transformed_entrance_name)
-                    continue
-
-                # Replace any key items with EMBLEM_BLOCKED
-                if any(item in vars(ItemName.KeyItem).values() for item in key_items):
-                    key_items = ["EMBLEM_BLOCKED" if item in vars(ItemName.KeyItem).values() else item for item in
-                                 key_items]
-
-                if "EMBLEM_BLOCKED" in key_items:
-                    key_items.remove("EMBLEM_BLOCKED")
-                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, actual_area), 0)
-                    if not key_items:
-                        transformed_region_from.connect(transformed_region_to, transformed_entrance_name,
-                                                        lambda state, emblems=emblem_requirement:
-                                                        state.has("Emblem", self.player, emblems))
-                        not_transformed_region_from.connect(not_transformed_region_to, not_transformed_entrance_name,
-                                                            lambda state, emblems=emblem_requirement:
-                                                            state.has("Emblem", self.player, emblems))
-                    else:
-                        transformed_region_from.connect(
-                            transformed_region_to, transformed_entrance_name,
-                            lambda state, items=key_items, emblems=emblem_requirement:
-                            all(state.has(item, self.player) for item in items) and
-                            state.has("Emblem", self.player, emblems))
-                        not_transformed_region_from.connect(
-                            not_transformed_region_to, not_transformed_entrance_name,
-                            lambda state, items=key_items, emblems=emblem_requirement:
-                            all(state.has(item, self.player) for item in items) and
-                            state.has("Emblem", self.player, emblems))
-                else:
-                    transformed_region_from.connect(transformed_region_to, transformed_entrance_name,
-                                                    lambda state, items=key_items: all(
-                                                        state.has(sub_item, self.player) for item in items for sub_item
-                                                        in
-                                                        (item if isinstance(item, list) else [item])))
-                    not_transformed_region_from.connect(not_transformed_region_to, not_transformed_entrance_name,
-                                                        lambda state, items=key_items: all(
-                                                            state.has(sub_item, self.player) for item in items for
-                                                            sub_item in
-                                                            (item if isinstance(item, list) else [item])))
-
-    for character in get_playable_characters(self.options):
-        captain_region_transformed = self.created_regions.get((character, Area.CaptainRoom, True))
-        captain_region_not_transformed = self.created_regions.get((character, Area.CaptainRoom, False))
-        entrance_name_1 = get_entrance_name(character, captain_region_transformed, captain_region_not_transformed,
-                                            False)
-        entrance_name_2 = get_entrance_name(character, captain_region_not_transformed, captain_region_transformed,
-                                            False)
-        captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
-        captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
-
-    # TODO: Fix mission 33
-    # TODO: Remove ECoutside > sky deck/private room
-    visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
