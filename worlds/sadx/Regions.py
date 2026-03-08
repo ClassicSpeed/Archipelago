@@ -75,7 +75,7 @@ def create_sadx_regions(world: World, starter_setup: StarterSetup, options: Soni
                 if area != Area.ECBridge and area != Area.ECDeck:
                     region = Region(get_region_name(character, area, False), world.player, world.multiworld)
                     world.multiworld.regions.append(region)
-                    if not options.egg_carrier_starts_transformed:
+                    if not options.egg_carrier_starts_transformed or area == Area.ECOutside:
                         add_locations_to_region(region, area, character, world.player, options)
                         if area == starter_setup.get_starting_area(character):
                             menu_region.connect(region, None,
