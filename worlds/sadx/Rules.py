@@ -84,7 +84,10 @@ def add_boss_fight_rules(self, location_name: str, boss_fight: BossFightLocation
 
 def add_mission_rules(self, location_name: str, mission: MissionLocation):
     location = self.multiworld.get_location(location_name, self.player)
-    card_area_name = get_region_name(mission.character, mission.cardArea, self.options.egg_carrier_starts_transformed)
+    if mission.cardArea == Area.ECOutside:
+        card_area_name = get_region_name(mission.character, mission.cardArea, False)
+    else:
+        card_area_name = get_region_name(mission.character, mission.cardArea, self.options.egg_carrier_starts_transformed)
     if not self.options.auto_start_missions:
         add_rule(location, lambda state, card_area=card_area_name: state.can_reach_region(card_area, self.player))
 
@@ -405,25 +408,25 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         if self.options.entrance_randomizer.value > 0:
             connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
             actual_connection = self.starter_setup.level_mapping.get(connection, connection)
-            actual_area = actual_connection.area2
+            actual_area_to = actual_connection.area2
         else:
-            actual_area = area_to
+            actual_area_to = area_to
 
         if not is_character_playable(character, self.options):
             continue
         if (character, area_from) in non_existent_areas:
             continue
-        if (character, actual_area) in non_existent_areas:
+        if (character, actual_area_to) in non_existent_areas:
             continue
 
         t_region_from = self.created_regions.get((character, area_from, True))
-        t_region_to = self.created_regions.get((character, actual_area, True))
+        t_region_to = self.created_regions.get((character, actual_area_to, True))
 
         nt_area_from = area_from
         if area_from == Area.ECBridge or area_from == Area.ECDeck:
             nt_area_from = Area.ECOutside
-        nt_area_to = actual_area
-        if actual_area == Area.ECBridge or actual_area == Area.ECDeck:
+        nt_area_to = actual_area_to
+        if actual_area_to == Area.ECBridge or actual_area_to == Area.ECDeck:
             nt_area_to = Area.ECOutside
 
         nt_region_from = self.created_regions.get((character, nt_area_from, False))
@@ -447,7 +450,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                                             is_alternative)
         nt_entrance_name = get_entrance_name(character, nt_region_from,
                                              nt_region_to, is_alternative)
-        if actual_area != area_to:
+        if actual_area_to != area_to:
             t_entrance_name += " [Original (Transformed): " + area_to.name + "]"
             nt_entrance_name += " [Original (Not Transformed): " + area_to.name + "]"
 
@@ -495,7 +498,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
 
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
-                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, actual_area), 0)
+                    emblem_requirement = area_map.get(AreaConnection.from_areas(area_from, actual_area_to), 0)
                     if not key_items:
                         connect_pair(full_connection_data,
                                      lambda state, emblems=emblem_requirement:
@@ -522,7 +525,6 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
         captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
 
-    # TODO: Fix mission 33
     # TODO: Remove ECoutside > sky deck/private room
     visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
