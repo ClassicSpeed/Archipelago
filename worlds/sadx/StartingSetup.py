@@ -52,11 +52,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             area_list += bosses_area_connections
         randomized_remaining_areas = dict(zip(area_list, world.random.sample(area_list, len(area_list))))
         starter_setup.level_mapping = randomized_remaining_areas
-        if options.entrance_randomizer.value == 2:
-            starter_setup.level_mapping[AreaConnection.Bridge_to_SkyChase2] = starter_setup.level_mapping.get(
-                AreaConnection.EcOutside_to_SkyChase2)
-            starter_setup.level_mapping[AreaConnection.Bridge_to_Chaos6ZeroBeta] = starter_setup.level_mapping.get(
-                AreaConnection.EcOutside_to_Chaos6ZeroBeta)
 
     return starter_setup
 
@@ -151,11 +146,12 @@ def validate_settings(options):
             " -- SADX error: S-Rank missions are not available for normal logic, please select a harder logic level.")
 
 
-def get_possible_starting_areas() -> List[Area]:
-    return [Area.Station, Area.Casino, Area.Sewers, Area.SSMain, Area.TPTunnel, Area.Hotel, Area.HotelPool,
-            Area.TPLobby, Area.MRMain, Area.AngelIsland, Area.IceCave, Area.PastAltar, Area.PastMain, Area.Jungle,
-            Area.FinalEggTower, Area.ECOutside, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
-            Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall]
+def get_possible_starting_areas(options) -> List[Area]:
+    return ([Area.Station, Area.Casino, Area.Sewers, Area.SSMain, Area.TPTunnel, Area.Hotel, Area.HotelPool,
+             Area.TPLobby, Area.MRMain, Area.AngelIsland, Area.IceCave, Area.PastAltar, Area.PastMain, Area.Jungle,
+             Area.FinalEggTower, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
+             Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall] +
+            [Area.ECBridge, Area.ECDeck]) if options.egg_carrier_starts_transformed else [Area.ECOutside]
 
 
 def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: StarterSetup,
@@ -187,7 +183,7 @@ def calculate_starter_locations(options: SonicAdventureDXOptions,
                                 world: World) -> StarterSetup:
     starter_setup = StarterSetup()
     for character in possible_characters:
-        possible_starter_areas = get_possible_starting_areas()
+        possible_starter_areas = get_possible_starting_areas(options)
         if options.starting_location.value == 0 and Area.SSMain in possible_starter_areas:
             starter_setup.area = Area.SSMain
         else:

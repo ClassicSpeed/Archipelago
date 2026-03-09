@@ -314,59 +314,6 @@ def get_connection_requirement(connection_key, area_map):
     if value != -1:
         return value
 
-    # Define alternative connection groups
-    alternative_groups = {
-        "SSMain_EcOutside": [
-            AreaConnection.SsMain_to_EcOutside,
-            AreaConnection.EcOutside_to_SsMain,
-            AreaConnection.SsMain_to_Bridge,
-            AreaConnection.Bridge_to_SsMain,
-        ],
-        "MrMain_EcOutside": [
-            AreaConnection.MrMain_to_EcOutside,
-            AreaConnection.EcOutside_to_MrMain,
-            AreaConnection.MrMain_to_Bridge,
-            AreaConnection.Bridge_to_MrMain,
-        ],
-        "SkyChase2": [
-            AreaConnection.EcOutside_to_SkyChase2,
-            AreaConnection.Bridge_to_SkyChase2,
-        ],
-        "Chaos6ZeroBeta": [
-            AreaConnection.Bridge_to_Chaos6ZeroBeta,
-            AreaConnection.EcOutside_to_Chaos6ZeroBeta,
-        ],
-        "EcInsideMonorail": [
-            AreaConnection.EcOutside_to_EcInsideMonorail,
-            AreaConnection.EcInside_to_EcOutsideMonorail,
-            AreaConnection.Bridge_to_EcInsideMonorail,
-            AreaConnection.EcInside_to_BridgeMonorail,
-        ],
-        "EcInsideEggLift": [
-            AreaConnection.EcOutside_to_EcInsideEggLift,
-            AreaConnection.EcInside_to_EcOutsideEggLift,
-            AreaConnection.Deck_to_EcInsideEggLift,
-            AreaConnection.EcInside_to_DeckEggLift,
-        ],
-        "CaptainRoom": [
-            AreaConnection.EcOutside_to_CaptainRoom,
-            AreaConnection.CaptainRoom_to_EcOutside,
-            AreaConnection.Deck_to_CaptainRoom,
-            AreaConnection.CaptainRoom_to_Deck,
-        ],
-        "Pool": [
-            AreaConnection.EcOutside_to_Pool,
-            AreaConnection.Pool_to_EcOutside,
-            AreaConnection.Deck_to_Pool,
-            AreaConnection.Pool_to_Deck,
-        ],
-    }
-
-    # Check alternative connections
-    for alternatives in alternative_groups.values():
-        if connection_key in alternatives:
-            return check_alternative_connections(area_map, alternatives)
-
     return -1
 
 
