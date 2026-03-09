@@ -49,7 +49,7 @@ def add_upgrade_rules(self, location_name: str, upgrade: UpgradeLocation):
 def add_sub_level_rules(self, location_name: str, sub_level: SubLevelLocation):
     location = self.multiworld.get_location(location_name, self.player)
     add_rule(location, lambda state: any(
-        state.can_reach_region(get_region_name(character, sub_level.area, self.options.egg_carrier_starts_transformed),
+        state.can_reach_region(get_region_name(character, sub_level.area, self.options.egg_carrier_starts_transformed, self.options),
                                self.player) for character in
         sub_level.get_logic_characters(self.options) if character in get_playable_characters(self.options)))
 
@@ -60,7 +60,7 @@ def add_field_emblem_rules(self, location_name: str, field_emblem: EmblemLocatio
     add_rule(location, lambda state: any(
         (state.can_reach_region(
             get_region_name(character.character if isinstance(character, CharacterUpgrade) else character,
-                            field_emblem.area, self.options.egg_carrier_starts_transformed), self.player) and
+                            field_emblem.area, self.options.egg_carrier_starts_transformed, self.options), self.player) and
          (state.has(character.upgrade, self.player) if isinstance(character, CharacterUpgrade) else True))
         for character in field_emblem.get_logic_characters_upgrades(self.options) if
         character in get_playable_characters(self.options) or
@@ -78,7 +78,7 @@ def add_boss_fight_rules(self, location_name: str, boss_fight: BossFightLocation
     if not boss_fight.unified:
         return
     add_rule(location, lambda state: any(
-        state.can_reach_region(get_region_name(character, boss_fight.area, self.options.egg_carrier_starts_transformed),
+        state.can_reach_region(get_region_name(character, boss_fight.area, self.options.egg_carrier_starts_transformed, self.options),
                                self.player) for character in
         boss_fight.characters if character in get_playable_characters(self.options)))
 
@@ -86,10 +86,10 @@ def add_boss_fight_rules(self, location_name: str, boss_fight: BossFightLocation
 def add_mission_rules(self, location_name: str, mission: MissionLocation):
     location = self.multiworld.get_location(location_name, self.player)
     if mission.cardArea == Area.ECOutside:
-        card_area_name = get_region_name(mission.character, mission.cardArea, False)
+        card_area_name = get_region_name(mission.character, mission.cardArea, False, self.options)
     else:
         card_area_name = get_region_name(mission.character, mission.cardArea,
-                                         self.options.egg_carrier_starts_transformed)
+                                         self.options.egg_carrier_starts_transformed, self.options)
     if not self.options.auto_start_missions:
         add_rule(location, lambda state, card_area=card_area_name: state.can_reach_region(card_area, self.player))
 
@@ -108,7 +108,7 @@ def add_mission_rules(self, location_name: str, mission: MissionLocation):
 def add_egg_rules(self, location_name: str, egg: ChaoEggLocation):
     location = self.multiworld.get_location(location_name, self.player)
     add_rule(location, lambda state: any(
-        state.can_reach_region(get_region_name(character, egg.area, self.options.egg_carrier_starts_transformed),
+        state.can_reach_region(get_region_name(character, egg.area, self.options.egg_carrier_starts_transformed, self.options),
                                self.player) for character in
         egg.characters if character in get_playable_characters(self.options)))
     if egg.requirements:
