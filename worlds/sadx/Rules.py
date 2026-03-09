@@ -6,7 +6,8 @@ from Utils import visualize_regions
 from worlds.generic.Rules import add_rule
 from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
-from .Enums import LevelMission, Character, AreaConnection, Area, non_existent_areas, bosses_areas
+from .Enums import LevelMission, Character, AreaConnection, Area, non_existent_areas, bosses_areas, \
+    non_existent_connections
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -87,7 +88,8 @@ def add_mission_rules(self, location_name: str, mission: MissionLocation):
     if mission.cardArea == Area.ECOutside:
         card_area_name = get_region_name(mission.character, mission.cardArea, False)
     else:
-        card_area_name = get_region_name(mission.character, mission.cardArea, self.options.egg_carrier_starts_transformed)
+        card_area_name = get_region_name(mission.character, mission.cardArea,
+                                         self.options.egg_carrier_starts_transformed)
     if not self.options.auto_start_missions:
         add_rule(location, lambda state, card_area=card_area_name: state.can_reach_region(card_area, self.player))
 
@@ -381,9 +383,15 @@ def check_alternative_connections(area_map, alternatives):
 
 @dataclass
 class FullConnectionData:
+    t_area_from: Area
+    t_area_to: Area
+    t_actual_area_to: Area
     t_region_from: Region
     t_region_to: Region
     t_entrance_name: str
+    nt_area_from: Area
+    nt_area_to: Area
+    nt_actual_area_to: Area
     nt_region_from: Region
     nt_region_to: Region
     nt_entrance_name: str
@@ -392,10 +400,12 @@ class FullConnectionData:
 def connect_pair(full_connection: FullConnectionData, rule=None):
     if rule:
         full_connection.t_region_from.connect(full_connection.t_region_to, full_connection.t_entrance_name, rule)
-        full_connection.nt_region_from.connect(full_connection.nt_region_to, full_connection.nt_entrance_name, rule)
+        if (full_connection.nt_area_from, full_connection.nt_area_to) not in non_existent_connections:
+            full_connection.nt_region_from.connect(full_connection.nt_region_to, full_connection.nt_entrance_name, rule)
     else:
         full_connection.t_region_from.connect(full_connection.t_region_to, name=full_connection.t_entrance_name)
-        full_connection.nt_region_from.connect(full_connection.nt_region_to, name=full_connection.nt_entrance_name)
+        if (full_connection.nt_area_from, full_connection.nt_area_to) not in non_existent_connections:
+            full_connection.nt_region_from.connect(full_connection.nt_region_to, name=full_connection.nt_entrance_name)
 
 
 def connect_regions(self, needed_emblems: int, area_map=None):
@@ -425,15 +435,18 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         nt_area_from = area_from
         if area_from == Area.ECBridge or area_from == Area.ECDeck:
             nt_area_from = Area.ECOutside
-        nt_area_to = actual_area_to
-        if actual_area_to == Area.ECBridge or actual_area_to == Area.ECDeck:
+        nt_area_to = area_to
+        nt_actual_area_to = actual_area_to
+        if nt_area_to == Area.ECBridge or nt_area_to == Area.ECDeck:
             nt_area_to = Area.ECOutside
+        if nt_actual_area_to == Area.ECBridge or nt_actual_area_to == Area.ECDeck:
+            nt_actual_area_to = Area.ECOutside
 
         nt_region_from = self.created_regions.get((character, nt_area_from, False))
-        if nt_area_to in level_areas or nt_area_to in bosses_areas:
-            nt_region_to = self.created_regions.get((character, nt_area_to, True))
+        if nt_actual_area_to in level_areas or nt_actual_area_to in bosses_areas:
+            nt_region_to = self.created_regions.get((character, nt_actual_area_to, True))
         else:
-            nt_region_to = self.created_regions.get((character, nt_area_to, False))
+            nt_region_to = self.created_regions.get((character, nt_actual_area_to, False))
 
         if self.options.logic_level.value == 4:
             key_items = expert_plus_dx_logic_items
@@ -454,8 +467,10 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             t_entrance_name += " [Original (Transformed): " + area_to.name + "]"
             nt_entrance_name += " [Original (Not Transformed): " + area_to.name + "]"
 
-        full_connection_data = FullConnectionData(t_region_from, t_region_to, t_entrance_name, nt_region_from,
-                                                  nt_region_to, nt_entrance_name)
+        full_connection_data = FullConnectionData(area_from, area_to, actual_area_to,
+                                                  t_region_from, t_region_to, t_entrance_name,
+                                                  nt_area_from, nt_area_to, nt_actual_area_to,
+                                                  nt_region_from, nt_region_to, nt_entrance_name)
 
         self.multiworld.explicit_indirect_conditions = False
         if t_region_from and t_region_to:
@@ -525,7 +540,6 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
         captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
 
-    # TODO: Remove ECoutside > sky deck/private room
     visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
 

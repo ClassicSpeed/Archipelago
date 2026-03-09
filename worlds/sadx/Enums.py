@@ -612,7 +612,10 @@ non_existent_areas = {
     (Character.Big, Area.BetaEggViper),
     (Character.Tails, Area.Chaos6ZeroBeta),
 }
+
 non_existent_connections = {
     (Area.ECOutside, Area.SkyDeck),
     (Area.ECOutside, Area.PrivateRoom),
+    (Area.SkyDeck, Area.ECOutside),
+    (Area.PrivateRoom, Area.ECOutside),
 }
