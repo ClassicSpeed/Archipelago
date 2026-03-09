@@ -150,8 +150,8 @@ def get_possible_starting_areas(options) -> List[Area]:
     return ([Area.Station, Area.Casino, Area.Sewers, Area.SSMain, Area.TPTunnel, Area.Hotel, Area.HotelPool,
              Area.TPLobby, Area.MRMain, Area.AngelIsland, Area.IceCave, Area.PastAltar, Area.PastMain, Area.Jungle,
              Area.FinalEggTower, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
-             Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall] +
-            [Area.ECBridge, Area.ECDeck]) if options.egg_carrier_starts_transformed else [Area.ECOutside]
+             Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall]
+            + ([Area.ECBridge, Area.ECDeck] if options.egg_carrier_starts_transformed else [Area.ECOutside]))
 
 
 def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: StarterSetup,

@@ -40,7 +40,9 @@ MISSABLE_ENEMIES = (list(range(12001, 12010 + 1))  # Sonic Casinopolis Sewers
 def get_region_name(character: Character, area: Area, transformed: bool, options) -> str:
     if area in level_areas or area in bosses_areas:
         return "{} ({})".format(pascal_to_space(area.name), character.name)
-    if transformed:
+    if area == Area.ECOutside or area == Area.ECDeck or area == Area.ECBridge:
+        suffix = ""
+    elif transformed:
         suffix = "" if options.egg_carrier_starts_transformed else " [Transformed]"
     else:
         suffix = " [Untransformed]" if options.egg_carrier_starts_transformed else ""
@@ -65,26 +67,38 @@ def create_sadx_regions(world: World, starter_setup: StarterSetup, options: Soni
         for character in get_playable_characters(options):
             if (character, area) in non_existent_areas:
                 continue
-            if area != Area.ECOutside:
-                region = Region(get_region_name(character, area, True, options), world.player, world.multiworld)
+
+            if area in level_areas or area in bosses_areas:
+                region = Region(
+                    get_region_name(character, area, bool(options.egg_carrier_starts_transformed.value), options),
+                    world.player, world.multiworld)
                 world.multiworld.regions.append(region)
-                if options.egg_carrier_starts_transformed:
-                    add_locations_to_region(region, area, character, world.player, options)
-                    if area == starter_setup.get_starting_area(character):
-                        menu_region.connect(region, None,
-                                            lambda state, item=get_playable_character_item(character): state.has(item,
-                                                                                                                 world.player))
+                add_locations_to_region(region, area, character, world.player, options)
+                created_regions[(character, area, False)] = region
                 created_regions[(character, area, True)] = region
 
-            if area not in level_areas and area not in bosses_areas:
+            else:
+                if area != Area.ECOutside:
+                    region = Region(get_region_name(character, area, True, options), world.player, world.multiworld)
+                    world.multiworld.regions.append(region)
+                    if options.egg_carrier_starts_transformed:
+                        add_locations_to_region(region, area, character, world.player, options)
+                        if area == starter_setup.get_starting_area(character):
+                            menu_region.connect(region, None,
+                                                lambda state, item=get_playable_character_item(character): state.has(
+                                                    item,
+                                                    world.player))
+                    created_regions[(character, area, True)] = region
                 if area != Area.ECBridge and area != Area.ECDeck:
-                    region = Region(get_region_name(character, area, False, options), world.player, world.multiworld)
+                    region = Region(get_region_name(character, area, False, options), world.player,
+                                    world.multiworld)
                     world.multiworld.regions.append(region)
                     if not options.egg_carrier_starts_transformed or area == Area.ECOutside:
                         add_locations_to_region(region, area, character, world.player, options)
                         if area == starter_setup.get_starting_area(character):
                             menu_region.connect(region, None,
-                                                lambda state, item=get_playable_character_item(character): state.has(
+                                                lambda state,
+                                                       item=get_playable_character_item(character): state.has(
                                                     item,
                                                     world.player))
                     created_regions[(character, area, False)] = region
