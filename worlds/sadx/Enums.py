@@ -532,10 +532,10 @@ bosses_area_connections = [
     AreaConnection.MrMain_to_SkyChase1,
     AreaConnection.Jungle_to_SandHill,
     AreaConnection.FinalEggTower_to_BetaEggViper,
-    AreaConnection.EcOutside_to_SkyChase2,
-    # AreaConnection.Bridge_to_SkyChase2 ,
-    AreaConnection.EcOutside_to_Chaos6ZeroBeta,
-    # AreaConnection.Bridge_to_Chaos6ZeroBeta ,
+    # AreaConnection.EcOutside_to_SkyChase2,
+    AreaConnection.Bridge_to_SkyChase2,
+    # AreaConnection.EcOutside_to_Chaos6ZeroBeta,
+    AreaConnection.Bridge_to_Chaos6ZeroBeta,
     AreaConnection.WarpHall_to_EcChaoGarden,
 ]
 
