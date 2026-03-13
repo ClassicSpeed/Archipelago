@@ -199,8 +199,8 @@ def calculate_starter_locations(options: SonicAdventureDXOptions,
         for character in possible_characters:
             if character == starter_setup.character:
                 continue
-            unused_areas = [area for area in get_possible_starting_areas() if area not in used_areas]
-            area = world.random.choice(unused_areas if unused_areas else get_possible_starting_areas())
+            unused_areas = [area for area in get_possible_starting_areas(options) if area not in used_areas]
+            area = world.random.choice(unused_areas if unused_areas else get_possible_starting_areas(options))
             used_areas.add(area)
             starter_setup.charactersWithArea.append(CharacterArea(character, area))
     return starter_setup
