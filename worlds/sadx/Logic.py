@@ -378,7 +378,8 @@ area_connections: Dict[
     (Character.Sonic, Area.MRMain, Area.MRChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.MRMain, Area.AngelIsland, False): ([Dynamite], [Dynamite], [], [], []),
-    (Character.Sonic, Area.AngelIsland, Area.MRMain, False): ([Dynamite], [Dynamite], [], [], []),
+    (Character.Sonic, Area.AngelIsland, Area.MRMain, False): (
+        [Dynamite], [Dynamite], [Dynamite], [Dynamite], [Dynamite]),
     (Character.Sonic, Area.AngelIsland, Area.IceCave, False): ([IceStone], [IceStone], [], [], []),
     (Character.Sonic, Area.AngelIsland, Area.RedMountain, False): (
         [EMBLEM_BLOCKED, LightShoes, AncientLight], [EMBLEM_BLOCKED, LightShoes, AncientLight], [], [], []),
@@ -535,7 +536,8 @@ area_connections: Dict[
     (Character.Tails, Area.MRMain, Area.MRChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.MRMain, Area.AngelIsland, False): ([Dynamite], [Dynamite], [], [], []),
-    (Character.Tails, Area.AngelIsland, Area.MRMain, False): ([Dynamite], [Dynamite], [], [], []),
+    (Character.Tails, Area.AngelIsland, Area.MRMain, False): (
+        [Dynamite], [Dynamite], [Dynamite], [Dynamite], [Dynamite]),
     (Character.Tails, Area.AngelIsland, Area.IceCave, False): ([IceStone], [IceStone], [], [], []),
     (Character.Tails, Area.AngelIsland, Area.RedMountain, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
@@ -625,7 +627,7 @@ area_connections: Dict[
     (Character.Tails, Area.HedgehogHammer, Area.PrisonHall, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.PrisonHall, Area.HedgehogHammer, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.Arsenal, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.WaterTank, Area.ECInside, False): (
@@ -698,15 +700,13 @@ area_connections: Dict[
     (Character.Knuckles, Area.MRMain, Area.MRChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.MRMain, Area.AngelIsland, False): ([Dynamite], [Dynamite], [], [], []),
-    (Character.Knuckles, Area.AngelIsland, Area.MRMain, False): ([Dynamite], [Dynamite], [], [], []),
-    (Character.Knuckles, Area.AngelIsland, Area.IceCave, False): ([IceStone], [IceStone], [], [IceStone], [[IceStone],
-                                                                                                           [
-                                                                                                               ShovelClaw]]),
+    (Character.Knuckles, Area.AngelIsland, Area.MRMain, False): (
+        [Dynamite], [Dynamite], [Dynamite], [Dynamite], [Dynamite]),
+    (Character.Knuckles, Area.AngelIsland, Area.IceCave, False): ([IceStone], [IceStone], [], [], []),
     (Character.Knuckles, Area.AngelIsland, Area.RedMountain, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
     (Character.Knuckles, Area.AngelIsland, Area.PastAltar, False): (
         [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine], [TimeMachine]),
-    (Character.Knuckles, Area.IceCave, Area.AngelIsland, False): (
-        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
+    (Character.Knuckles, Area.IceCave, Area.AngelIsland, False): ([IceStone], [IceStone], [], [IceStone], [IceStone]),
     (Character.Knuckles, Area.IceCave, Area.IceCap, False): (
         [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO]),
     (Character.Knuckles, Area.PastAltar, Area.AngelIsland, False): (
@@ -782,15 +782,15 @@ area_connections: Dict[
     (Character.Knuckles, Area.ECInside, Area.FinalEggTower, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.WarpHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.Arsenal, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.ECInside, Area.WaterTank, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.HedgehogHammer, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.HedgehogHammer, Area.PrisonHall, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.PrisonHall, Area.HedgehogHammer, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.Arsenal, Area.ECInside, False): (
@@ -798,7 +798,7 @@ area_connections: Dict[
     (Character.Knuckles, Area.WaterTank, Area.ECInside, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.WarpHall, Area.ECInside, False): (
-        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
+        [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.WarpHall, Area.ECChaoGarden, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Amy, Area.CityHall, Area.SSMain, False): ([PolicePass], [PolicePass], [], [PolicePass], [PolicePass]),
@@ -1206,13 +1206,10 @@ area_connections: Dict[
         [Dynamite], [Dynamite], [[Dynamite], [JetBooster]], [[Dynamite],
                                                              [JetBooster]], [[Dynamite],
                                                                              [JetBooster]]),
-    (Character.Gamma, Area.AngelIsland, Area.MRMain, False): ([Dynamite], [Dynamite], [[Dynamite],
-                                                                                       [JetBooster]], [[Dynamite],
-                                                                                                       [JetBooster]],
-                                                              [[Dynamite],
-                                                               [JetBooster]]),
+    (Character.Gamma, Area.AngelIsland, Area.MRMain, False): (
+        [Dynamite], [Dynamite], [Dynamite], [Dynamite], [Dynamite]),
     (Character.Gamma, Area.AngelIsland, Area.IceCave, False): (
-        [IceStone], [IceStone], [[IceStone], [JetBooster]], [[IceStone], [JetBooster]], [[IceStone], [JetBooster]]),
+        [IceStone], [IceStone], [IceStone], [IceStone], [IceStone]),
     (Character.Gamma, Area.AngelIsland, Area.RedMountain, False): (
         [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.AngelIsland, Area.PastAltar, False): (
