@@ -305,12 +305,12 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
     return area_weights
 
 
-def get_connection_requirement(connection_key, area_map):
+def get_connection_requirement(connection_key, area_map, is_alternative):
     # Check direct and reverse connection values
     value = area_map.get(connection_key, -1)
     if value != -1:
         return value
-    value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1), -1)
+    value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1, is_alternative), -1)
     if value != -1:
         return value
 
@@ -501,7 +501,7 @@ def calculate_connection_requirements(area_map, needed_emblems, self):
             area_weights = assign_area_weights(self, self.starter_setup)
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
                 connection_key = AreaConnection.from_areas(area_from, area_to, is_alternative)
-                connection_requirement = get_connection_requirement(connection_key, area_map)
+                connection_requirement = get_connection_requirement(connection_key, area_map, is_alternative)
                 if connection_requirement != -1:
                     area_map[connection_key] = connection_requirement
                 else:
