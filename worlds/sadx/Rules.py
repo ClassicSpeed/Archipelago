@@ -273,9 +273,13 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
 
 
 def assign_area_weights(self, starter_setup) -> dict[Area, float]:
-    area_tiers = [[starter_setup.area], [], [], [], [], []]
+    starter_area = starter_setup.area
+    if starter_area == Area.ECOutside:
+        starter_area = Area.ECDeck
 
-    remaining_areas = set([area for area in Area]) - {starter_setup.area}
+    area_tiers = [[starter_area], [], [], [], [], []]
+
+    remaining_areas = set([area for area in Area]) - {starter_area}
 
     # Process connections iteratively
     for i in range(5):
