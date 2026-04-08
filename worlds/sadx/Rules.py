@@ -393,15 +393,15 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             nt_region_to = self.created_regions.get((character, nt_actual_area_to, False))
 
         if self.options.logic_level.value == 4:
-            key_items = expert_plus_dx_logic_items
+            key_items = expert_plus_dx_logic_items.copy()
         elif self.options.logic_level.value == 3:
-            key_items = expert_dx_logic_items
+            key_items = expert_dx_logic_items.copy()
         elif self.options.logic_level.value == 2:
-            key_items = expert_dc_logic_items
+            key_items = expert_dc_logic_items.copy()
         elif self.options.logic_level.value == 1:
-            key_items = hard_logic_items
+            key_items = hard_logic_items.copy()
         else:
-            key_items = normal_logic_items
+            key_items = normal_logic_items.copy()
 
         t_entrance_name = get_entrance_name(character, t_region_from, t_region_to,
                                             is_alternative)
