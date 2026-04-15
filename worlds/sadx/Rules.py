@@ -2,7 +2,6 @@ import math
 from dataclasses import dataclass
 
 from BaseClasses import Region
-from Utils import visualize_regions
 from worlds.generic.Rules import add_rule
 from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
@@ -485,7 +484,6 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
         captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
 
-    visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
 
 
