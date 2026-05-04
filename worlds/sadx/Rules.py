@@ -2,7 +2,6 @@ import math
 from dataclasses import dataclass
 
 from BaseClasses import Region
-from Utils import visualize_regions
 from worlds.generic.Rules import add_rule
 from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
@@ -393,15 +392,15 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             nt_region_to = self.created_regions.get((character, nt_actual_area_to, False))
 
         if self.options.logic_level.value == 4:
-            key_items = expert_plus_dx_logic_items
+            key_items = expert_plus_dx_logic_items.copy()
         elif self.options.logic_level.value == 3:
-            key_items = expert_dx_logic_items
+            key_items = expert_dx_logic_items.copy()
         elif self.options.logic_level.value == 2:
-            key_items = expert_dc_logic_items
+            key_items = expert_dc_logic_items.copy()
         elif self.options.logic_level.value == 1:
-            key_items = hard_logic_items
+            key_items = hard_logic_items.copy()
         else:
-            key_items = normal_logic_items
+            key_items = normal_logic_items.copy()
 
         t_entrance_name = get_entrance_name(character, t_region_from, t_region_to,
                                             is_alternative)
@@ -485,7 +484,6 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         captain_region_transformed.connect(captain_region_not_transformed, name=entrance_name_1)
         captain_region_not_transformed.connect(captain_region_transformed, name=entrance_name_2)
 
-    visualize_regions(self.get_region("Menu"), "sadx.puml")
     return area_map
 
 
