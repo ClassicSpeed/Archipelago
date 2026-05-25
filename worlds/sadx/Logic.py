@@ -316,10 +316,9 @@ P_KNUCKLES_W_SC = CharacterUpgrade(Character.Knuckles, ItemName.Knuckles.ShovelC
 P_SONIC_W_LS = CharacterUpgrade(Character.Sonic, ItemName.Sonic.LightShoes)
 EVERYONE = [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_GAMMA, P_BIG]
 
-area_connections: Dict[
-    Tuple[Character, Area, Area, bool], Tuple[
-        List[str | List[str]], List[str | List[str]], List[str | List[str]], List[str | List[str]], List[
-            str | List[str]]]] = {
+area_connections: Dict[Tuple[Character, Area, Area, bool], Tuple[
+    List[str | List[str]], List[str | List[str]], List[str | List[str]], List[str | List[str]], List[
+        str | List[str]]]] = {
     (Character.Sonic, Area.CityHall, Area.SSMain, False): ([PolicePass], [PolicePass], [], [], []),
     (Character.Sonic, Area.CityHall, Area.SpeedHighway, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Sonic, Area.CityHall, Area.Chaos0, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
@@ -402,7 +401,7 @@ area_connections: Dict[
     (Character.Sonic, Area.Jungle, Area.LostWorld, True): ([ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO],
                                                            [ONLY_RANDO]),
     (Character.Sonic, Area.Jungle, Area.SandHill, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [], [], []),
-    (Character.Sonic, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
+    (Character.Sonic, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [],
                                                                 [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Sonic, Area.FinalEggTower, Area.Jungle, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
                                                                 [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
@@ -559,7 +558,7 @@ area_connections: Dict[
                                                            [ONLY_RANDO]),
     (Character.Tails, Area.Jungle, Area.SandHill, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
                                                            [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
-    (Character.Tails, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
+    (Character.Tails, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [],
                                                                 [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Tails, Area.FinalEggTower, Area.Jungle, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [],
                                                                 [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
@@ -724,7 +723,7 @@ area_connections: Dict[
                                                               [EMBLEM_BLOCKED, ShovelClaw]),
     (Character.Knuckles, Area.Jungle, Area.SandHill, False): ([ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO],
                                                               [ONLY_RANDO]),
-    (Character.Knuckles, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
+    (Character.Knuckles, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [],
                                                                    [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Knuckles, Area.FinalEggTower, Area.Jungle, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
                                                                    [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
@@ -1237,7 +1236,7 @@ area_connections: Dict[
                                                            [ONLY_RANDO]),
     (Character.Gamma, Area.Jungle, Area.SandHill, False): ([ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO], [ONLY_RANDO],
                                                            [ONLY_RANDO]),
-    (Character.Gamma, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
+    (Character.Gamma, Area.Jungle, Area.FinalEggTower, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [],
                                                                 [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
     (Character.Gamma, Area.FinalEggTower, Area.Jungle, False): ([EMBLEM_BLOCKED], [EMBLEM_BLOCKED], [EMBLEM_BLOCKED],
                                                                 [EMBLEM_BLOCKED], [EMBLEM_BLOCKED]),
