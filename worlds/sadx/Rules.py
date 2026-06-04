@@ -85,7 +85,7 @@ def add_boss_fight_rules(self, location_name: str, boss_fight: BossFightLocation
         boss_fight.characters if character in get_playable_characters(self.options)))
 
 
-def add_mission_rules(self, location_name: str, mission: MissionLocation):
+def add_mission_rules(self, location_name: str, mission: MissionLocation, area_map):
     location = self.multiworld.get_location(location_name, self.player)
     if mission.cardArea == Area.ECOutside:
         card_area_name = get_region_name(mission.character, mission.cardArea, False, self.options)
@@ -96,7 +96,10 @@ def add_mission_rules(self, location_name: str, mission: MissionLocation):
         add_rule(location, lambda state, card_area=card_area_name: state.can_reach_region(card_area, self.player))
 
     logic_items = mission.get_logic_items(self.options)
-    if all(isinstance(item, str) for item in logic_items):
+    if mission.missionNumber == 1 and self.options.gating_mode.value == 0:
+            emblem_requirement = area_map.get(AreaConnection.from_areas(Area.CityHall, Area.SSMain), 0)
+            add_rule(location, lambda state, emblems=emblem_requirement: state.has("Emblem", self.player, emblems))
+    elif all(isinstance(item, str) for item in logic_items):
         for need in logic_items:
             add_rule(location, lambda state, item=need: state.has(item, self.player))
     else:
@@ -148,7 +151,7 @@ def add_fish_rules(self, location_name: str, fish: FishLocation):
         add_rule(location, lambda state: state.has(ItemName.Big.PowerRod, self.player))
 
 
-def calculate_rules(self, location: LocationInfo):
+def calculate_rules(self, location: LocationInfo, area_map):
     if location is None:
         return
     for level in level_location_table:
@@ -171,7 +174,7 @@ def calculate_rules(self, location: LocationInfo):
             add_boss_fight_rules(self, location["name"], boss_fight)
     for mission in mission_location_table:
         if location["id"] == mission.locationId:
-            add_mission_rules(self, location["name"], mission)
+            add_mission_rules(self, location["name"], mission, area_map)
     for egg in chao_egg_location_table:
         if location["id"] == egg.locationId:
             add_egg_rules(self, location["name"], egg)
@@ -193,7 +196,7 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
     missions_for_perfect_chaos = 0
     bosses_for_perfect_chaos = 0
     for ap_location in self.multiworld.get_locations(self.player):
-        calculate_rules(self, get_location_by_name(ap_location.name))
+        calculate_rules(self, get_location_by_name(ap_location.name),area_map)
 
     perfect_chaos_fight = self.multiworld.get_location("Perfect Chaos Fight", self.player)
     perfect_chaos_fight.place_locked_item(self.create_item(ItemName.Progression.ChaosPeace))
