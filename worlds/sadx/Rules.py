@@ -12,7 +12,7 @@ from .Locations import get_location_by_name, level_location_table, upgrade_locat
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
     CapsuleLocation, BossFightLocation, MissionLocation, chao_egg_location_table, ChaoEggLocation, \
     chao_race_location_table, enemy_location_table, EnemyLocation, fish_location_table, FishLocation, area_connections
-from .Names import ItemName
+from .Names import ItemName, LocationName
 from .Regions import get_region_name, get_entrance_name
 
 
@@ -97,8 +97,8 @@ def add_mission_rules(self, location_name: str, mission: MissionLocation, area_m
 
     logic_items = mission.get_logic_items(self.options)
     if mission.missionNumber == 1 and self.options.gating_mode.value == 0:
-            emblem_requirement = area_map.get(AreaConnection.from_areas(Area.CityHall, Area.SSMain), 0)
-            add_rule(location, lambda state, emblems=emblem_requirement: state.has("Emblem", self.player, emblems))
+        emblem_requirement = calculate_emblem_requirements_for_mission_1(area_map)
+        add_rule(location, lambda state, emblems=emblem_requirement: state.has("Emblem", self.player, emblems))
     elif all(isinstance(item, str) for item in logic_items):
         for need in logic_items:
             add_rule(location, lambda state, item=need: state.has(item, self.player))
@@ -110,16 +110,66 @@ def add_mission_rules(self, location_name: str, mission: MissionLocation, area_m
         add_rule(location, lambda state: state.has(ItemName.Big.PowerRod, self.player))
 
 
-def add_egg_rules(self, location_name: str, egg: ChaoEggLocation):
+def calculate_emblem_requirements_for_mission_1(area_map):
+    # Get the cheaper connection between City Hall and SSMain
+    cityhall_requirement = area_map.get(AreaConnection.from_areas(Area.CityHall, Area.SSMain), 0)
+    sewer_route_requirement = max(
+        area_map.get(AreaConnection.from_areas(Area.CityHall, Area.Sewers), 0),
+        area_map.get(AreaConnection.from_areas(Area.Sewers, Area.TPTunnel), 0),
+        area_map.get(AreaConnection.from_areas(Area.TPTunnel, Area.SSMain), 0),
+    )
+    return min(cityhall_requirement, sewer_route_requirement)
+
+
+def add_egg_rules(self, location_name: str, egg: ChaoEggLocation, area_map):
     location = self.multiworld.get_location(location_name, self.player)
     add_rule(location, lambda state: any(
         state.can_reach_region(
             get_region_name(character, egg.area, self.options.egg_carrier_starts_transformed, self.options),
             self.player) for character in
         egg.characters if character in get_playable_characters(self.options)))
-    if egg.requirements:
+    if egg.eggName == LocationName.Chao.GoldEgg and self.options.gating_mode.value == 0:
+        emblem_requirement = calculate_emblem_requirements_for_golden_egg(area_map)
+        add_rule(location, lambda state, emblems=emblem_requirement: state.has("Emblem", self.player, emblems))
+    elif egg.eggName == LocationName.Chao.BlackEgg and self.options.gating_mode.value == 0:
+        emblem_requirement = calculate_emblem_requirements_for_black_egg(area_map)
+        add_rule(location, lambda state, emblems=emblem_requirement: state.has("Emblem", self.player, emblems))
+    elif egg.eggName == LocationName.Chao.SilverEgg and self.options.gating_mode.value == 0:
+        emblem_requirement = area_map.get(AreaConnection.from_areas(Area.MRMain, Area.MRChaoGarden), 0)
+        add_rule(location, lambda state, emblems=emblem_requirement: state.has("Emblem", self.player, emblems))
+    else:
         add_rule(location, lambda state, egg_requirements=egg.requirements: any(
             all(state.has(item, self.player) for item in requirement_group) for requirement_group in egg_requirements))
+
+
+def calculate_emblem_requirements_for_golden_egg(area_map):
+    # Get the cheaper connection between City Hall and SSMain
+    cityhall_requirement = area_map.get(AreaConnection.from_areas(Area.CityHall, Area.SSMain), 0)
+    sewer_route_requirement = max(
+        area_map.get(AreaConnection.from_areas(Area.CityHall, Area.Sewers), 0),
+        area_map.get(AreaConnection.from_areas(Area.Sewers, Area.TPTunnel), 0),
+        area_map.get(AreaConnection.from_areas(Area.TPTunnel, Area.SSMain), 0),
+    )
+    cheaper_city_hall_route_requirement = min(cityhall_requirement, sewer_route_requirement)
+
+    # Get the cheaper connection between SSMain and Hotel
+    station_route_requirement = max(
+        area_map.get(AreaConnection.from_areas(Area.SSMain, Area.Station), 0),
+        area_map.get(AreaConnection.from_areas(Area.Station, Area.Casino), 0),
+        area_map.get(AreaConnection.from_areas(Area.Casino, Area.Hotel), 0),
+    )
+    hotel_route_requirement = area_map.get(AreaConnection.from_areas(Area.SSMain, Area.Hotel), 0)
+    cheaper_hotel_route_requirement = min(station_route_requirement, hotel_route_requirement)
+    return max(cheaper_city_hall_route_requirement, cheaper_hotel_route_requirement)
+
+
+def calculate_emblem_requirements_for_black_egg(area_map):
+    return max(
+        area_map.get(AreaConnection.from_areas(Area.PrivateRoom, Area.HedgehogHammer), 0),
+        area_map.get(AreaConnection.from_areas(Area.HedgehogHammer, Area.ECInside), 0),
+        area_map.get(AreaConnection.from_areas(Area.ECInside, Area.WarpHall), 0),
+        area_map.get(AreaConnection.from_areas(Area.WarpHall, Area.ECChaoGarden), 0),
+    )
 
 
 def add_race_rules(self, location_name: str):
@@ -196,7 +246,7 @@ def create_sadx_rules(self, needed_emblems: int, area_map) -> LocationDistributi
     missions_for_perfect_chaos = 0
     bosses_for_perfect_chaos = 0
     for ap_location in self.multiworld.get_locations(self.player):
-        calculate_rules(self, get_location_by_name(ap_location.name),area_map)
+        calculate_rules(self, get_location_by_name(ap_location.name), area_map)
 
     perfect_chaos_fight = self.multiworld.get_location("Perfect Chaos Fight", self.player)
     perfect_chaos_fight.place_locked_item(self.create_item(ItemName.Progression.ChaosPeace))
