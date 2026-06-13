@@ -515,8 +515,7 @@ area_connections: Dict[Tuple[Character, Area, Area, bool], Tuple[
                                                         [ONLY_RANDO]),
     (Character.Tails, Area.Hotel, Area.HotelPool, False): ([PoolKey], [PoolKey], [], [PoolKey], [PoolKey]),
     (Character.Tails, Area.HotelPool, Area.Hotel, False): ([PoolKey], [PoolKey], [PoolKey], [PoolKey], [PoolKey]),
-    (Character.Tails, Area.HotelPool, Area.EmeraldCoast, False): ([ONLY_RANDO], [ONLY_RANDO], [], [ONLY_RANDO],
-                                                                  [ONLY_RANDO]),
+    (Character.Tails, Area.HotelPool, Area.EmeraldCoast, False): ([ONLY_RANDO], [ONLY_RANDO], [], [], []),
     (Character.Tails, Area.MRMain, Area.Station, False): ([Train], [Train], [Train], [Train], [Train]),
     (Character.Tails, Area.MRMain, Area.ECBridge, False): ([Raft], [Raft], [Raft], [Raft], [Raft]),
     (Character.Tails, Area.MRMain, Area.WindyValley, False): ([WindStone], [WindStone], [WindStone], [WindStone],
@@ -3122,7 +3121,8 @@ boss_location_table: List[BossFightLocation] = [
 
 chao_egg_location_table: List[ChaoEggLocation] = [
     ChaoEggLocation(900, LocationName.Chao.GoldEgg, Area.SSChaoGarden, EVERYONE,
-                    [[HotelKey, PolicePass], [CasinoKey, ShutterKey, StationKey, PolicePass]]),
+                    [[HotelKey, PolicePass], [CasinoKey, ShutterKey, StationKey, PolicePass], [HotelKey, TPTicket],
+                     [CasinoKey, ShutterKey, StationKey, TPTicket]]),
     ChaoEggLocation(901, LocationName.Chao.SilverEgg, Area.MRChaoGarden, [P_SONIC, P_TAILS, P_KNUCKLES, P_AMY, P_BIG],
                     []),
     ChaoEggLocation(902, LocationName.Chao.BlackEgg, Area.ECChaoGarden, [P_AMY, P_GAMMA, P_BIG], []),
