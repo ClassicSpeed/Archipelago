@@ -227,7 +227,7 @@ def calculate_rules(self, location: LocationInfo, area_map):
             add_mission_rules(self, location["name"], mission, area_map)
     for egg in chao_egg_location_table:
         if location["id"] == egg.locationId:
-            add_egg_rules(self, location["name"], egg)
+            add_egg_rules(self, location["name"], egg, area_map)
     for race in chao_race_location_table:
         if location["id"] == race.locationId:
             add_race_rules(self, location["name"])
