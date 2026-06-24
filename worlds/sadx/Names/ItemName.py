@@ -30,6 +30,7 @@ class Traps:
     BuyonTrap = "Buyon Trap"
     ReverseTrap = "Reverse Trap"
     GravityTrap = "Gravity Trap"
+    WashtubTrap = "Washtub Trap"
 
     @classmethod
     def values(cls) -> list[str]:
