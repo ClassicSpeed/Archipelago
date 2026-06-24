@@ -656,6 +656,12 @@ class GravityTrapWeight(BaseTrapWeight):
     """
     display_name = "Gravity Trap Weight"
 
+class WashtubTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that drops a washtub on your character.
+    """
+    display_name = "Washtub Trap Weight"
+
 
 class ReverseControlTrapDuration(Range):
     """
@@ -770,6 +776,7 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     buyon_trap_weight: BuyonTrapWeight
     reverse_trap_weight: ReverseTrapWeight
     gravity_trap_weight: GravityTrapWeight
+    washtub_trap_weight: WashtubTrapWeight
 
     reverse_trap_duration: ReverseControlTrapDuration
     traps_and_filler_on_adventure_fields: TrapsAndFillerOnAdventureFields
@@ -864,6 +871,7 @@ sadx_option_groups = [
         BuyonTrapWeight,
         ReverseTrapWeight,
         GravityTrapWeight,
+        WashtubTrapWeight,
         ReverseControlTrapDuration,
         TrapsAndFillerOnAdventureFields,
         TrapsAndFillerOnBossFights,
