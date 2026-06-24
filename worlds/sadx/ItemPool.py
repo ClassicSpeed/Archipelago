@@ -61,7 +61,8 @@ def create_sadx_items(world: World, starter_setup: StarterSetup, options: SonicA
             [ItemName.Traps.PoliceTrap] * options.police_trap_weight.value +
             [ItemName.Traps.BuyonTrap] * options.buyon_trap_weight.value +
             [ItemName.Traps.ReverseTrap] * options.reverse_trap_weight.value +
-            [ItemName.Traps.GravityTrap] * options.gravity_trap_weight.value
+            [ItemName.Traps.GravityTrap] * options.gravity_trap_weight.value +
+            [ItemName.Traps.WashtubTrap] * options.washtub_trap_weight.value
     )
 
     if len(trap_weights) == 0:

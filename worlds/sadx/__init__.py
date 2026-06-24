@@ -310,6 +310,7 @@ class SonicAdventureDXWorld(World):
             "BuyonTrapWeight": self.options.buyon_trap_weight.value,
             "ReverseTrapWeight": self.options.reverse_trap_weight.value,
             "GravityTrapWeight": self.options.gravity_trap_weight.value,
+            "WashtubTrapWeight": self.options.washtub_trap_weight.value,
 
             "ReverseControlTrapDuration": self.options.reverse_trap_duration.value,
             "TrapsOnAdventureFields": self.options.traps_and_filler_on_adventure_fields.value,
