@@ -88,7 +88,7 @@ filler_item_table: List[ItemInfo] = [
     ItemInfo(74, ItemName.Filler.Shield, ItemClassification.filler),
     ItemInfo(75, ItemName.Filler.MagneticShield, ItemClassification.filler),
     ItemInfo(76, ItemName.Filler.ExtraLife, ItemClassification.filler),
-    ItemInfo(77, ItemName.Filler.SpeedPad, ItemClassification.filler),
+    ItemInfo(77, ItemName.Filler.WalkThroughWalls, ItemClassification.filler),
     ItemInfo(78, ItemName.Filler.BurgerMan, ItemClassification.filler),
     ItemInfo(79, ItemName.Filler.Checkpoint, ItemClassification.filler),
 ]

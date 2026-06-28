@@ -311,6 +311,7 @@ class SonicAdventureDXWorld(World):
             "ReverseTrapWeight": self.options.reverse_trap_weight.value,
             "GravityTrapWeight": self.options.gravity_trap_weight.value,
             "WashtubTrapWeight": self.options.washtub_trap_weight.value,
+            "SpeedPadTrapWeight": self.options.speed_pad_trap_weight.value,
             "SnowboardTrapWeight": self.options.snowboard_trap_weight.value,
             "SpikeBallTrapWeight": self.options.spike_ball_trap_weight.value,
             "CartTrapWeight": self.options.cart_trap_weight.value,
