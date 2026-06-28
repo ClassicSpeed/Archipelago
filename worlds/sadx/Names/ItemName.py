@@ -17,7 +17,7 @@ class Filler:
     Shield = "Shield"
     MagneticShield = "Magnetic Shield"
     ExtraLife = "Extra Life"
-    WalkThroughWalls = "Walk Through Walls"
+    SpeedPad = "Speed Pad"
     BurgerMan = "Burger Man"
     Checkpoint = "Checkpoint"
 
@@ -34,7 +34,6 @@ class Traps:
     ReverseTrap = "Reverse Trap"
     GravityTrap = "Gravity Trap"
     WashtubTrap = "Washtub Trap"
-    SpeedPadTrap = "Speed Pad Trap"
     SnowboardTrap = "Snowboard Trap"
     SpikeBallTrap = "Spike Ball Trap"
     CartTrap = "Cart Trap"
