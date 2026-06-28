@@ -17,6 +17,9 @@ class Filler:
     Shield = "Shield"
     MagneticShield = "Magnetic Shield"
     ExtraLife = "Extra Life"
+    SpeedPad = "Speed Pad"
+    BurgerMan = "Burger Man"
+    Checkpoint = "Checkpoint"
 
     @classmethod
     def values(cls) -> list[str]:
@@ -31,6 +34,11 @@ class Traps:
     ReverseTrap = "Reverse Trap"
     GravityTrap = "Gravity Trap"
     WashtubTrap = "Washtub Trap"
+    SnowboardTrap = "Snowboard Trap"
+    SpikeBallTrap = "Spike Ball Trap"
+    CartTrap = "Cart Trap"
+    UpsideDownTrap = "Upside Down Trap"
+    MirrorTrap = "Mirror Trap"
 
     @classmethod
     def values(cls) -> list[str]:

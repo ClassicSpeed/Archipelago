@@ -656,11 +656,47 @@ class GravityTrapWeight(BaseTrapWeight):
     """
     display_name = "Gravity Trap Weight"
 
+
 class WashtubTrapWeight(BaseTrapWeight):
     """
     Likelihood of receiving a trap that drops a washtub on your character.
     """
     display_name = "Washtub Trap Weight"
+
+
+class SnowboardTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that for your character into a Snowboard.
+    """
+    display_name = "Snowboard Trap Weight"
+
+
+class SpikeBallTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that spawns a spike ball on your character.
+    """
+    display_name = "Spike Ball Trap Weight"
+
+
+class CartTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that forces the player into a cart.
+    """
+    display_name = "Cart Trap Weight"
+
+
+class UpsideDownTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that inverts the camera upside down.
+    """
+    display_name = "Upside Down Trap Weight"
+
+
+class MirrorTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that mirrors the camera and controls.
+    """
+    display_name = "Mirror Trap Weight"
 
 
 class ReverseControlTrapDuration(Range):
@@ -777,6 +813,11 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     reverse_trap_weight: ReverseTrapWeight
     gravity_trap_weight: GravityTrapWeight
     washtub_trap_weight: WashtubTrapWeight
+    snowboard_trap_weight: SnowboardTrapWeight
+    spike_ball_trap_weight: SpikeBallTrapWeight
+    cart_trap_weight: CartTrapWeight
+    upside_down_trap_weight: UpsideDownTrapWeight
+    mirror_trap_weight: MirrorTrapWeight
 
     reverse_trap_duration: ReverseControlTrapDuration
     traps_and_filler_on_adventure_fields: TrapsAndFillerOnAdventureFields
@@ -872,6 +913,11 @@ sadx_option_groups = [
         ReverseTrapWeight,
         GravityTrapWeight,
         WashtubTrapWeight,
+        SnowboardTrapWeight,
+        SpikeBallTrapWeight,
+        CartTrapWeight,
+        UpsideDownTrapWeight,
+        MirrorTrapWeight,
         ReverseControlTrapDuration,
         TrapsAndFillerOnAdventureFields,
         TrapsAndFillerOnBossFights,

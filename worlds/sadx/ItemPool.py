@@ -62,7 +62,12 @@ def create_sadx_items(world: World, starter_setup: StarterSetup, options: SonicA
             [ItemName.Traps.BuyonTrap] * options.buyon_trap_weight.value +
             [ItemName.Traps.ReverseTrap] * options.reverse_trap_weight.value +
             [ItemName.Traps.GravityTrap] * options.gravity_trap_weight.value +
-            [ItemName.Traps.WashtubTrap] * options.washtub_trap_weight.value
+            [ItemName.Traps.WashtubTrap] * options.washtub_trap_weight.value +
+            [ItemName.Traps.SnowboardTrap] * options.snowboard_trap_weight.value +
+            [ItemName.Traps.SpikeBallTrap] * options.spike_ball_trap_weight.value +
+            [ItemName.Traps.CartTrap] * options.cart_trap_weight.value +
+            [ItemName.Traps.UpsideDownTrap] * options.upside_down_trap_weight.value +
+            [ItemName.Traps.MirrorTrap] * options.mirror_trap_weight.value
     )
 
     if len(trap_weights) == 0:
