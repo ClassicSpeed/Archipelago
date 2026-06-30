@@ -38,11 +38,11 @@ class Traps:
     SnowboardTrap = "Snowboard Trap"
     SpikeBallTrap = "Spike Ball Trap"
     CartTrap = "Cart Trap"
-    BurgerMan = "Burger Man"
-    WalkThroughWalls = "Walk Through Walls"
+    BurgerMan = "Burger Man Trap"
+    WalkThroughWalls = "Walk Through Walls Trap"
     UpsideDownTrap = "Upside Down Trap"
     MirrorTrap = "Mirror Trap"
-    DecoupleCamera = "Decouple Camera"
+    DecoupleCamera = "Decouple Camera Trap"
 
     @classmethod
     def values(cls) -> list[str]:
