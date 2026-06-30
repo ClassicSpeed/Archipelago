@@ -88,9 +88,9 @@ filler_item_table: List[ItemInfo] = [
     ItemInfo(74, ItemName.Filler.Shield, ItemClassification.filler),
     ItemInfo(75, ItemName.Filler.MagneticShield, ItemClassification.filler),
     ItemInfo(76, ItemName.Filler.ExtraLife, ItemClassification.filler),
-    ItemInfo(77, ItemName.Filler.WalkThroughWalls, ItemClassification.filler),
-    ItemInfo(78, ItemName.Filler.BurgerMan, ItemClassification.filler),
-    ItemInfo(79, ItemName.Filler.Checkpoint, ItemClassification.filler),
+    ItemInfo(77, ItemName.Filler.Checkpoint, ItemClassification.filler),
+    ItemInfo(78, ItemName.Filler.Bomb, ItemClassification.filler),
+    ItemInfo(79, ItemName.Filler.Extra10Seconds, ItemClassification.filler),
 ]
 
 trap_item_table: List[ItemInfo] = [
@@ -104,8 +104,11 @@ trap_item_table: List[ItemInfo] = [
     ItemInfo(107, ItemName.Traps.SnowboardTrap, ItemClassification.trap),
     ItemInfo(108, ItemName.Traps.SpikeBallTrap, ItemClassification.trap),
     ItemInfo(109, ItemName.Traps.CartTrap, ItemClassification.trap),
-    ItemInfo(110, ItemName.Traps.UpsideDownTrap, ItemClassification.trap),
-    ItemInfo(111, ItemName.Traps.MirrorTrap, ItemClassification.trap),
+    ItemInfo(110, ItemName.Traps.BurgerMan, ItemClassification.trap),
+    ItemInfo(111, ItemName.Traps.WalkThroughWalls, ItemClassification.trap),
+    ItemInfo(112, ItemName.Traps.UpsideDownTrap, ItemClassification.trap),
+    ItemInfo(113, ItemName.Traps.MirrorTrap, ItemClassification.trap),
+    ItemInfo(114, ItemName.Traps.DecoupleCamera, ItemClassification.trap),
 ]
 
 item_name_to_info: Dict[str, ItemInfo] = {

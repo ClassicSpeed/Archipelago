@@ -16,7 +16,7 @@ from .Regions import create_sadx_regions, get_location_ids_for_area
 from .Rules import create_sadx_rules, LocationDistribution
 from .StartingSetup import StarterSetup, generate_early_sadx, write_sadx_spoiler, CharacterArea
 
-sadx_version = 122
+sadx_version = 130
 
 
 class SonicAdventureDXWeb(WebWorld):
@@ -315,8 +315,11 @@ class SonicAdventureDXWorld(World):
             "SnowboardTrapWeight": self.options.snowboard_trap_weight.value,
             "SpikeBallTrapWeight": self.options.spike_ball_trap_weight.value,
             "CartTrapWeight": self.options.cart_trap_weight.value,
+            "BurgerManTrapWeight": self.options.burger_man_trap_weight.value,
+            "WalkThroughWallsTrapWeight": self.options.walk_through_walls_trap_weight.value,
             "UpsideDownTrapWeight": self.options.upside_down_trap_weight.value,
             "MirrorTrapWeight": self.options.mirror_trap_weight.value,
+            "DecoupleCameraTrapWeight": self.options.decouple_camera_trap_weight.value,
 
             "ReverseControlTrapDuration": self.options.reverse_trap_duration.value,
             "TrapsOnAdventureFields": self.options.traps_and_filler_on_adventure_fields.value,

@@ -17,9 +17,9 @@ class Filler:
     Shield = "Shield"
     MagneticShield = "Magnetic Shield"
     ExtraLife = "Extra Life"
-    WalkThroughWalls = "Walk Through Walls"
-    BurgerMan = "Burger Man"
     Checkpoint = "Checkpoint"
+    Bomb = "Bomb"
+    Extra10Seconds = "Extra 10 Seconds"
 
     @classmethod
     def values(cls) -> list[str]:
@@ -38,8 +38,11 @@ class Traps:
     SnowboardTrap = "Snowboard Trap"
     SpikeBallTrap = "Spike Ball Trap"
     CartTrap = "Cart Trap"
+    BurgerMan = "Burger Man"
+    WalkThroughWalls = "Walk Through Walls"
     UpsideDownTrap = "Upside Down Trap"
     MirrorTrap = "Mirror Trap"
+    DecoupleCamera = "Decouple Camera"
 
     @classmethod
     def values(cls) -> list[str]:

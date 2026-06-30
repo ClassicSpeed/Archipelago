@@ -689,6 +689,18 @@ class CartTrapWeight(BaseTrapWeight):
     """
     display_name = "Cart Trap Weight"
 
+class BurgerManTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that spawns a burger man on your character.
+    """
+    display_name = "Burger Man Trap Weight"
+
+class WalkThroughWallsTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that allows the player to Walk Through Walls.
+    """
+    display_name = "Walk Through Walls Trap Weight"
+
 
 class UpsideDownTrapWeight(BaseTrapWeight):
     """
@@ -702,6 +714,11 @@ class MirrorTrapWeight(BaseTrapWeight):
     Likelihood of receiving a trap that mirrors the camera and controls.
     """
     display_name = "Mirror Trap Weight"
+class DecoupleCameraTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that decouples the camera from the character.
+    """
+    display_name = "Decouple Camera Trap Weight"
 
 
 class ReverseControlTrapDuration(Range):
@@ -822,8 +839,11 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     snowboard_trap_weight: SnowboardTrapWeight
     spike_ball_trap_weight: SpikeBallTrapWeight
     cart_trap_weight: CartTrapWeight
+    burger_man_trap_weight: BurgerManTrapWeight
+    walk_through_walls_trap_weight: WalkThroughWallsTrapWeight
     upside_down_trap_weight: UpsideDownTrapWeight
     mirror_trap_weight: MirrorTrapWeight
+    decouple_camera_trap_weight: DecoupleCameraTrapWeight
 
     reverse_trap_duration: ReverseControlTrapDuration
     traps_and_filler_on_adventure_fields: TrapsAndFillerOnAdventureFields
@@ -923,8 +943,11 @@ sadx_option_groups = [
         SnowboardTrapWeight,
         SpikeBallTrapWeight,
         CartTrapWeight,
+        BurgerManTrapWeight,
+        WalkThroughWallsTrapWeight,
         UpsideDownTrapWeight,
         MirrorTrapWeight,
+        DecoupleCameraTrapWeight,
         ReverseControlTrapDuration,
         TrapsAndFillerOnAdventureFields,
         TrapsAndFillerOnBossFights,
