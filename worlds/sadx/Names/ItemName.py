@@ -34,7 +34,6 @@ class Traps:
     ReverseTrap = "Reverse Trap"
     GravityTrap = "Gravity Trap"
     WashtubTrap = "Washtub Trap"
-    SpeedPadTrap = "Speed Pad Trap"
     SnowboardTrap = "Snowboard Trap"
     SpikeBallTrap = "Spike Ball Trap"
     CartTrap = "Cart Trap"
@@ -43,6 +42,7 @@ class Traps:
     UpsideDownTrap = "Upside Down Trap"
     MirrorTrap = "Mirror Trap"
     DecoupleCamera = "Decouple Camera Trap"
+    SpeedPadTrap = "Speed Pad Trap"
 
     @classmethod
     def values(cls) -> list[str]:
