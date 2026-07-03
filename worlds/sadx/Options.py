@@ -663,11 +663,6 @@ class WashtubTrapWeight(BaseTrapWeight):
     """
     display_name = "Washtub Trap Weight"
 
-class SpeedPadTrapWeight(BaseTrapWeight):
-    """
-    Likelihood of receiving a trap that spawns a speed pad on your character.
-    """
-    display_name = "Speed Pad Trap Weight"
 
 class SnowboardTrapWeight(BaseTrapWeight):
     """
@@ -689,11 +684,13 @@ class CartTrapWeight(BaseTrapWeight):
     """
     display_name = "Cart Trap Weight"
 
+
 class BurgerManTrapWeight(BaseTrapWeight):
     """
     Likelihood of receiving a trap that spawns a burger man on your character.
     """
     display_name = "Burger Man Trap Weight"
+
 
 class WalkThroughWallsTrapWeight(BaseTrapWeight):
     """
@@ -714,11 +711,20 @@ class MirrorTrapWeight(BaseTrapWeight):
     Likelihood of receiving a trap that mirrors the camera and controls.
     """
     display_name = "Mirror Trap Weight"
+
+
 class DecoupleCameraTrapWeight(BaseTrapWeight):
     """
     Likelihood of receiving a trap that decouples the camera from the character.
     """
     display_name = "Decouple Camera Trap Weight"
+
+
+class SpeedPadTrapWeight(BaseTrapWeight):
+    """
+    Likelihood of receiving a trap that spawns a speed pad on your character.
+    """
+    display_name = "Speed Pad Trap Weight"
 
 
 class ReverseControlTrapDuration(Range):
@@ -835,7 +841,6 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     reverse_trap_weight: ReverseTrapWeight
     gravity_trap_weight: GravityTrapWeight
     washtub_trap_weight: WashtubTrapWeight
-    speed_pad_trap_weight: SpeedPadTrapWeight
     snowboard_trap_weight: SnowboardTrapWeight
     spike_ball_trap_weight: SpikeBallTrapWeight
     cart_trap_weight: CartTrapWeight
@@ -844,6 +849,7 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     upside_down_trap_weight: UpsideDownTrapWeight
     mirror_trap_weight: MirrorTrapWeight
     decouple_camera_trap_weight: DecoupleCameraTrapWeight
+    speed_pad_trap_weight: SpeedPadTrapWeight
 
     reverse_trap_duration: ReverseControlTrapDuration
     traps_and_filler_on_adventure_fields: TrapsAndFillerOnAdventureFields
@@ -939,7 +945,6 @@ sadx_option_groups = [
         ReverseTrapWeight,
         GravityTrapWeight,
         WashtubTrapWeight,
-        SpeedPadTrapWeight,
         SnowboardTrapWeight,
         SpikeBallTrapWeight,
         CartTrapWeight,
@@ -948,6 +953,7 @@ sadx_option_groups = [
         UpsideDownTrapWeight,
         MirrorTrapWeight,
         DecoupleCameraTrapWeight,
+        SpeedPadTrapWeight,
         ReverseControlTrapDuration,
         TrapsAndFillerOnAdventureFields,
         TrapsAndFillerOnBossFights,

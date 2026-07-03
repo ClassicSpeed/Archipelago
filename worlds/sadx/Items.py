@@ -109,6 +109,7 @@ trap_item_table: List[ItemInfo] = [
     ItemInfo(112, ItemName.Traps.UpsideDownTrap, ItemClassification.trap),
     ItemInfo(113, ItemName.Traps.MirrorTrap, ItemClassification.trap),
     ItemInfo(114, ItemName.Traps.DecoupleCamera, ItemClassification.trap),
+    ItemInfo(115, ItemName.Traps.SpeedPadTrap, ItemClassification.trap),
 ]
 
 item_name_to_info: Dict[str, ItemInfo] = {
