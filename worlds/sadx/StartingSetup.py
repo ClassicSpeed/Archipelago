@@ -8,9 +8,9 @@ from worlds.AutoWorld import World
 from .CharacterUtils import get_playable_characters, is_level_playable, \
     is_character_playable
 from .Enums import Character, Area, pascal_to_space, LevelMission, level_area_connections, \
-    bosses_area_connections, AreaConnection
+    bosses_area_connections, AreaConnection, LogicLevelDifficulty
 from .Locations import level_location_table, mission_location_table
-from .Options import SonicAdventureDXOptions
+from .Options import SonicAdventureDXOptions, LogicLevel
 
 
 @dataclass
@@ -131,12 +131,12 @@ def validate_settings(options):
             raise OptionError(
                 " -- SADX Error: You need to add more missions in the settings to use mission as goal. Either add more characters or remove missions from the blacklist.")
 
-    if options.logic_level.value == 0 and (
+    if options.logic_level.value == LogicLevelDifficulty.Easy and (
             options.sonic_action_stage_missions.value == 4 or options.tails_action_stage_missions.value == 4
             or options.knuckles_action_stage_missions.value == 4 or options.amy_action_stage_missions.value == 4
             or options.big_action_stage_missions.value == 4 or options.gamma_action_stage_missions.value == 4):
         raise OptionError(
-            " -- SADX error: S-Rank missions are not available for normal logic, please select a harder logic level.")
+            " -- SADX error: S-Rank missions are not available for easy logic, please select a harder logic level.")
 
 
 def get_possible_starting_areas(options) -> List[Area]:

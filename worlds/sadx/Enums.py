@@ -63,6 +63,13 @@ class Upgrade(Enum):
     Lure3 = auto()
     Lure4 = auto()
 
+class LogicLevelDifficulty(Enum):
+    Easy = 0
+    Normal = auto()
+    Hard = auto()
+    ExpertDC = auto()
+    ExpertDX = auto()
+    ExpertPlusDX = auto()
 
 class Enemy(Enum):
     BoaBoa = 1
