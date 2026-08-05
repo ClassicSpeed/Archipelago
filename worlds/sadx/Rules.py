@@ -6,7 +6,7 @@ from worlds.generic.Rules import add_rule
 from . import level_areas
 from .CharacterUtils import get_playable_characters, is_level_playable, is_character_playable
 from .Enums import LevelMission, Character, AreaConnection, Area, non_existent_areas, bosses_areas, \
-    non_existent_connections
+    non_existent_connections, LogicLevelDifficulty
 from .Locations import get_location_by_name, level_location_table, upgrade_location_table, sub_level_location_table, \
     LocationInfo, capsule_location_table, boss_location_table, mission_location_table, field_emblem_location_table
 from .Logic import LevelLocation, UpgradeLocation, SubLevelLocation, EmblemLocation, CharacterUpgrade, \
@@ -408,7 +408,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     # Initialize the key-value map
     area_map = calculate_connection_requirements(area_map, needed_emblems, self)
 
-    for (character, area_from, area_to, is_alternative), (normal_logic_items, hard_logic_items, expert_dc_logic_items,
+    for (character, area_from, area_to, is_alternative), (easy_logic_items, normal_logic_items, hard_logic_items, expert_dc_logic_items,
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
         if self.options.entrance_randomizer.value > 0:
@@ -444,13 +444,15 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         else:
             nt_region_to = self.created_regions.get((character, nt_actual_area_to, False))
 
-        if self.options.logic_level.value == 4:
+        if self.options.logic_level.value == LogicLevelDifficulty.ExpertPlusDX:
             key_items = expert_plus_dx_logic_items.copy()
-        elif self.options.logic_level.value == 3:
+        elif self.options.logic_level.value == LogicLevelDifficulty.ExpertDX:
             key_items = expert_dx_logic_items.copy()
-        elif self.options.logic_level.value == 2:
+        elif self.options.logic_level.value == LogicLevelDifficulty.ExpertDC:
             key_items = expert_dc_logic_items.copy()
-        elif self.options.logic_level.value == 1:
+        elif self.options.logic_level.value == LogicLevelDifficulty.Hard:
+            key_items = hard_logic_items.copy()
+        elif self.options.logic_level.value == LogicLevelDifficulty.Normal:
             key_items = hard_logic_items.copy()
         else:
             key_items = normal_logic_items.copy()

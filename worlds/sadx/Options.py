@@ -86,18 +86,20 @@ class GoalRequiresChaoRaces(Toggle):
 class LogicLevel(Choice):
     """
     Determines the logic the randomizer will use.
-    Normal Logic (0): Very forgiving, ideal if you are not used to this game or its location checks.
-    Hard Logic (1): Less forgiving logic, some checks require performing spindash jumps or dying to get the check.
-    Expert DC Logic (2): The most unforgiving logic, some checks require performing out-of-bounds jumps (DC conversion).
-    Expert DX Logic (3): The most unforgiving logic, some checks require performing out-of-bounds jumps (vanilla DX).
-    Expert+ DX Logic (4): Same as Expert DX but with extra speed runner level tricks (vanilla DX).
+    Easy Logic (0): Very forgiving, ideal if you are not used to this game or its location checks.
+    Normal Logic (1): Less forgiving logic, some checks require performing spindash jumps or dying to get the check.
+    Hard Logic (2): Same as normal logic with some extra clipping and Out of bound stuff.
+    Expert DC Logic (3): The most unforgiving logic, some checks require performing out-of-bounds jumps (DC conversion).
+    Expert DX Logic (4): The most unforgiving logic, some checks require performing out-of-bounds jumps (vanilla DX).
+    Expert+ DX Logic (5): Same as Expert DX but with extra speed runner level tricks (vanilla DX).
     """
     display_name = "Logic Level"
-    option_normal_logic = 0
-    option_hard_logic = 1
-    option_expert_dc_logic = 2
-    option_expert_dx_logic = 3
-    option_expert_plus_dx_logic = 4
+    option_easy_logic = 0
+    option_normal_logic = 1
+    option_hard_logic = 2
+    option_expert_dc_logic = 3
+    option_expert_dx_logic = 4
+    option_expert_plus_dx_logic = 5
     default = 0
 
 
