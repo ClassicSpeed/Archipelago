@@ -605,9 +605,9 @@ class TrapFillPercentage(Range):
     default = 0
 
 
-class BaseTrapWeight(Choice):
+class BaseFillerWeight(Choice):
     """
-    Base class for trap weights.
+    Base class for filler weights.
     The available options are 0 (off), 1 (low), 2 (medium), and 4 (high).
     """
     option_none = 0
@@ -616,113 +616,174 @@ class BaseTrapWeight(Choice):
     option_high = 4
     default = 2
 
+class InvincibilityFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving an invincibility capsule.
+    """
+    display_name = "InvincibilityFillerWeight"
 
-class IceTrapWeight(BaseTrapWeight):
+class Rings5FillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving 5 rings.
+    """
+    display_name = "Rings5FillerWeight"
+
+
+class Rings10FillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving 10 rings.
+    """
+    display_name = "Rings10FillerWeight"
+
+
+class ShieldFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving a shield.
+    """
+    display_name = "ShieldFillerWeight"
+
+
+class MagneticShieldFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving a magnetic shield.
+    """
+    display_name = "MagneticShieldFillerWeight"
+
+
+class ExtraLifeFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving an extra life.
+    """
+    display_name = "ExtraLifeFillerWeight"
+
+
+class CheckpointFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving a checkpoint.
+    """
+    display_name = "CheckpointFillerWeight"
+
+
+class BombFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving the effect of a bomb capsule.
+    """
+    display_name = "BombFillerWeight"
+
+
+class Extra10SecondsFillerWeight(BaseFillerWeight):
+    """
+    Likelihood of receiving extra 10 seconds to the current timer.
+    """
+    display_name = "Extra10SecondsFillerWeight"
+
+
+class IceTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that freezes the player in place.
     """
     display_name = "Ice Trap Weight"
 
 
-class SpringTrapWeight(BaseTrapWeight):
+class SpringTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that spawns a spring that sends the player flying in the opposite direction.
     """
     display_name = "Spring Trap Weight"
 
 
-class PoliceTrapWeight(BaseTrapWeight):
+class PoliceTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that spawns a lot of Cop Speeder enemies.
     """
     display_name = "Police Trap Weight"
 
 
-class BuyonTrapWeight(BaseTrapWeight):
+class BuyonTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that spawns a lot of Buyon enemies.
     """
     display_name = "Buyon Trap Weight"
 
 
-class ReverseTrapWeight(BaseTrapWeight):
+class ReverseTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that reverses your controls.
     """
     display_name = "Reverse Controls Trap Weight"
 
 
-class GravityTrapWeight(BaseTrapWeight):
+class GravityTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that increments your gravity.
     """
     display_name = "Gravity Trap Weight"
 
 
-class WashtubTrapWeight(BaseTrapWeight):
+class WashtubTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that drops a washtub on your character.
     """
     display_name = "Washtub Trap Weight"
 
 
-class SnowboardTrapWeight(BaseTrapWeight):
+class SnowboardTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that for your character into a Snowboard.
     """
     display_name = "Snowboard Trap Weight"
 
 
-class SpikeBallTrapWeight(BaseTrapWeight):
+class SpikeBallTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that spawns a spike ball on your character.
     """
     display_name = "Spike Ball Trap Weight"
 
 
-class CartTrapWeight(BaseTrapWeight):
+class CartTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that forces the player into a cart.
     """
     display_name = "Cart Trap Weight"
 
 
-class BurgerManTrapWeight(BaseTrapWeight):
+class BurgerManTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that spawns a burger man on your character.
     """
     display_name = "Burger Man Trap Weight"
 
 
-class WalkThroughWallsTrapWeight(BaseTrapWeight):
+class WalkThroughWallsTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that allows the player to Walk Through Walls.
     """
     display_name = "Walk Through Walls Trap Weight"
 
 
-class UpsideDownTrapWeight(BaseTrapWeight):
+class UpsideDownTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that inverts the camera upside down.
     """
     display_name = "Upside Down Trap Weight"
 
 
-class MirrorTrapWeight(BaseTrapWeight):
+class MirrorTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that mirrors the camera and controls.
     """
     display_name = "Mirror Trap Weight"
 
 
-class DecoupleCameraTrapWeight(BaseTrapWeight):
+class DecoupleCameraTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that decouples the camera from the character.
     """
     display_name = "Decouple Camera Trap Weight"
 
 
-class SpeedPadTrapWeight(BaseTrapWeight):
+class SpeedPadTrapWeight(BaseFillerWeight):
     """
     Likelihood of receiving a trap that spawns a speed pad on your character.
     """
@@ -836,6 +897,15 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
 
     junk_fill_percentage: JunkFillPercentage
     trap_fill_percentage: TrapFillPercentage
+    invincibility_filler_weight: InvincibilityFillerWeight
+    rings_5_filler_weight: Rings5FillerWeight
+    rings_10_filler_weight: Rings10FillerWeight
+    shield_filler_weight: ShieldFillerWeight
+    magnetic_shield_filler_weight: MagneticShieldFillerWeight
+    extra_life_filler_weight: ExtraLifeFillerWeight
+    checkpoint_filler_weight: CheckpointFillerWeight
+    bomb_filler_weight: BombFillerWeight
+    extra_10_seconds_filler_weight: Extra10SecondsFillerWeight
     ice_trap_weight: IceTrapWeight
     spring_trap_weight: SpringTrapWeight
     police_trap_weight: PoliceTrapWeight
@@ -940,6 +1010,17 @@ sadx_option_groups = [
     OptionGroup("Junk Options", [
         JunkFillPercentage,
         TrapFillPercentage,
+
+        InvincibilityFillerWeight,
+        Rings5FillerWeight,
+        Rings10FillerWeight,
+        ShieldFillerWeight,
+        MagneticShieldFillerWeight,
+        ExtraLifeFillerWeight,
+        CheckpointFillerWeight,
+        BombFillerWeight,
+        Extra10SecondsFillerWeight,
+
         IceTrapWeight,
         SpringTrapWeight,
         PoliceTrapWeight,

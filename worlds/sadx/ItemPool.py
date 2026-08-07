@@ -51,8 +51,24 @@ def create_sadx_items(world: World, starter_setup: StarterSetup, options: SonicA
         itempool.append(item)
 
     # Filler
-    for _ in range(item_distribution.filler_count):
-        itempool.append(world.create_item(world.random.choice(filler_item_table).name))
+    filler_weights = (
+            [ItemName.Filler.Invincibility] * options.invincibility_filler_weight.value +
+            [ItemName.Filler.Rings5] * options.rings_5_filler_weight.value +
+            [ItemName.Filler.Rings10] * options.rings_10_filler_weight.value +
+            [ItemName.Filler.Shield] * options.shield_filler_weight.value +
+            [ItemName.Filler.MagneticShield] * options.magnetic_shield_filler_weight.value +
+            [ItemName.Filler.ExtraLife] * options.extra_life_filler_weight.value +
+            [ItemName.Filler.Checkpoint] * options.checkpoint_filler_weight.value +
+            [ItemName.Filler.Bomb] * options.bomb_filler_weight.value +
+            [ItemName.Filler.Extra10Seconds] * options.extra_10_seconds_filler_weight.value
+    )
+
+    if len(filler_weights) == 0:
+        for _ in range(item_distribution.filler_count):
+            itempool.append(world.create_item(world.random.choice(filler_item_table).name))
+    else:
+        for _ in range(item_distribution.filler_count):
+            itempool.append(world.create_item(world.random.choice(filler_weights)))
 
     # Traps
     trap_weights = (
