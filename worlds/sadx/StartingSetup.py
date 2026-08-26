@@ -8,7 +8,7 @@ from worlds.AutoWorld import World
 from .CharacterUtils import get_playable_characters, is_level_playable, \
     is_character_playable
 from .Enums import Character, Area, pascal_to_space, LevelMission, level_area_connections, \
-    bosses_area_connections, AreaConnection, LogicLevelDifficulty
+    bosses_area_connections, AreaConnection, LogicLevelDifficulty, chao_garden_area_connections
 from .Locations import level_location_table, mission_location_table
 from .Options import SonicAdventureDXOptions, LogicLevel
 
@@ -48,8 +48,10 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
 
     if options.entrance_randomizer.value > 0:
         area_list = list(level_area_connections)
-        if options.entrance_randomizer.value == 2:
+        if options.entrance_randomizer.value >= 2:
             area_list += bosses_area_connections
+        if options.entrance_randomizer.value >= 3:
+            area_list += chao_garden_area_connections
         randomized_remaining_areas = dict(zip(area_list, world.random.sample(area_list, len(area_list))))
         starter_setup.level_mapping = randomized_remaining_areas
 
@@ -65,7 +67,7 @@ def validate_settings(options):
         logging.warning(
             " -- SADX warning: Gating mode is set to Emblems and they are not enabled. Enabling emblems as a failsafe.")
         options.goal_requires_emblems.value = True
-    if options.entrance_randomizer.value == 2 and options.chao_egg_checks:
+    if options.entrance_randomizer.value >= 3  and options.chao_egg_checks:
         logging.warning(
             " -- SADX warning: Extended random level entrances is not compatible with egg checks. Disabling them as a failsafe.")
         options.chao_egg_checks.value = False
