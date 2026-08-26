@@ -530,12 +530,10 @@ level_area_connections = [
 bosses_area_connections = [
     AreaConnection.CityHall_to_Chaos0,
     AreaConnection.Casino_to_EggWalker,
-    AreaConnection.Hotel_to_SsChaoGarden,
     AreaConnection.Hotel_to_Chaos2,
     AreaConnection.TpLobby_to_TwinkleCircuit,
     AreaConnection.MrMain_to_Chaos4,
     AreaConnection.MrMain_to_EggHornet,
-    AreaConnection.MrMain_to_MrChaoGarden,
     AreaConnection.MrMain_to_SkyChase1,
     AreaConnection.Jungle_to_SandHill,
     AreaConnection.FinalEggTower_to_BetaEggViper,
@@ -543,6 +541,11 @@ bosses_area_connections = [
     AreaConnection.Bridge_to_SkyChase2,
     # AreaConnection.EcOutside_to_Chaos6ZeroBeta,
     AreaConnection.Bridge_to_Chaos6ZeroBeta,
+]
+
+chao_garden_area_connections = [
+    AreaConnection.Hotel_to_SsChaoGarden,
+    AreaConnection.MrMain_to_MrChaoGarden,
     AreaConnection.WarpHall_to_EcChaoGarden,
 ]
 
