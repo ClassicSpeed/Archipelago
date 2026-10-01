@@ -63,6 +63,7 @@ class Upgrade(Enum):
     Lure3 = auto()
     Lure4 = auto()
 
+
 class LogicLevelDifficulty(Enum):
     Easy = 0
     Normal = auto()
@@ -70,6 +71,7 @@ class LogicLevelDifficulty(Enum):
     ExpertDC = auto()
     ExpertDX = auto()
     ExpertPlusDX = auto()
+
 
 class Enemy(Enum):
     BoaBoa = 1
@@ -459,6 +461,39 @@ class AreaConnection(Enum):
     MrChaoGarden_to_MrMain = (Area.MRChaoGarden, Area.MRMain)
     EcChaoGarden_to_WarpHall = (Area.ECChaoGarden, Area.WarpHall)
 
+    # Levels
+    EmeraldCoast_to_HotelPool = (Area.EmeraldCoast, Area.HotelPool)
+    WindyValley_to_MrMain = (Area.WindyValley, Area.MRMain)
+    Casinopolis_to_Casino = (Area.Casinopolis, Area.Casino)
+    IceCap_to_IceCave = (Area.IceCap, Area.IceCave)
+    TwinklePark_to_TpLobby = (Area.TwinklePark, Area.TPLobby)
+    SpeedHighway_to_CityHall = (Area.SpeedHighway, Area.CityHall)
+    SpeedHighway_to_SsMain = (Area.SpeedHighway, Area.SSMain)
+    RedMountain_to_AngelIsland = (Area.RedMountain, Area.AngelIsland)
+    SkyDeck_to_Bridge = (Area.SkyDeck, Area.ECBridge)
+    SkyDeck_to_Pool = (Area.SkyDeck, Area.ECPool)
+
+    LostWorld_to_Jungle = (Area.LostWorld, Area.Jungle)
+    LostWorld_to_JungleAlternative = (Area.LostWorld, Area.Jungle, True)
+
+    FinalEgg_to_FinalEggTower = (Area.FinalEgg, Area.FinalEggTower)
+    FinalEgg_to_FinalEggTowerAlternative = (Area.FinalEgg, Area.FinalEggTower, True)
+
+    HotShelter_to_EcInside = (Area.HotShelter, Area.ECInside)
+
+    # Bosses / sublevels
+    Chaos0_to_CityHall = (Area.Chaos0, Area.CityHall)
+    EggWalker_to_Casino = (Area.EggWalker, Area.Casino)
+    Chaos2_to_Hotel = (Area.Chaos2, Area.Hotel)
+    TwinkleCircuit_to_TpLobby = (Area.TwinkleCircuit, Area.TPLobby)
+    Chaos4_to_MrMain = (Area.Chaos4, Area.MRMain)
+    EggHornet_to_MrMain = (Area.EggHornet, Area.MRMain)
+    SkyChase1_to_MrMain = (Area.SkyChase1, Area.MRMain)
+    SandHill_to_Jungle = (Area.SandHill, Area.Jungle)
+    BetaEggViper_to_FinalEggTower = (Area.BetaEggViper, Area.FinalEggTower)
+    SkyChase2_to_ECBridge = (Area.SkyChase2, Area.ECBridge)
+    Chaos6ZeroBeta_to_ECBridge = (Area.Chaos6ZeroBeta, Area.ECBridge)
+
     def __init__(self, area1, area2, alt=False):
         self.area1 = area1
         self.area2 = area2
@@ -477,6 +512,30 @@ class AreaConnection(Enum):
     @classmethod
     def from_index(cls, index):
         return list(cls.__members__.values())[int(index)]
+
+    @classmethod
+    def from_area(cls, area):
+
+        excluded_pairs = {
+            frozenset((Area.Hotel, Area.HotelPool)),
+            frozenset((Area.Casino, Area.Station)),
+            frozenset((Area.AngelIsland, Area.IceCave)),
+            frozenset((Area.SSMain, Area.TPTunnel)),
+        }
+        return [
+            connection
+            for connection in cls
+            if connection.area1 == area
+               and frozenset(
+                (connection.area1, connection.area2)
+            ) not in excluded_pairs
+        ]
+
+    def get_source(connection):
+        return connection.value[0]
+
+    def get_destination(connection):
+        return connection.value[1]
 
 
 level_areas = [
@@ -509,6 +568,45 @@ bosses_areas = [
     Area.MRChaoGarden,
     Area.ECChaoGarden
 ]
+
+LEVEL_AREAS = level_areas + bosses_areas
+
+all_areas_with_multiple_connections = [
+    Area.CityHall,
+    Area.Station,
+    Area.Casino,
+    Area.Sewers,
+    Area.SSMain,
+    Area.TPTunnel,
+    Area.Hotel,
+    Area.HotelPool,
+    Area.TPLobby,
+    Area.MRMain,
+    Area.AngelIsland,
+    Area.IceCave,
+    Area.PastAltar,
+    Area.PastMain,
+    Area.Jungle,
+    Area.FinalEggTower,
+    Area.ECOutside,
+    Area.ECBridge,
+    Area.ECDeck,
+    Area.CaptainRoom,
+    Area.PrivateRoom,
+    Area.ECPool,
+    Area.ECInside,
+    Area.HedgehogHammer,
+    Area.WarpHall
+]
+all_areas_with_one_connection = [
+    Area.Arsenal,
+    Area.PrisonHall,
+    Area.WaterTank,
+    Area.SSChaoGarden,
+    Area.MRChaoGarden,
+    Area.ECChaoGarden
+]
+
 level_area_connections = [
     AreaConnection.CityHall_to_SpeedHighway,
     AreaConnection.Casino_to_Casinopolis,
@@ -547,6 +645,17 @@ chao_garden_area_connections = [
     AreaConnection.Hotel_to_SsChaoGarden,
     AreaConnection.MrMain_to_MrChaoGarden,
     AreaConnection.WarpHall_to_EcChaoGarden,
+]
+
+full_area_connections = [
+    AreaConnection.Station_to_MrMain,
+    AreaConnection.MrMain_to_Station,
+    AreaConnection.AngelIsland_to_PastAltar,
+    AreaConnection.PastAltar_to_AngelIsland,
+    AreaConnection.PastMain_to_Jungle,
+    AreaConnection.Jungle_to_PastMain,
+    AreaConnection.FinalEggTower_to_EcInside,
+    AreaConnection.EcInside_to_FinalEggTower,
 ]
 
 # areas that don't exist:
