@@ -365,14 +365,22 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
     return area_weights
 
 
-def get_connection_requirement(connection_key, area_map, is_alternative):
-    # Check direct and reverse connection values
+def get_connection_requirement(connection_key, area_map, is_alternative, starter_setup):
+    # Check direct value
     value = area_map.get(connection_key, -1)
     if value != -1:
         return value
-    value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1, is_alternative), -1)
-    if value != -1:
-        return value
+
+    # Check reverse value (randomized)
+    if starter_setup.level_mapping.get(connection_key, connection_key) != connection_key:
+        value = area_map.get(starter_setup.level_mapping.get(connection_key, connection_key), -1)
+        if value != -1:
+            return value
+    # Check reverse connection value
+    else:
+        value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1, is_alternative), -1)
+        if value != -1:
+            return value
 
     return -1
 
@@ -408,7 +416,8 @@ def connect_regions(self, needed_emblems: int, area_map=None):
     # Initialize the key-value map
     area_map = calculate_connection_requirements(area_map, needed_emblems, self)
 
-    for (character, area_from, area_to, is_alternative), (easy_logic_items, normal_logic_items, hard_logic_items, expert_dc_logic_items,
+    for (character, area_from, area_to, is_alternative), (easy_logic_items, normal_logic_items, hard_logic_items,
+                                                          expert_dc_logic_items,
                                                           expert_dx_logic_items,
                                                           expert_plus_dx_logic_items) in area_connections.items():
         if self.options.entrance_randomizer.value > 0:
@@ -456,6 +465,9 @@ def connect_regions(self, needed_emblems: int, area_map=None):
             key_items = hard_logic_items.copy()
         else:
             key_items = normal_logic_items.copy()
+
+        if (t_region_from is None or t_region_to is None) or (nt_region_from is None or nt_region_to is None):
+            continue
 
         t_entrance_name = get_entrance_name(character, t_region_from, t_region_to,
                                             is_alternative)
@@ -545,14 +557,15 @@ def connect_regions(self, needed_emblems: int, area_map=None):
 def calculate_connection_requirements(area_map, needed_emblems, self):
     if area_map is None:
         area_map = {}
-    max_required_emblems = needed_emblems * 0.8
+    max_required_emblems = needed_emblems * 0.2 #TODO: Put back to 0.8
     if self.options.gating_mode == 0:
 
         if area_map == {}:
             area_weights = assign_area_weights(self, self.starter_setup)
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
                 connection_key = AreaConnection.from_areas(area_from, area_to, is_alternative)
-                connection_requirement = get_connection_requirement(connection_key, area_map, is_alternative)
+                connection_requirement = get_connection_requirement(connection_key, area_map, is_alternative,
+                                                                    self.starter_setup)
                 if connection_requirement != -1:
                     area_map[connection_key] = connection_requirement
                 else:

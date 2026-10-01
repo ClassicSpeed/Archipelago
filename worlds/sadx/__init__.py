@@ -177,6 +177,8 @@ class SonicAdventureDXWorld(World):
 
     def write_spoiler(self, spoiler_handle: typing.TextIO):
         write_sadx_spoiler(self, spoiler_handle, self.starter_setup, self.options)
+        from Utils import visualize_regions
+        visualize_regions(self.get_region("Menu"), "sadx.puml")
 
     def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
         if self.options.entrance_randomizer.value == 0:
