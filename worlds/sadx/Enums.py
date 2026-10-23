@@ -248,7 +248,7 @@ class Area(Enum):
     PastMain = auto()
     Jungle = auto()
     FinalEggTower = auto()
-    ECOutside = auto()
+    # ECOutside = auto()
     ECBridge = auto()
     ECDeck = auto()
     CaptainRoom = auto()
@@ -319,7 +319,6 @@ class AreaConnection(Enum):
     SsMain_to_Station = (Area.SSMain, Area.Station)
     SsMain_to_CityHall = (Area.SSMain, Area.CityHall)
     SsMain_to_TpTunnel = (Area.SSMain, Area.TPTunnel)
-    SsMain_to_EcOutside = (Area.SSMain, Area.ECOutside)
     SsMain_to_Bridge = (Area.SSMain, Area.ECBridge)
     SsMain_to_SpeedHighway = (Area.SSMain, Area.SpeedHighway)
 
@@ -346,7 +345,6 @@ class AreaConnection(Enum):
 
     # MRMain
     MrMain_to_Station = (Area.MRMain, Area.Station)
-    MrMain_to_EcOutside = (Area.MRMain, Area.ECOutside)
     MrMain_to_Bridge = (Area.MRMain, Area.ECBridge)
     MrMain_to_AngelIsland = (Area.MRMain, Area.AngelIsland)
     MrMain_to_WindyValley = (Area.MRMain, Area.WindyValley)
@@ -388,15 +386,6 @@ class AreaConnection(Enum):
     FinalEggTower_to_FinalEggAlternative = (Area.FinalEggTower, Area.FinalEgg, True)
     FinalEggTower_to_BetaEggViper = (Area.FinalEggTower, Area.BetaEggViper)
     FinalEggTower_to_EcInside = (Area.FinalEggTower, Area.ECInside)
-    # Egg Carrier Outside (Untransformed)
-    EcOutside_to_SsMain = (Area.ECOutside, Area.SSMain)
-    EcOutside_to_MrMain = (Area.ECOutside, Area.MRMain)
-    EcOutside_to_SkyChase2 = (Area.ECOutside, Area.SkyChase2)
-    EcOutside_to_Chaos6ZeroBeta = (Area.ECOutside, Area.Chaos6ZeroBeta)
-    EcOutside_to_EcInsideMonorail = (Area.ECOutside, Area.ECInside)
-    EcOutside_to_EcInsideEggLift = (Area.ECOutside, Area.ECInside, True)
-    EcOutside_to_CaptainRoom = (Area.ECOutside, Area.CaptainRoom)
-    EcOutside_to_Pool = (Area.ECOutside, Area.ECPool)
 
     # Bridge (Transformed)
     Bridge_to_SsMain = (Area.ECBridge, Area.SSMain)
@@ -414,7 +403,6 @@ class AreaConnection(Enum):
     Deck_to_EcInsideEggLift = (Area.ECDeck, Area.ECInside, True)
 
     # Captain Room
-    CaptainRoom_to_EcOutside = (Area.CaptainRoom, Area.ECOutside)
     CaptainRoom_to_Deck = (Area.CaptainRoom, Area.ECDeck)
     CaptainRoom_to_PrivateRoom = (Area.CaptainRoom, Area.PrivateRoom)
 
@@ -424,7 +412,6 @@ class AreaConnection(Enum):
     PrivateRoom_to_DeckAlternative = (Area.PrivateRoom, Area.ECDeck, True)
 
     # Pool
-    Pool_to_EcOutside = (Area.ECPool, Area.ECOutside)
     Pool_to_Deck = (Area.ECPool, Area.ECDeck)
     Pool_to_SkyDeck = (Area.ECPool, Area.SkyDeck)
 
@@ -432,8 +419,6 @@ class AreaConnection(Enum):
     Arsenal_to_EcInside = (Area.Arsenal, Area.ECInside)
 
     # Egg Carrier Inside
-    EcInside_to_EcOutsideEggLift = (Area.ECInside, Area.ECOutside, True)
-    EcInside_to_EcOutsideMonorail = (Area.ECInside, Area.ECOutside)
     EcInside_to_DeckEggLift = (Area.ECInside, Area.ECDeck, True)
     EcInside_to_BridgeMonorail = (Area.ECInside, Area.ECBridge)
     EcInside_to_HotShelter = (Area.ECInside, Area.HotShelter)
@@ -588,7 +573,6 @@ all_areas_with_multiple_connections = [
     Area.PastMain,
     Area.Jungle,
     Area.FinalEggTower,
-    Area.ECOutside,
     Area.ECBridge,
     Area.ECDeck,
     Area.CaptainRoom,
@@ -730,11 +714,4 @@ non_existent_areas = {
     (Character.Amy, Area.BetaEggViper),
     (Character.Big, Area.BetaEggViper),
     (Character.Tails, Area.Chaos6ZeroBeta),
-}
-
-non_existent_connections = {
-    (Area.ECOutside, Area.SkyDeck),
-    (Area.ECOutside, Area.PrivateRoom),
-    (Area.SkyDeck, Area.ECOutside),
-    (Area.PrivateRoom, Area.ECOutside),
 }
