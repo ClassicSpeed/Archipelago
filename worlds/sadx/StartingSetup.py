@@ -58,7 +58,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
         if options.entrance_randomizer.value == 4:
             randomized_remaining_areas_2 = {}
 
-
             # List all the areas, get one random area. Ej: City Hall
             areas_with_multiple_connections = all_areas_with_multiple_connections.copy()
             areas_with_one_connection = all_areas_with_one_connection.copy()
@@ -69,18 +68,15 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             starting_area = world.random.choice(areas_with_multiple_connections)
             areas_with_multiple_connections.remove(starting_area)
             already_connected_areas.append(starting_area)
-            unused_connections+= AreaConnection.from_area(starting_area)
-
-
+            unused_connections += AreaConnection.from_area(starting_area)
 
             # List all the connections for that area, get one random area. Ej: City Hall to SSMain
             starting_area_connections = AreaConnection.from_area(starting_area)
 
-
             # List all the unconnected areas , get one entrance from it
             # (probably levels and one entrance areas should be avoided)
             next_area = world.random.choice(areas_with_multiple_connections)
-            unused_connections+= AreaConnection.from_area(next_area)
+            unused_connections += AreaConnection.from_area(next_area)
             areas_with_multiple_connections.remove(next_area)
             next_area_connections = AreaConnection.from_area(next_area)
 
@@ -95,9 +91,7 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             unused_connections.remove(starting_area_selected_connection)
             unused_connections.remove(next_area_selected_connection)
 
-
-
-            #----
+            # ----
             while areas_with_multiple_connections:
                 # Repeat until al areas are connected.
 
@@ -109,8 +103,7 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                 new_next_area_connections = AreaConnection.from_area(new_next_area)
                 a_selected_connection = world.random.choice(unused_connections)
                 b_selected_connection = world.random.choice(new_next_area_connections)
-                unused_connections+=new_next_area_connections
-
+                unused_connections += new_next_area_connections
 
                 randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
                 randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
@@ -158,7 +151,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                 already_used_connections.append(b_selected_connection)
                 unused_connections.remove(b_selected_connection)
 
-
             # Check unused doors, connect them randomly
             while len(unused_connections) >= 2:
                 a_selected_connection = world.random.choice(unused_connections)
@@ -169,8 +161,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                 unused_connections.remove(b_selected_connection)
                 randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
                 randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
-
-
 
             # Full rando uses only the full entrance mapping.
             area_list = []
@@ -271,12 +261,11 @@ def validate_settings(options):
             " -- SADX error: S-Rank missions are not available for easy logic, please select a harder logic level.")
 
 
-def get_possible_starting_areas(options) -> List[Area]:
-    return ([Area.Station, Area.Casino, Area.Sewers, Area.SSMain, Area.TPTunnel, Area.Hotel, Area.HotelPool,
-             Area.TPLobby, Area.MRMain, Area.AngelIsland, Area.IceCave, Area.PastAltar, Area.PastMain, Area.Jungle,
-             Area.FinalEggTower, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
-             Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall]
-            + ([Area.ECBridge, Area.ECDeck] if options.egg_carrier_starts_transformed else [Area.ECOutside]))
+def get_possible_starting_areas() -> List[Area]:
+    return [Area.Station, Area.Casino, Area.Sewers, Area.SSMain, Area.TPTunnel, Area.Hotel, Area.HotelPool,
+            Area.TPLobby, Area.MRMain, Area.AngelIsland, Area.IceCave, Area.PastAltar, Area.PastMain, Area.Jungle,
+            Area.FinalEggTower, Area.CaptainRoom, Area.ECPool, Area.Arsenal, Area.ECInside,
+            Area.HedgehogHammer, Area.PrisonHall, Area.WaterTank, Area.WarpHall, Area.ECBridge, Area.ECDeck]
 
 
 def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: StarterSetup,
@@ -308,7 +297,7 @@ def calculate_starter_locations(options: SonicAdventureDXOptions,
                                 world: World) -> StarterSetup:
     starter_setup = StarterSetup()
 
-    possible_starter_areas = get_possible_starting_areas(options)
+    possible_starter_areas = get_possible_starting_areas()
     if options.starting_location.value == 0 and Area.SSMain in possible_starter_areas:
         starter_setup.area = Area.SSMain
     else:

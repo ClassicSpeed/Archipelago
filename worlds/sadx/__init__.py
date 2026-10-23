@@ -2,6 +2,7 @@ import typing
 from typing import Dict, Any
 
 from BaseClasses import Tutorial, Region
+from Utils import visualize_regions
 from worlds.AutoWorld import WebWorld, World
 from .CharacterUtils import get_playable_characters
 from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space, level_areas, AreaConnection, \
@@ -92,7 +93,6 @@ class SonicAdventureDXWorld(World):
                 self.options.boss_percentage.value = passthrough["BossPercentage"]
                 self.options.goal_requires_chao_races.value = passthrough["GoalRequiresChaoRaces"]
                 self.options.logic_level.value = passthrough["LogicLevel"]
-                self.options.egg_carrier_starts_transformed.value = passthrough["EggCarrierStartsTransformed"]
                 self.options.entrance_randomizer.value = passthrough["EntranceRandomizer"]
                 self.options.gating_mode.value = passthrough["GatingMode"]
 
@@ -174,11 +174,11 @@ class SonicAdventureDXWorld(World):
     def set_rules(self):
         self.location_distribution = create_sadx_rules(self, self.item_distribution.emblem_count_progressive,
                                                        self.area_map)
+        from Utils import visualize_regions
+        visualize_regions(self.get_region("Menu"), "sadx.puml")
 
     def write_spoiler(self, spoiler_handle: typing.TextIO):
         write_sadx_spoiler(self, spoiler_handle, self.starter_setup, self.options)
-        from Utils import visualize_regions
-        visualize_regions(self.get_region("Menu"), "sadx.puml")
 
     def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
         if self.options.entrance_randomizer.value == 0:
@@ -216,7 +216,6 @@ class SonicAdventureDXWorld(World):
             "BossPercentage": self.options.boss_percentage.value,
             "GoalRequiresChaoRaces": self.options.goal_requires_chao_races.value,
             "LogicLevel": self.options.logic_level.value,
-            "EggCarrierStartsTransformed": self.options.egg_carrier_starts_transformed.value,
             "GatingMode": self.options.gating_mode.value,
             "EmblemsForPerfectChaos": self.item_distribution.emblem_count_progressive,
             "LevelForPerfectChaos": self.location_distribution.levels_for_perfect_chaos,

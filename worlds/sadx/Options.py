@@ -133,10 +133,6 @@ class StartingLocationOption(Choice):
     default = 0
 
 
-class EggCarrierStartsTransformed(DefaultOnToggle):
-    """If enabled, the Egg Carrier will start transformed allowing easier access to some levels."""
-    display_name = "Egg Carrier starts transformed"
-
 
 class EntranceRandomizer(Choice):
     """
@@ -839,7 +835,6 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     logic_level: LogicLevel
     starting_character: StartingCharacterOption
     starting_location: StartingLocationOption
-    egg_carrier_starts_transformed: EggCarrierStartsTransformed
     entrance_randomizer: EntranceRandomizer
     gating_mode: GatingMode
 
@@ -950,7 +945,6 @@ sadx_option_groups = [
         GoalRequiresChaoRaces,
         StartingCharacterOption,
         StartingLocationOption,
-        EggCarrierStartsTransformed,
         EntranceRandomizer,
         SendDeathLinkChance,
         ReceiveDeathLinkChance,
