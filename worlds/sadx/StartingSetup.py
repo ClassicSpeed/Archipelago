@@ -172,7 +172,7 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             )
         )
 
-        randomized_remaining_areas.update(randomized_remaining_areas_2)
+        # randomized_remaining_areas.update(randomized_remaining_areas_2)
         starter_setup.level_mapping = randomized_remaining_areas
 
     return starter_setup

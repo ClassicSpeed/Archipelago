@@ -248,7 +248,7 @@ class Area(Enum):
     PastMain = auto()
     Jungle = auto()
     FinalEggTower = auto()
-    # ECOutside = auto()
+    ECOutside = auto()
     ECBridge = auto()
     ECDeck = auto()
     CaptainRoom = auto()
