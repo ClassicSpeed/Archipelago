@@ -585,10 +585,7 @@ all_areas_with_multiple_connections = [
 all_areas_with_one_connection = [
     Area.Arsenal,
     Area.PrisonHall,
-    Area.WaterTank,
-    Area.SSChaoGarden,
-    Area.MRChaoGarden,
-    Area.ECChaoGarden
+    Area.WaterTank
 ]
 
 level_area_connections = [
