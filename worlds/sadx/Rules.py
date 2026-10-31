@@ -405,7 +405,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         if self.options.entrance_randomizer.value > 0:
             connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
             actual_connection = self.starter_setup.level_mapping.get(connection, connection)
-            actual_area_to = actual_connection.area2
+            actual_area_to = actual_connection.area1
         else:
             actual_area_to = area_to
 

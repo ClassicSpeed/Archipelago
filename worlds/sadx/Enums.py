@@ -564,11 +564,9 @@ all_areas_with_multiple_connections = [
     Area.SSMain,
     Area.TPTunnel,
     Area.Hotel,
-    Area.HotelPool,
     Area.TPLobby,
     Area.MRMain,
     Area.AngelIsland,
-    Area.IceCave,
     Area.PastAltar,
     Area.PastMain,
     Area.Jungle,
@@ -583,6 +581,8 @@ all_areas_with_multiple_connections = [
     Area.WarpHall
 ]
 all_areas_with_one_connection = [
+    Area.IceCave,
+    Area.HotelPool,
     Area.Arsenal,
     Area.PrisonHall,
     Area.WaterTank

@@ -56,54 +56,23 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
 
         if options.entrance_randomizer.value == 4:
             randomized_remaining_areas_2 = {}
-
-            # List all the areas, get one random area. Ej: City Hall
-            areas_with_multiple_connections = all_areas_with_multiple_connections.copy()
-            areas_with_one_connection = all_areas_with_one_connection.copy()
-            areas_for_levels_and_bosses = LEVEL_AREAS.copy()
-            already_connected_areas = []
-            unused_connections = []
-            starting_area = world.random.choice(areas_with_multiple_connections)
-            areas_with_multiple_connections.remove(starting_area)
-            already_connected_areas.append(starting_area)
-            unused_connections += AreaConnection.from_area(starting_area)
-
-            # List all the connections for that area, get one random area. Ej: City Hall to SSMain
-            # starting_area_connections = AreaConnection.from_area(starting_area)
-
-            # # List all the unconnected areas , get one entrance from it
-            # # (probably levels and one entrance areas should be avoided)
-            # next_area = world.random.choice(areas_with_multiple_connections)
-            # unused_connections += AreaConnection.from_area(next_area)
-            # areas_with_multiple_connections.remove(next_area)
-            # next_area_connections = AreaConnection.from_area(next_area)
-            #
-            # starting_area_selected_connection = world.random.choice(starting_area_connections)
-            # next_area_selected_connection = world.random.choice(next_area_connections)
-            #
-            # # Connect the two entrances (add the connection to the list, and add them from the unused entrances list)
-            # randomized_remaining_areas_2[starting_area_selected_connection] = next_area_selected_connection
-            # randomized_remaining_areas_2[next_area_selected_connection] = starting_area_selected_connection
-            # unused_connections.remove(starting_area_selected_connection)
-            # unused_connections.remove(next_area_selected_connection)
-
-            all_areas_to_connect = [
-                areas_with_multiple_connections,
-                areas_with_one_connection,
-                areas_for_levels_and_bosses
-            ]  # ----
+            all_areas_to_connect = [all_areas_with_multiple_connections.copy(), all_areas_with_one_connection.copy(),
+                                    LEVEL_AREAS.copy()]
+            starting_area = starter_setup.area
+            for group in all_areas_to_connect:
+                if starting_area in group:
+                    group.remove(starting_area)
+            unused_connections = list(AreaConnection.from_area(starting_area))
 
             # Prioritize areas with multiple connections.
             for area_group in all_areas_to_connect:
+                # Repeat until al areas are connected.
                 while area_group:
-                    # Repeat until al areas are connected.
-
                     # Select a random entrance from all the available unused entrances and connect en unconnected area
-                    # Get all unused connections
-                    new_next_area = world.random.choice(area_group)
-                    area_group.remove(new_next_area)
-                    # From Area should not return static connections
-                    new_next_area_connections = AreaConnection.from_area(new_next_area)
+                    next_area = world.random.choice(area_group)
+                    area_group.remove(next_area)
+                    new_next_area_connections = AreaConnection.from_area(next_area)
+                    # Do not add extra Final Egg, Lost World, Sky Chase, and Speed Highway entrances
                     a_selected_connection = world.random.choice(unused_connections)
                     b_selected_connection = world.random.choice(new_next_area_connections)
                     unused_connections += new_next_area_connections
@@ -116,28 +85,22 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
 
             print("++ Unused doors")
             # Check unused doors, connect them randomly
-            while len(unused_connections) >= 2:
-                a_selected_connection = world.random.choice(unused_connections)
-                unused_connections.remove(a_selected_connection)
+            world.random.shuffle(unused_connections)
+            for connection_a, connection_b in zip(unused_connections[::2], unused_connections[1::2]):
+                randomized_remaining_areas_2[connection_a] = connection_b
+                randomized_remaining_areas_2[connection_b] = connection_a
+                print(f"-- {connection_b} is connected to {connection_a}")
 
-                b_selected_connection = world.random.choice(unused_connections)
-                unused_connections.remove(b_selected_connection)
 
-                randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
-                randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
-                print(f"-- {b_selected_connection} is connected to {a_selected_connection}")
-
-            # Full rando uses only the full entrance mapping.
-            area_list = []
-
-        randomized_remaining_areas = dict(
-            zip(
-                area_list,
-                world.random.sample(area_list, len(area_list))
+        if 0 < options.entrance_randomizer.value < 4:
+            randomized_remaining_areas = dict(
+                zip(
+                    area_list,
+                    world.random.sample(area_list, len(area_list))
+                )
             )
-        )
-        # TODO: Fix/remove for other randomizations
-        randomized_remaining_areas.update(randomized_remaining_areas_2)
+        else:
+            randomized_remaining_areas = randomized_remaining_areas_2
         starter_setup.level_mapping = randomized_remaining_areas
 
     return starter_setup
