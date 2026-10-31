@@ -556,6 +556,8 @@ bosses_areas = [
 
 LEVEL_AREAS = level_areas + bosses_areas
 
+DEAD_END_AREAS = {Area.FinalEgg, Area.LostWorld, Area.SkyDeck, Area.SpeedHighway}
+
 all_areas_with_multiple_connections = [
     Area.CityHall,
     Area.Station,

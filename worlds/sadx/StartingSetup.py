@@ -9,7 +9,7 @@ from .CharacterUtils import get_playable_characters, is_level_playable, \
     is_character_playable
 from .Enums import Character, Area, pascal_to_space, LevelMission, level_area_connections, \
     bosses_area_connections, AreaConnection, LogicLevelDifficulty, chao_garden_area_connections, LEVEL_AREAS, \
-    all_areas_with_multiple_connections, all_areas_with_one_connection, non_existent_areas
+    all_areas_with_multiple_connections, all_areas_with_one_connection, non_existent_areas, DEAD_END_AREAS
 from .Locations import level_location_table, mission_location_table
 from .Options import SonicAdventureDXOptions
 
@@ -64,34 +64,34 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                     group.remove(starting_area)
             unused_connections = list(AreaConnection.from_area(starting_area))
 
-            extra_weird_connections = []
+            extra_connections = []
             # Prioritize areas with multiple connections.
             for area_group in all_areas_to_connect:
                 # Repeat until al areas are connected.
+                world.random.shuffle(area_group)
                 while area_group:
                     # Select a random entrance from all the available unused entrances and connect en unconnected area
-                    next_area = world.random.choice(area_group)
-                    area_group.remove(next_area)
+                    next_area = area_group.pop()
                     new_next_area_connections = AreaConnection.from_area(next_area)
 
                     # Do not add extra Final Egg, Lost World, Sky Deck, and Speed Highway entrances
                     a_selected_connection = world.random.choice(unused_connections)
+                    unused_connections.remove(a_selected_connection)
                     b_selected_connection = world.random.choice(new_next_area_connections)
-                    if next_area in [Area.FinalEgg, Area.LostWorld, Area.SkyDeck, Area.SpeedHighway]:
-                        extra_weird_connections += new_next_area_connections
-                    else:
-                        unused_connections += new_next_area_connections
+                    new_next_area_connections.remove(b_selected_connection)
 
                     randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
                     randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
                     print(f"-- {b_selected_connection} is connected to {a_selected_connection}")
-                    unused_connections.remove(a_selected_connection)
-                    if next_area not in [Area.FinalEgg, Area.LostWorld, Area.SkyDeck, Area.SpeedHighway]:
-                        unused_connections.remove(b_selected_connection)
+
+                    if next_area in DEAD_END_AREAS:
+                        extra_connections += new_next_area_connections
+                    else:
+                        unused_connections += new_next_area_connections
 
             print("++ Unused doors")
             # Check unused doors, connect them randomly
-            unused_connections += extra_weird_connections
+            unused_connections += extra_connections
             world.random.shuffle(unused_connections)
             for connection_a, connection_b in zip(unused_connections[::2], unused_connections[1::2]):
                 randomized_remaining_areas_2[connection_a] = connection_b
