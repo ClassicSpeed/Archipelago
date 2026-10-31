@@ -69,23 +69,23 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             unused_connections += AreaConnection.from_area(starting_area)
 
             # List all the connections for that area, get one random area. Ej: City Hall to SSMain
-            starting_area_connections = AreaConnection.from_area(starting_area)
+            # starting_area_connections = AreaConnection.from_area(starting_area)
 
-            # List all the unconnected areas , get one entrance from it
-            # (probably levels and one entrance areas should be avoided)
-            next_area = world.random.choice(areas_with_multiple_connections)
-            unused_connections += AreaConnection.from_area(next_area)
-            areas_with_multiple_connections.remove(next_area)
-            next_area_connections = AreaConnection.from_area(next_area)
-
-            starting_area_selected_connection = world.random.choice(starting_area_connections)
-            next_area_selected_connection = world.random.choice(next_area_connections)
-
-            # Connect the two entrances (add the connection to the list, and add them from the unused entrances list)
-            randomized_remaining_areas_2[starting_area_selected_connection] = next_area_selected_connection
-            randomized_remaining_areas_2[next_area_selected_connection] = starting_area_selected_connection
-            unused_connections.remove(starting_area_selected_connection)
-            unused_connections.remove(next_area_selected_connection)
+            # # List all the unconnected areas , get one entrance from it
+            # # (probably levels and one entrance areas should be avoided)
+            # next_area = world.random.choice(areas_with_multiple_connections)
+            # unused_connections += AreaConnection.from_area(next_area)
+            # areas_with_multiple_connections.remove(next_area)
+            # next_area_connections = AreaConnection.from_area(next_area)
+            #
+            # starting_area_selected_connection = world.random.choice(starting_area_connections)
+            # next_area_selected_connection = world.random.choice(next_area_connections)
+            #
+            # # Connect the two entrances (add the connection to the list, and add them from the unused entrances list)
+            # randomized_remaining_areas_2[starting_area_selected_connection] = next_area_selected_connection
+            # randomized_remaining_areas_2[next_area_selected_connection] = starting_area_selected_connection
+            # unused_connections.remove(starting_area_selected_connection)
+            # unused_connections.remove(next_area_selected_connection)
 
             all_areas_to_connect = [
                 areas_with_multiple_connections,
