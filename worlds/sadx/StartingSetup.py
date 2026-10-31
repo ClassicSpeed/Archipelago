@@ -11,7 +11,6 @@ from .Enums import Character, Area, pascal_to_space, LevelMission, level_area_co
     bosses_area_connections, AreaConnection, LogicLevelDifficulty, chao_garden_area_connections, LEVEL_AREAS, \
     all_areas_with_multiple_connections, all_areas_with_one_connection, non_existent_areas
 from .Locations import level_location_table, mission_location_table
-from .Logic import area_connections
 from .Options import SonicAdventureDXOptions
 
 
@@ -63,7 +62,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             areas_with_one_connection = all_areas_with_one_connection.copy()
             areas_for_levels_and_bosses = LEVEL_AREAS.copy()
             already_connected_areas = []
-            already_used_connections = []
             unused_connections = []
             starting_area = world.random.choice(areas_with_multiple_connections)
             areas_with_multiple_connections.remove(starting_area)
@@ -86,81 +84,48 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             # Connect the two entrances (add the connection to the list, and add them from the unused entrances list)
             randomized_remaining_areas_2[starting_area_selected_connection] = next_area_selected_connection
             randomized_remaining_areas_2[next_area_selected_connection] = starting_area_selected_connection
-            already_used_connections.append(starting_area_selected_connection)
-            already_used_connections.append(next_area_selected_connection)
             unused_connections.remove(starting_area_selected_connection)
             unused_connections.remove(next_area_selected_connection)
 
-            # ----
-            while areas_with_multiple_connections:
-                # Repeat until al areas are connected.
+            all_areas_to_connect = [
+                areas_with_multiple_connections,
+                areas_with_one_connection,
+                areas_for_levels_and_bosses
+            ]  # ----
 
-                # Select a random entrance from all the available unused entrances and connect en unconnected area
-                # Get all unused connections
-                new_next_area = world.random.choice(areas_with_multiple_connections)
-                areas_with_multiple_connections.remove(new_next_area)
-                # From Area should not return static connections
-                new_next_area_connections = AreaConnection.from_area(new_next_area)
-                a_selected_connection = world.random.choice(unused_connections)
-                b_selected_connection = world.random.choice(new_next_area_connections)
-                unused_connections += new_next_area_connections
+            # Prioritize areas with multiple connections.
+            for area_group in all_areas_to_connect:
+                while area_group:
+                    # Repeat until al areas are connected.
 
-                randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
-                randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
-                already_used_connections.append(a_selected_connection)
-                already_used_connections.append(b_selected_connection)
-                unused_connections.remove(a_selected_connection)
-                unused_connections.remove(b_selected_connection)
+                    # Select a random entrance from all the available unused entrances and connect en unconnected area
+                    # Get all unused connections
+                    new_next_area = world.random.choice(area_group)
+                    area_group.remove(new_next_area)
+                    # From Area should not return static connections
+                    new_next_area_connections = AreaConnection.from_area(new_next_area)
+                    a_selected_connection = world.random.choice(unused_connections)
+                    b_selected_connection = world.random.choice(new_next_area_connections)
+                    unused_connections += new_next_area_connections
 
-            while areas_with_one_connection:
-                # Repeat until al areas are connected.
+                    randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
+                    randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
+                    print(f"-- {b_selected_connection} is connected to {a_selected_connection}")
+                    unused_connections.remove(a_selected_connection)
+                    unused_connections.remove(b_selected_connection)
 
-                # Select a random entrance from all the available unused entrances and connect en unconnected area
-                # Get all unused connections
-                new_next_area = world.random.choice(areas_with_one_connection)
-                areas_with_one_connection.remove(new_next_area)
-                # From Area should not return static connections
-                new_next_area_connections = AreaConnection.from_area(new_next_area)
-                a_selected_connection = world.random.choice(unused_connections)
-                b_selected_connection = world.random.choice(new_next_area_connections)
-                unused_connections += new_next_area_connections
-
-                randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
-                randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
-                already_used_connections.append(a_selected_connection)
-                already_used_connections.append(b_selected_connection)
-                unused_connections.remove(a_selected_connection)
-                unused_connections.remove(b_selected_connection)
-
-            # Check unused doors, connect them to levels
-            while areas_for_levels_and_bosses:
-                # Repeat until al areas are connected.
-
-                # Select a random entrance from all the available unused entrances and connect en unconnected area
-                # Get all unused connections
-                new_next_area = world.random.choice(areas_for_levels_and_bosses)
-                areas_for_levels_and_bosses.remove(new_next_area)
-                # From Area should not return static connections
-                new_next_area_connections = AreaConnection.from_area(new_next_area)
-                a_selected_connection = world.random.choice(unused_connections)
-                b_selected_connection = world.random.choice(new_next_area_connections)
-                unused_connections += new_next_area_connections
-
-                randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
-                randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
-                already_used_connections.append(b_selected_connection)
-                unused_connections.remove(b_selected_connection)
-
+            print("++ Unused doors")
             # Check unused doors, connect them randomly
             while len(unused_connections) >= 2:
                 a_selected_connection = world.random.choice(unused_connections)
-                already_used_connections.append(a_selected_connection)
                 unused_connections.remove(a_selected_connection)
+
                 b_selected_connection = world.random.choice(unused_connections)
-                already_used_connections.append(b_selected_connection)
                 unused_connections.remove(b_selected_connection)
+
                 randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
                 randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
+                print(f"-- {b_selected_connection} is connected to {a_selected_connection}")
 
             # Full rando uses only the full entrance mapping.
             area_list = []
@@ -171,8 +136,8 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                 world.random.sample(area_list, len(area_list))
             )
         )
-
-        # randomized_remaining_areas.update(randomized_remaining_areas_2)
+        # TODO: Fix/remove for other randomizations
+        randomized_remaining_areas.update(randomized_remaining_areas_2)
         starter_setup.level_mapping = randomized_remaining_areas
 
     return starter_setup
