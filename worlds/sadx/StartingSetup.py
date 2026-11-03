@@ -82,21 +82,18 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
 
                     randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
                     randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
-                    print(f"-- {b_selected_connection} is connected to {a_selected_connection}")
 
                     if next_area in DEAD_END_AREAS:
                         extra_connections += new_next_area_connections
                     else:
                         unused_connections += new_next_area_connections
 
-            print("++ Unused doors")
             # Check unused doors, connect them randomly
             unused_connections += extra_connections
             world.random.shuffle(unused_connections)
             for connection_a, connection_b in zip(unused_connections[::2], unused_connections[1::2]):
                 randomized_remaining_areas_2[connection_a] = connection_b
                 randomized_remaining_areas_2[connection_b] = connection_a
-                print(f"-- {connection_b} is connected to {connection_a}")
 
         if 0 < options.entrance_randomizer.value < 4:
             randomized_remaining_areas = dict(
