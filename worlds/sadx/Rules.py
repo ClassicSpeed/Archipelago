@@ -328,21 +328,33 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
     # Process connections iteratively
     for i in range(5):
         for area in area_tiers[i]:
-            connected_areas = {
-                area_to for (character, area_from, area_to, is_alternative), _
-                in area_connections.items() if area_from == area and area_to in remaining_areas
-            }
-            for area_to in sorted(connected_areas):
+            connected_areas = set()
+
+            for (character, area_from, area_to, is_alternative), _ in area_connections.items():
+                if area_from != area:
+                    continue
+
+                if self.options.entrance_randomizer.value > 0:
+                    connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
+                    actual_connection = self.starter_setup.level_mapping.get(connection, connection)
+                    actual_area_to = actual_connection.area1
+                else:
+                    actual_area_to = area_to
+
+                if actual_area_to in remaining_areas:
+                    connected_areas.add(actual_area_to)
+
+            for actual_area_to in sorted(connected_areas):
                 # High chance to move areas to the next tier if the tier has too many areas
                 if len(area_tiers[i + 1]) > 4 and self.random.random() < 0.75:
-                    area_tiers[min(i + 2, 5)].append(area_to)
+                    area_tiers[min(i + 2, 5)].append(actual_area_to)
                 elif len(area_tiers[i + 1]) > 6 and self.random.random() < 0.75:
-                    area_tiers[min(i + 3, 5)].append(area_to)
+                    area_tiers[min(i + 3, 5)].append(actual_area_to)
                 # Chance to move some areas to later tiers
                 elif i > 3 and self.random.random() < 0.25:
-                    area_tiers[min(i + 2, 5)].append(area_to)
+                    area_tiers[min(i + 2, 5)].append(actual_area_to)
                 else:
-                    area_tiers[i + 1].append(area_to)
+                    area_tiers[i + 1].append(actual_area_to)
             remaining_areas -= connected_areas
 
     # Add remaining areas to list_5
@@ -368,6 +380,8 @@ def get_connection_requirement(connection_key, area_map, is_alternative, starter
         value = area_map.get(starter_setup.level_mapping.get(connection_key, connection_key), -1)
         if value != -1:
             return value
+
+
     # Check reverse connection value
     else:
         value = area_map.get(AreaConnection.from_areas(connection_key.area2, connection_key.area1, is_alternative), -1)
@@ -514,31 +528,41 @@ def calculate_connection_requirements(area_map, needed_emblems, self):
         if area_map == {}:
             area_weights = assign_area_weights(self, self.starter_setup)
             for (character, area_from, area_to, is_alternative), _ in area_connections.items():
+
+
                 connection_key = AreaConnection.from_areas(area_from, area_to, is_alternative)
                 connection_requirement = get_connection_requirement(connection_key, area_map, is_alternative,
                                                                     self.starter_setup)
+
+                if self.options.entrance_randomizer.value > 0:
+                    connection = AreaConnection.from_areas(area_from, area_to, is_alternative)
+                    actual_connection = self.starter_setup.level_mapping.get(connection, connection)
+                    actual_area_to = actual_connection.area1
+                else:
+                    actual_area_to = area_to
+
                 if connection_requirement != -1:
                     area_map[connection_key] = connection_requirement
                 else:
-                    if self.starter_setup.area == area_to or self.starter_setup.area == area_from:
+                    if self.starter_setup.area == actual_area_to or self.starter_setup.area == area_from:
                         area_map[connection_key] = 0
-                    elif area_to in level_areas or area_from in level_areas:
+                    elif actual_area_to in level_areas or area_from in level_areas:
                         area_map[connection_key] = 0
-                    elif area_to in bosses_areas or area_from in bosses_areas:
+                    elif actual_area_to in bosses_areas or area_from in bosses_areas:
                         area_map[connection_key] = 0
 
                     else:
                         # We assign a random factor based on area weights
                         factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
-                                                     min(1.0, area_weights.get(area_to, 0)))
+                                                     min(1.0, area_weights.get(actual_area_to, 0)))
                         # For lower to lower connections, make it slightly lower
-                        if area_weights.get(area_from, 0) <= 0.6 and area_weights.get(area_to, 0) <= 0.6:
+                        if area_weights.get(area_from, 0) <= 0.6 and area_weights.get(actual_area_to, 0) <= 0.6:
                             factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0) - 0.2),
-                                                         min(1.0, area_weights.get(area_to, 0)))
+                                                         min(1.0, area_weights.get(actual_area_to, 0)))
                         # For higher to higher connections, make it slightly higher
-                        if area_weights.get(area_from, 0) >= 0.6 and area_weights.get(area_to, 0) >= 0.6:
+                        if area_weights.get(area_from, 0) >= 0.6 and area_weights.get(actual_area_to, 0) >= 0.6:
                             factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
-                                                         min(1.0, area_weights.get(area_to, 0) + 0.2))
+                                                         min(1.0, area_weights.get(actual_area_to, 0) + 0.2))
                         factor = factor ** 2
                         area_map[connection_key] = int(max_required_emblems * factor)
     return area_map
