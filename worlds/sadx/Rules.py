@@ -332,7 +332,7 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
                 area_to for (character, area_from, area_to, is_alternative), _
                 in area_connections.items() if area_from == area and area_to in remaining_areas
             }
-            for area_to in connected_areas:
+            for area_to in sorted(connected_areas):
                 # High chance to move areas to the next tier if the tier has too many areas
                 if len(area_tiers[i + 1]) > 4 and self.random.random() < 0.75:
                     area_tiers[min(i + 2, 5)].append(area_to)
