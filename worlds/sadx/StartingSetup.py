@@ -40,12 +40,10 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
     possible_characters = get_playable_characters(options)
 
     world.random.shuffle(possible_characters)
-
+    level_mapping = {}
     if options.starting_character.value != 0:
         possible_characters.remove(Character(options.starting_character.value))
         possible_characters.insert(0, Character(options.starting_character.value))
-
-    starter_setup = calculate_starter_locations(options, possible_characters, world)
 
     if options.entrance_randomizer.value > 0:
         area_list = list(level_area_connections)
@@ -58,13 +56,12 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             randomized_remaining_areas_2 = {}
             all_areas_to_connect = [all_areas_with_multiple_connections.copy(), all_areas_with_one_connection.copy(),
                                     LEVEL_AREAS.copy()]
-            starting_area = starter_setup.area
+            starting_area = Area.SSMain
             for group in all_areas_to_connect:
                 if starting_area in group:
                     group.remove(starting_area)
             unused_connections = list(AreaConnection.from_area(starting_area))
 
-            extra_connections = []
             # Prioritize areas with multiple connections.
             for area_group in all_areas_to_connect:
                 # Repeat until al areas are connected.
@@ -74,7 +71,6 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                     next_area = area_group.pop()
                     new_next_area_connections = AreaConnection.from_area(next_area)
 
-                    # Do not add extra Final Egg, Lost World, Sky Deck, and Speed Highway entrances
                     a_selected_connection = world.random.choice(unused_connections)
                     unused_connections.remove(a_selected_connection)
                     b_selected_connection = world.random.choice(new_next_area_connections)
@@ -83,13 +79,18 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                     randomized_remaining_areas_2[a_selected_connection] = b_selected_connection
                     randomized_remaining_areas_2[b_selected_connection] = a_selected_connection
 
+                    # Connect the extra Final Egg, Lost World, Sky Deck, and Speed Highway entrances
                     if next_area in DEAD_END_AREAS:
-                        extra_connections += new_next_area_connections
+                        for extra_connection in new_next_area_connections:
+                            matching_connection = world.random.choice(unused_connections)
+                            unused_connections.remove(matching_connection)
+
+                            randomized_remaining_areas_2[extra_connection] = matching_connection
+                            randomized_remaining_areas_2[matching_connection] = extra_connection
                     else:
                         unused_connections += new_next_area_connections
 
             # Check unused doors, connect them randomly
-            unused_connections += extra_connections
             world.random.shuffle(unused_connections)
             for connection_a, connection_b in zip(unused_connections[::2], unused_connections[1::2]):
                 randomized_remaining_areas_2[connection_a] = connection_b
@@ -104,9 +105,9 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
             )
         else:
             randomized_remaining_areas = randomized_remaining_areas_2
-        starter_setup.level_mapping = randomized_remaining_areas
+        level_mapping = randomized_remaining_areas
 
-    return starter_setup
+    return calculate_starter_locations(options, possible_characters, level_mapping, world)
 
 
 def validate_settings(options):
@@ -225,15 +226,57 @@ def write_sadx_spoiler(world: World, spoiler_handle: TextIO, starter_setup: Star
 
 def calculate_starter_locations(options: SonicAdventureDXOptions,
                                 possible_characters: List[Character],
+                                level_mapping: dict[AreaConnection, AreaConnection],
                                 world: World) -> StarterSetup:
     starter_setup = StarterSetup()
+    starter_setup.level_mapping = level_mapping
 
+
+
+    starter_setup.character =  world.random.choice(possible_characters)
     possible_starter_areas = get_possible_starting_areas()
     if options.starting_location.value == 0 and Area.SSMain in possible_starter_areas:
         starter_setup.area = Area.SSMain
     else:
-        starter_setup.area = world.random.choice(possible_starter_areas)
-    starter_setup.character = possible_characters[0]
+
+        # Get levels for character.
+        logic_field_by_level = {
+            0: "easyLogicItems",
+            1: "normalLogicItems",
+            2: "hardLogicItems",
+            3: "expertDCLogicItems",
+            4: "expertDXLogicItems",
+            5: "expertPlusDXLogicItems",
+        }
+
+        # In Archipelago, this is typically world.options.logic_level.value.
+        logic_field = logic_field_by_level[options.logic_level.value]
+
+        # Get finish able levels for character.
+        level_areas = list(dict.fromkeys(
+            location.area
+            for location in level_location_table
+            if location.character == starter_setup.character
+            and location.levelMission == LevelMission.C
+            and not getattr(location, logic_field)
+        ))
+
+        # Get areas connection for those levels.
+        level_set = set(level_areas)
+
+        level_connections = [
+            destination
+            for entrance, destination in level_mapping.items()
+            if entrance.value[0] in level_set
+        ]
+
+        connected_areas = list(dict.fromkeys(
+            connection.value[0]
+            for connection in level_connections
+        ))
+
+        # Select one of those areas.
+        starter_setup.area = world.random.choice(connected_areas)
 
     if not starter_setup.area:
         raise OptionError(
