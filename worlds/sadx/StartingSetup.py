@@ -11,6 +11,7 @@ from .Enums import Character, Area, pascal_to_space, LevelMission, level_area_co
     bosses_area_connections, AreaConnection, LogicLevelDifficulty, chao_garden_area_connections, LEVEL_AREAS, \
     all_areas_with_multiple_connections, all_areas_with_one_connection, non_existent_areas, DEAD_END_AREAS
 from .Locations import level_location_table, mission_location_table
+from .Logic import EMBLEM_BLOCKED, ONLY_RANDO, area_connections
 from .Options import SonicAdventureDXOptions
 
 
@@ -271,11 +272,24 @@ def calculate_starter_locations(options: SonicAdventureDXOptions,
         # Get areas connection for those levels.
         level_set = set(level_areas)
 
-        level_connections = [
-            destination
-            for entrance, destination in level_mapping.items()
-            if entrance.value[0] in level_set
-        ]
+        level_connections = []
+        for entrance, destination in level_mapping.items():
+            if entrance.area1 not in level_set:
+                continue
+            incoming_connection = entrance.get_opposite()
+            connection_logic = area_connections.get((
+                starter_setup.character,
+                incoming_connection.area1,
+                incoming_connection.area2,
+                incoming_connection.isAlt,
+            ))
+            if connection_logic is None:
+                continue
+            requirements = connection_logic[options.logic_level.value]
+            if ONLY_RANDO in requirements and options.entrance_randomizer.value == 0:
+                continue
+            if all(requirement in (EMBLEM_BLOCKED, ONLY_RANDO) for requirement in requirements):
+                level_connections.append(destination)
 
         connected_areas = list(dict.fromkeys(
             connection.value[0]

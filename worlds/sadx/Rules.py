@@ -442,9 +442,9 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         elif self.options.logic_level.value == LogicLevelDifficulty.Hard:
             key_items = hard_logic_items.copy()
         elif self.options.logic_level.value == LogicLevelDifficulty.Normal:
-            key_items = hard_logic_items.copy()
-        else:
             key_items = normal_logic_items.copy()
+        else:
+            key_items = easy_logic_items.copy()
 
         if region_from is None or region_to is None:
             continue
@@ -452,7 +452,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
         entrance_name = get_entrance_name(character, region_from, region_to,
                                           is_alternative)
         if actual_area_to != area_to:
-            entrance_name += " [Original (Transformed): " + area_to.name + "]"
+            entrance_name += " [Original: " + area_to.name + "]"
 
         full_connection_data = FullConnectionData(area_from, area_to, actual_area_to,
                                                   region_from, region_to, entrance_name)
@@ -486,6 +486,19 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                         continue
                     else:
                         key_items.remove("ONLY_RANDO")
+                        emblem_requirement = area_map.get(
+                            AreaConnection.from_areas(area_from, area_to, is_alternative), 0)
+                        if not key_items:
+                            connect_pair(full_connection_data,
+                                         lambda state, emblems=emblem_requirement:
+                                         state.has("Emblem", self.player, emblems))
+                        else:
+                            connect_pair(full_connection_data,
+                                         lambda state, items=key_items, emblems=emblem_requirement:
+                                         all(state.has(item, self.player) for item in items) and
+                                         state.has("Emblem", self.player, emblems))
+
+                        continue
 
                 if not key_items:
                     connect_pair(full_connection_data)
@@ -499,7 +512,7 @@ def connect_regions(self, needed_emblems: int, area_map=None):
                 if "EMBLEM_BLOCKED" in key_items:
                     key_items.remove("EMBLEM_BLOCKED")
                     emblem_requirement = area_map.get(
-                        AreaConnection.from_areas(area_from, actual_area_to, is_alternative), 0)
+                        AreaConnection.from_areas(area_from, area_to, is_alternative), 0)
                     if not key_items:
                         connect_pair(full_connection_data,
                                      lambda state, emblems=emblem_requirement:
