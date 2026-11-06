@@ -15,7 +15,8 @@ from .Names import ItemName, LocationName
 from .Options import sadx_option_groups, SonicAdventureDXOptions
 from .Regions import create_sadx_regions, get_location_ids_for_area
 from .Rules import create_sadx_rules, LocationDistribution
-from .StartingSetup import StarterSetup, generate_early_sadx, write_sadx_spoiler, CharacterArea
+from .StartingSetup import StarterSetup, generate_early_sadx, get_default_level_mapping, write_sadx_spoiler, \
+    CharacterArea
 
 sadx_version = 130
 
@@ -73,9 +74,10 @@ class SonicAdventureDXWorld(World):
                     CharacterArea(Character.Big, Area(passthrough["BigStartingArea"]))
 
                 ]
-                self.starter_setup.level_mapping = {
+                self.starter_setup.level_mapping = get_default_level_mapping()
+                self.starter_setup.level_mapping.update({
                     AreaConnection.from_index(original): AreaConnection.from_index(randomized)
-                    for original, randomized in passthrough["LevelEntranceMap"].items()}
+                    for original, randomized in passthrough["LevelEntranceMap"].items()})
 
                 self.area_map = {AreaConnection.from_index(int(entranceIndex)): int(value)
                                  for entranceIndex, value in passthrough["EntranceEmblemValueMap"].items()}

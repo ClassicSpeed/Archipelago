@@ -364,7 +364,7 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
     area_weights: dict[Area, float] = {}
     for weight, area_list in enumerate(area_tiers):
         for area in area_list:
-            area_weights[area] = max(0, weight - 1) / 5  # Normalize weight to be between 0 and 1
+            area_weights[area] = max(0, weight) / 5  # Normalize weight to be between 0 and 1
 
     return area_weights
 
@@ -544,25 +544,13 @@ def calculate_connection_requirements(area_map, needed_emblems, self):
                 if connection_requirement != -1:
                     area_map[connection_key] = connection_requirement
                 else:
-                    if self.starter_setup.area == actual_area_to or self.starter_setup.area == area_from:
-                        area_map[connection_key] = 0
-                    elif actual_area_to in level_areas or area_from in level_areas:
-                        area_map[connection_key] = 0
-                    elif actual_area_to in bosses_areas or area_from in bosses_areas:
+                    if  (self.starter_setup.area == actual_area_to and area_from in level_areas) or \
+                            (self.starter_setup.area == area_from and actual_area_to in level_areas):
                         area_map[connection_key] = 0
 
                     else:
                         # We assign a random factor based on area weights
                         factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
                                                      min(1.0, area_weights.get(actual_area_to, 0)))
-                        # For lower to lower connections, make it slightly lower
-                        if area_weights.get(area_from, 0) <= 0.6 and area_weights.get(actual_area_to, 0) <= 0.6:
-                            factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0) - 0.2),
-                                                         min(1.0, area_weights.get(actual_area_to, 0)))
-                        # For higher to higher connections, make it slightly higher
-                        if area_weights.get(area_from, 0) >= 0.6 and area_weights.get(actual_area_to, 0) >= 0.6:
-                            factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
-                                                         min(1.0, area_weights.get(actual_area_to, 0) + 0.2))
-                        factor = factor ** 2
                         area_map[connection_key] = int(max_required_emblems * factor)
     return area_map
