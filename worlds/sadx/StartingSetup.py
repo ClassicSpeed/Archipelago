@@ -34,13 +34,20 @@ class StarterSetup:
         return self.area
 
 
+def get_default_level_mapping() -> dict[AreaConnection, AreaConnection]:
+    return {
+        connection: connection.get_opposite()
+        for connection in AreaConnection
+    }
+
+
 def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> StarterSetup:
     validate_settings(options)
 
     possible_characters = get_playable_characters(options)
 
     world.random.shuffle(possible_characters)
-    level_mapping = {}
+    level_mapping = get_default_level_mapping()
     if options.starting_character.value != 0:
         possible_characters.remove(Character(options.starting_character.value))
         possible_characters.insert(0, Character(options.starting_character.value))
@@ -97,15 +104,15 @@ def generate_early_sadx(world: World, options: SonicAdventureDXOptions) -> Start
                 randomized_remaining_areas_2[connection_b] = connection_a
 
         if 0 < options.entrance_randomizer.value < 4:
-            randomized_remaining_areas = dict(
-                zip(
-                    area_list,
-                    world.random.sample(area_list, len(area_list))
-                )
-            )
+            opposite_area_list = [connection.get_opposite() for connection in area_list]
+            randomized_remaining_areas = {}
+            randomized_opposites = world.random.sample(opposite_area_list, len(opposite_area_list))
+            for connection, opposite in zip(area_list, randomized_opposites):
+                randomized_remaining_areas[connection] = opposite
+                randomized_remaining_areas[opposite] = connection
         else:
             randomized_remaining_areas = randomized_remaining_areas_2
-        level_mapping = randomized_remaining_areas
+        level_mapping.update(randomized_remaining_areas)
 
     return calculate_starter_locations(options, possible_characters, level_mapping, world)
 

@@ -491,6 +491,12 @@ class AreaConnection(Enum):
                 return connection
         return None
 
+    def get_opposite(self):
+        opposite = self.from_areas(self.area2, self.area1, self.isAlt)
+        if opposite is None:
+            raise ValueError(f"No opposite connection found for {self.name}")
+        return opposite
+
     def get_index(self):
         return list(self.__class__.__members__).index(self.name)
 
