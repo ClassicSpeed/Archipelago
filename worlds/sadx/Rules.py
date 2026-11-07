@@ -322,8 +322,11 @@ def assign_area_weights(self, starter_setup) -> dict[Area, float]:
     starter_area = starter_setup.area
 
     area_tiers = [[starter_area], [], [], [], [], []]
+    area_tiers[1].extend(
+        char_area.area for char_area in starter_setup.charactersWithArea if char_area.area != starter_setup.area
+    )
 
-    remaining_areas = set([area for area in Area]) - {starter_area}
+    remaining_areas = set(Area) - {starter_area} - set(area_tiers[1])
 
     # Process connections iteratively
     for i in range(5):
@@ -565,5 +568,6 @@ def calculate_connection_requirements(area_map, needed_emblems, self):
                         # We assign a random factor based on area weights
                         factor = self.random.uniform(max(0.0, area_weights.get(area_from, 0)),
                                                      min(1.0, area_weights.get(actual_area_to, 0)))
+                        factor = factor*factor
                         area_map[connection_key] = int(max_required_emblems * factor)
     return area_map
